@@ -3,12 +3,12 @@ import { StatusBar, StyleSheet, SafeAreaView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Avatar, Button, Card, FAB, Text } from "react-native-paper";
 
-const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
+const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
-export default function DonationFeedScreen() {
+export default function DonationFeedScreen({ navigation }) {
   return (
-    <ScrollView>
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
         <Card style={{ paddingBottom: 2 }}>
           <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
           <Card.Content>
@@ -29,21 +29,28 @@ export default function DonationFeedScreen() {
             </Text>
           </Card.Content>
           <Card.Cover
-            source={{ uri: "https://picsum.photos/700" }}
+            source={{ uri: "https://picsum.photos/900" }}
             style={{ padding: 5 }}
           />
         </Card>
-        <FAB
-          icon="plus"
-          // style={styles.fab}
-          onPress={() => console.log("Pressed")}
-        />
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+
+      <FAB
+        icon="plus"
+        style={styles.fab}
+        onPress={() => navigation.navigate("Donation Post")}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,

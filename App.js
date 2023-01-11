@@ -16,6 +16,8 @@ import {
   CompleteScreen,
   BloodCardScreen,
   EmergencyFeedScreen,
+  CreateFeedScreen,
+  CreateEFeedScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import VerifyScreen from "./src/screens/VerifyScreen/VerifyScreen";
@@ -137,6 +139,16 @@ export default function App() {
               <Stack.Screen
                 name="BloodShare"
                 component={Home}
+                options={{ headerShown: false }}
+              />
+               <Stack.Screen
+                name="Donation Post"
+                component={CreateFeedScreen}
+                // options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Emergency Post"
+                component={CreateEFeedScreen}
                 // options={{ headerShown: false }}
               />
             </>

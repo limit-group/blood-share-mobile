@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "android.config.googleMaps.apiKey": "AIzaSyBgOswFYIypdvHSj78WOH6HEkCSl2iuOh0",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
