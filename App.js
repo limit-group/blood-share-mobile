@@ -141,7 +141,7 @@ export default function App() {
                 component={Home}
                 options={{ headerShown: false }}
               />
-               <Stack.Screen
+              <Stack.Screen
                 name="Donation Post"
                 component={CreateFeedScreen}
                 // options={{ headerShown: false }}
@@ -151,6 +151,7 @@ export default function App() {
                 component={CreateEFeedScreen}
                 // options={{ headerShown: false }}
               />
+              <Stack.Screen name="Profile" component={ProfileScreen} />
             </>
           )}
         </Stack.Navigator>

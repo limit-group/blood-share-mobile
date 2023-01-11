@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { StatusBar, StyleSheet, SafeAreaView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Avatar, Button, Card, FAB, Text } from "react-native-paper";
@@ -6,6 +7,21 @@ import { Avatar, Button, Card, FAB, Text } from "react-native-paper";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 export default function DonationFeedScreen({ navigation }) {
+  const [feeds, setFeeds] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:5000/api/feeds")
+      .then((res) => {
+        setFeeds(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -16,22 +32,7 @@ export default function DonationFeedScreen({ navigation }) {
               Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd adwefe{" "}
             </Text>
           </Card.Content>
-          <Card.Cover
-            source={{ uri: "https://picsum.photos/700" }}
-            style={{ padding: 5 }}
-          />
-        </Card>
-        <Card>
-          <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
-          <Card.Content>
-            <Text variant="bodySmall">
-              Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd adwefe{" "}
-            </Text>
-          </Card.Content>
-          <Card.Cover
-            source={{ uri: "https://picsum.photos/900" }}
-            style={{ padding: 5 }}
-          />
+          <Card.Cover source={{ uri: `` }} style={{ padding: 5 }} />
         </Card>
       </ScrollView>
 

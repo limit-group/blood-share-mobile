@@ -1,40 +1,63 @@
-import React, { useState } from "react";
-import { StatusBar, StyleSheet, SafeAreaView } from "react-native";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { StatusBar, StyleSheet, SafeAreaView, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Avatar, Button, Card, FAB, Text } from "react-native-paper";
+import {
+  Avatar,
+  Button,
+  Card,
+  FAB,
+  IconButton,
+  Text,
+} from "react-native-paper";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
 export default function DonationFeedScreen({ navigation }) {
+  const [efeeds, setFeed] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:5000/api/e-feeds")
+      .then((res) => {
+        setFeed(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Card style={{ paddingBottom: 2 }}>
-          <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
-          <Card.Content>
-            <Text variant="bodySmall">
-              Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd adwefe{" "}
-            </Text>
-          </Card.Content>
-          <Card.Cover
-            source={{ uri: "https://picsum.photos/600" }}
-            style={{ padding: 5 }}
-          />
-        </Card>
-        <Card>
-          <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
-          <Card.Content>
-            <Text variant="bodySmall">
-              Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd adwefe{" "}
-            </Text>
-          </Card.Content>
-          <Card.Cover
-            source={{ uri: "https://picsum.photos/400" }}
-            style={{ padding: 5 }}
-          />
-        </Card>
-      </ScrollView>
-
+      {loading ? (
+        <IconButton centered={true} icon="loading" />
+      ) : (
+        <ScrollView>
+          {efeeds.length > 0 ? (
+            <>
+              {efeeds.map((feed) => {
+                <Card mode="contained">
+                  <Card.Title
+                    title={`Blood Type: ${feed.bloodType}`}
+                    subtitle={feed.createdAt}
+                    left={LeftContent}
+                  />
+                  <Card.Content>
+                    <Text variant="bodySmall">{feed.description}</Text>
+                  </Card.Content>
+                </Card>;
+              })}
+            </>
+          ) : (
+            <View>
+              <Text>No Emergencies</Text>
+            </View>
+          )}
+        </ScrollView>
+      )}
       <FAB
         icon="plus"
         style={styles.fab}
