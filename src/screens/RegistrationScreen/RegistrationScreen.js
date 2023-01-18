@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import styles from "./styles";
+import styles from "../../utils/styles";
+
 
 export default function LoginScreen({ navigation }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-
 
   const onFooterLinkPress = () => {
     navigation.navigate("Login");
@@ -19,8 +18,8 @@ export default function LoginScreen({ navigation }) {
     //   alert("Passwords don't match.");
     //   return;
     // }
-  
-    navigation.navigate("Verify")
+
+    navigation.navigate("Verify");
   };
 
   return (
@@ -33,6 +32,11 @@ export default function LoginScreen({ navigation }) {
           style={styles.logo}
           source={require("../../../assets/icon.png")}
         />
+        <View style={styles.footerView}>
+          <Text style={styles.footerText}>
+            start saving lives with a drop today.
+          </Text>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Phone Number(+254..)"
@@ -52,7 +56,7 @@ export default function LoginScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-          <TextInput
+        <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
@@ -62,7 +66,7 @@ export default function LoginScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-    
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => onRegisterPress()}

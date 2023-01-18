@@ -4,7 +4,14 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Provider as PaperProvider } from "react-native-paper";
+import {
+  Appbar,
+  Menu,
+  useTheme,
+  Provider as PaperProvider,
+  MD3LightTheme as DefaultTheme,
+} from "react-native-paper";
+
 import {
   LoginScreen,
   HomeScreen,
@@ -18,6 +25,8 @@ import {
   EmergencyFeedScreen,
   CreateFeedScreen,
   CreateEFeedScreen,
+  CreateDonationScreen,
+  CompleteProfileScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import VerifyScreen from "./src/screens/VerifyScreen/VerifyScreen";
@@ -50,8 +59,9 @@ function Home() {
         name="Feed"
         component={DonationFeedScreen} // Search Screen
         options={{
+          title: "donation drives",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="post" color={color} size={26} />
+            <MaterialCommunityIcons name="bookmark" color={color} size={26} />
           ),
         }}
       />
@@ -61,7 +71,11 @@ function Home() {
         component={EmergencyFeedScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="heart" color={color} size={26} />
+            <MaterialCommunityIcons
+              name="car-emergency"
+              color={color}
+              size={26}
+            />
           ),
         }}
       />
@@ -71,7 +85,7 @@ function Home() {
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
-              name="account-circle"
+              name="card-account-details-outline"
               color={color}
               size={26}
             />
@@ -82,12 +96,61 @@ function Home() {
   );
 }
 
-export default function App() {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(false);
+function CustomNavigationBar({ navigation, back }) {
+  const [visible, setVisible] = React.useState(false);
+  const openMenu = () => setVisible(true);
+  const closeMenu = () => setVisible(false);
 
   return (
-    <PaperProvider>
+    <Appbar.Header>
+      {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+      <Appbar.Content title="BloodShare" />
+      {!back ? (
+        <Menu
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={
+            <Appbar.Action icon="menu" color="white" onPress={openMenu} />
+          }
+        >
+          <Menu.Item
+            onPress={() => {
+              console.log("Option 1 was pressed");
+            }}
+            title="Option 1"
+          />
+          <Menu.Item
+            onPress={() => {
+              console.log("Option 2 was pressed");
+            }}
+            title="Option 2"
+          />
+          <Menu.Item
+            onPress={() => {
+              console.log("Option 3 was pressed");
+            }}
+            title="Option 3"
+            disabled
+          />
+        </Menu>
+      ) : null}
+    </Appbar.Header>
+  );
+}
+
+export default function App() {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(true);
+
+  const theme = useTheme({
+    ...DefaultTheme,
+    colors: {
+      primary: "#d0312d",
+    },
+  });
+
+  return (
+    <PaperProvider theme={theme}>
       <NavigationContainer>
         {/* <Stack.Navigator>
         {user ? (
@@ -130,7 +193,7 @@ export default function App() {
               />
               <Stack.Screen
                 name="Complete"
-                component={CompleteScreen}
+                component={CompleteProfileScreen}
                 options={{ headerShown: false }}
               />
             </>
@@ -152,6 +215,11 @@ export default function App() {
                 // options={{ headerShown: false }}
               />
               <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen name="Donations" component={DonationScreen} />
+              <Stack.Screen
+                name="Create Donation"
+                component={CreateDonationScreen}
+              />
             </>
           )}
         </Stack.Navigator>

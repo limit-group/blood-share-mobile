@@ -19,3 +19,8 @@ export { default as BloodCardScreen } from "./BloodCardScreen/BloodCardScreen";
 export { default as CreateEFeedScreen } from "./CreateEFeedScreen/CreateEFeedScreen";
 
 export { default as EmergencyFeedScreen } from "./EmergencyFeedScreen/EmergencyFeedScreen";
+
+export { default as CreateDonationScreen } from "./CreateDonationScreen/CreateDonationScreen";
+
+
+

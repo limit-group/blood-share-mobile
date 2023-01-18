@@ -4,21 +4,18 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import styles from "../../utils/styles";
 
 
-export default function LoginScreen({ navigation }) {
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-
+export default function CreateDonationScreen({ navigation }) {
+  const [facility, setFacility] = useState("");
+  const [donation, setDonation] = useState("");
+  const [date, setDate] = useState("");
 
   const onFooterLinkPress = () => {
-    navigation.navigate("Registration");
+    navigation.navigate("Login");
   };
 
-  const onLoginPress = () => {
-    // if (password !== confirmPassword) {
-    //   alert("Passwords don't match.");
-    //   return;
-    // }
-  
+  const onCompletePress = () => {
+    // fetch(`{api}/`);
+    navigation.navigate("Home");
   };
 
   return (
@@ -27,21 +24,26 @@ export default function LoginScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        <Image
-          style={styles.logo}
-          source={require("../../../assets/icon.png")}
-        />
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
-            continue saving lives.
+            Record donation made to save lives.
           </Text>
         </View>
         <TextInput
           style={styles.input}
-          placeholder="Phone Number(+254..)"
+          placeholder="name of health facility"
           placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setPhone(text)}
-          value={phone}
+          onChangeText={(text) => setFacility(text)}
+          value={facility}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="donation number"
+          placeholderTextColor="#aaaaaa"
+          onChangeText={(text) => setDonation(text)}
+          value={donation}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
@@ -49,24 +51,23 @@ export default function LoginScreen({ navigation }) {
           style={styles.input}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
+          placeholder="Date Of Birth"
+          onChangeText={(text) => setDate(text)}
+          value={date}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-    
         <TouchableOpacity
           style={styles.button}
-          onPress={() => onLoginPress()}
+          onPress={() => onCompletePress()}
         >
-          <Text style={styles.buttonTitle}>login</Text>
+          <Text style={styles.buttonTitle}>record.</Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
-            Don't have an account?{" "}
+            Your Data will be processed according to our{" "}
             <Text onPress={onFooterLinkPress} style={styles.footerLink}>
-              sign up
+              Privacy Policy.
             </Text>
           </Text>
         </View>

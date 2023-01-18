@@ -19,22 +19,22 @@ export default function DonationFeedScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    api
-      .get("/e-feeds")
-      .then((res) => {
-        setFeed(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    // setLoading(true);
+    // api
+    //   .get("/e-feeds")
+    //   .then((res) => {
+    //     setFeed(res.data);
+    //     setLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     setLoading(false);
+    //     console.log(err);
+    //   });
   }, []);
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
-        <IconButton centered={true} icon="loading" />
+        <IconButton centered={true} icon="loading" size={50}/>
       ) : (
         <ScrollView>
           {efeeds.length > 0 ? (

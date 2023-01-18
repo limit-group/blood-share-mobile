@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import styles from "./styles";
+import styles from "../../utils/styles";
+
 
 export default function CreateEFeedScreen({ navigation }) {
   const [bloodType, setBloodType] = useState("");
@@ -21,6 +22,11 @@ export default function CreateEFeedScreen({ navigation }) {
           style={styles.logo}
           source={require("../../../assets/icon.png")}
         />
+        <View style={styles.footerView}>
+          <Text style={styles.footerText}>
+            announce an emergency blood situation.
+          </Text>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Blood Type Required..."

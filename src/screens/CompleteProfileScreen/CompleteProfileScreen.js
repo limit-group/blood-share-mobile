@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import styles from "./styles";
-import { Caption } from "react-native-paper";
+import styles from "../../utils/styles";
+
+
 // import { api } from "../../constants/index";
 
 export default function CompleteProfileScreen({ navigation }) {
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [bloodType, setBloodType] = useState("");
+  const [bodyWeight, setBodyWeight] = useState("");
+  const [dob, setDob] = useState("");
 
   const onFooterLinkPress = () => {
     navigation.navigate("Login");
@@ -31,7 +31,7 @@ export default function CompleteProfileScreen({ navigation }) {
           style={styles.logo}
           source={require("../../../assets/icon.png")}
         />
-        <Caption style={{ textAlign: "center" }}>profile picture</Caption>
+        
         <TextInput
           style={styles.input}
           placeholder="Full Name"
@@ -45,8 +45,8 @@ export default function CompleteProfileScreen({ navigation }) {
           style={styles.input}
           placeholder="BloodType"
           placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
+          onChangeText={(text) => setBloodType(text)}
+          value={bloodType}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
@@ -55,8 +55,8 @@ export default function CompleteProfileScreen({ navigation }) {
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder="Date Of Birth"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
+          onChangeText={(text) => setDob(text)}
+          value={dob}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
@@ -65,8 +65,19 @@ export default function CompleteProfileScreen({ navigation }) {
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder="Body Weight(Kgs)"
-          onChangeText={(text) => setConfirmPassword(text)}
-          value={confirmPassword}
+          onChangeText={(text) => setBodyWeight(text)}
+          value={bodyWeight}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="profile picture"
+          onChangeText={(text) => setBodyWeight(text)}
+          value={bodyWeight}
+          onKeyPress={pickImage}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
@@ -74,7 +85,7 @@ export default function CompleteProfileScreen({ navigation }) {
           style={styles.button}
           onPress={() => onCompletePress()}
         >
-          <Text style={styles.buttonTitle}>Complete</Text>
+          <Text style={styles.buttonTitle}>complete</Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
