@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  AppRegistry,
   Image,
   Text,
   TextInput,
@@ -9,7 +8,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as ImagePicker from "expo-image-picker";
-import { Button, Title } from "react-native-paper";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "../../utils/styles";
 
 export default function CreateFeedScreen({ navigation }) {
@@ -64,8 +63,10 @@ export default function CreateFeedScreen({ navigation }) {
           autoCapitalize="none"
         />
 
-        <TouchableOpacity style={styles.button} onPress={pickImage}>
-          <Text style={styles.buttonTitle}>drive image poster </Text>
+        <TouchableOpacity style={styles.pickButton} onPress={pickImage}>
+          <Text style={styles.pickButtonTitle}>
+            <MaterialCommunityIcons name="camera" size={16} /> donation poster
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={() => onFeedPress()}>

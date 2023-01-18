@@ -3,11 +3,9 @@ import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "../../utils/styles";
 
-
 export default function LoginScreen({ navigation }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-
 
   const onFooterLinkPress = () => {
     navigation.navigate("Registration");
@@ -18,7 +16,7 @@ export default function LoginScreen({ navigation }) {
     //   alert("Passwords don't match.");
     //   return;
     // }
-  
+    navigation.navigate("Complete");
   };
 
   return (
@@ -32,9 +30,7 @@ export default function LoginScreen({ navigation }) {
           source={require("../../../assets/icon.png")}
         />
         <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            continue saving lives.
-          </Text>
+          <Text style={styles.footerText}>continue saving lives.</Text>
         </View>
         <TextInput
           style={styles.input}
@@ -55,11 +51,8 @@ export default function LoginScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-    
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => onLoginPress()}
-        >
+
+        <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
           <Text style={styles.buttonTitle}>login</Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
