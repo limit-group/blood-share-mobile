@@ -140,7 +140,7 @@ function CustomNavigationBar({ navigation, back }) {
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(false);
 
   const theme = useTheme({
     ...DefaultTheme,
@@ -152,27 +152,6 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        {/* <Stack.Navigator>
-        {user ? (
-          <>
-            <Stack.Screen name="BloodShare">
-              {(props) => <HomeScreen {...props} extraData={user} />}
-            </Stack.Screen>
-            <Stack.Screen name="Donation F" component={DonationScreen} />
-            <Stack.Screen name="New Feed" component={DonationFeedScreen} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-            <Stack.Screen name="Donation" component={DonationScreen} />
-            <Stack.Screen name="My Feed" component={FeedScreen} />
-            <Stack.Screen name="New Profile" component={CompleteScreen} />
-            <Stack.Screen name="Blood Card" component={BloodCardScreen} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Registration" component={RegistrationScreen} />
-          </>
-        )}
-      </Stack.Navigator> */}
         <Stack.Navigator>
           {user ? (
             <>
@@ -214,8 +193,16 @@ export default function App() {
                 component={CreateEFeedScreen}
                 // options={{ headerShown: false }}
               />
-              <Stack.Screen name="Profile" component={ProfileScreen} />
-              <Stack.Screen name="Donations" component={DonationScreen} />
+              <Stack.Screen
+                name="Profile"
+                component={ProfileScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Donations"
+                component={DonationScreen}
+                // options={{ headerShown: false }}
+              />
               <Stack.Screen
                 name="Create Donation"
                 component={CreateDonationScreen}

@@ -16,8 +16,8 @@ export default function HomeScreen() {
       />
       <MapView
         style={styles.map}
-        showsUserLocation={true}
-        loadingEnabled={true}
+        // showsUserLocation={true}
+        // loadingEnabled={true}
         provider={PROVIDER_GOOGLE}
       />
     </View>

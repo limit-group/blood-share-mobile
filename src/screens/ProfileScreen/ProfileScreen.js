@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StatusBar, StyleSheet, View } from "react-native";
 import {
   Avatar,
   Button,
@@ -11,17 +11,22 @@ import {
 } from "react-native-paper";
 import styles from "../../utils/styles";
 
-
 export default function ProfileScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const hideDialog = () => setVisible(false);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        marginTop: StatusBar.currentHeight || 0,
+        flex: 1,
+        alignItems: "center",
+      }}
+    >
       <View>
         {/* <Image
-          style={[styles.logo,{ width: 200, height: 200 } ]}
-          source={require("../../../assets/blood.jpg")}
+          style={styles.logo}
+          source={require("../../../assets/icon.png")}
         /> */}
         <Headline>Edwin Odhiambo</Headline>
         <Paragraph>123 Kisii, Kenya.</Paragraph>
@@ -56,4 +61,3 @@ export default function ProfileScreen({ navigation }) {
     </View>
   );
 }
-
