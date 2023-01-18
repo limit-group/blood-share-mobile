@@ -32,7 +32,7 @@ export default function DonationFeedScreen({ navigation }) {
               Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd adwefe{" "}
             </Text>
           </Card.Content>
-          <Card.Cover source={{ uri: `` }} style={{ padding: 5 }} />
+          <Card.Cover source={require("../../../assets/blood.jpg")} style={{ padding: 5 }} />
         </Card>
       </ScrollView>
 

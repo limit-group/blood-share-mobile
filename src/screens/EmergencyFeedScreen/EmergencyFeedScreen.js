@@ -10,6 +10,7 @@ import {
   IconButton,
   Text,
 } from "react-native-paper";
+import { api } from "../../utils/api";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
@@ -19,8 +20,8 @@ export default function DonationFeedScreen({ navigation }) {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get("http://localhost:5000/api/e-feeds")
+    api
+      .get("/e-feeds")
       .then((res) => {
         setFeed(res.data);
         setLoading(false);
@@ -53,7 +54,7 @@ export default function DonationFeedScreen({ navigation }) {
             </>
           ) : (
             <View>
-              <Text>No Emergencies</Text>
+              <Text style={{ textAlign: "center" }}>No Emergencies</Text>
             </View>
           )}
         </ScrollView>
