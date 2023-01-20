@@ -1,6 +1,13 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  avatar: {
+    height: 50,
+    width: 50,
+    alignSelf: "center",
+    margin: 20,
+    borderRadius: 50
+  },
   container: {
     flex: 1,
     alignItems: "center",

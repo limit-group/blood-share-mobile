@@ -24,7 +24,7 @@ export default function CreateEFeedScreen({ navigation }) {
         />
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
-            announce an emergency blood situation.
+            announce an emergency blood situation to get donors.
           </Text>
         </View>
         <TextInput
@@ -38,13 +38,18 @@ export default function CreateEFeedScreen({ navigation }) {
         />
         <TextInput
           style={styles.input}
-          placeholder="Where is the emergency..."
+          placeholder="emergency info..."
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setDesc(text)}
           value={desc}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
+        <TouchableOpacity style={styles.pickButton} onPress={pickLocation}>
+          <Text style={styles.pickButtonTitle}>
+            <MaterialCommunityIcons name="location" size={16} /> share live location.
+          </Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => onFeedPress()}>
           <Text style={styles.buttonTitle}>Start Post</Text>
         </TouchableOpacity>

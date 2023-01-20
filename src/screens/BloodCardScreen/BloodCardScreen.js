@@ -35,7 +35,7 @@ export default function BloodCardScreen({ navigation }) {
   };
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require("../../../assets/icon.png")} />
+      <Image style={styles.avatar} source={require("../../../assets/avatar.png")} />
       <Card>
         <Card.Content>
           <Title style={styles.title}>Edwin Odhiambo</Title>
