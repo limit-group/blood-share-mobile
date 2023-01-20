@@ -2,13 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { StatusBar, StyleSheet, SafeAreaView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Avatar, Button, Card, FAB, Text } from "react-native-paper";
+import { Avatar, Card, FAB, Text } from "react-native-paper";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 export default function DonationFeedScreen({ navigation }) {
   const [feeds, setFeeds] = useState([]);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -42,6 +43,7 @@ export default function DonationFeedScreen({ navigation }) {
       <FAB
         icon="plus"
         style={styles.fab}
+        color="primary"
         onPress={() => navigation.navigate("Donation Post")}
       />
     </SafeAreaView>

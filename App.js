@@ -5,8 +5,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
-  Appbar,
-  Menu,
   useTheme,
   Provider as PaperProvider,
   MD3LightTheme as DefaultTheme,
@@ -19,8 +17,8 @@ import {
   DonationScreen,
   DonationFeedScreen,
   ProfileScreen,
-  FeedScreen,
-  CompleteScreen,
+  VerifyScreen,
+  ThankYouScreen,
   BloodCardScreen,
   EmergencyFeedScreen,
   CreateFeedScreen,
@@ -29,7 +27,7 @@ import {
   CompleteProfileScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
-import VerifyScreen from "./src/screens/VerifyScreen/VerifyScreen";
+
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -93,48 +91,6 @@ function Home() {
         }}
       />
     </Tab.Navigator>
-  );
-}
-
-function CustomNavigationBar({ navigation, back }) {
-  const [visible, setVisible] = React.useState(false);
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
-
-  return (
-    <Appbar.Header>
-      {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-      <Appbar.Content title="BloodShare" />
-      {!back ? (
-        <Menu
-          visible={visible}
-          onDismiss={closeMenu}
-          anchor={
-            <Appbar.Action icon="menu" color="white" onPress={openMenu} />
-          }
-        >
-          <Menu.Item
-            onPress={() => {
-              console.log("Option 1 was pressed");
-            }}
-            title="Option 1"
-          />
-          <Menu.Item
-            onPress={() => {
-              console.log("Option 2 was pressed");
-            }}
-            title="Option 2"
-          />
-          <Menu.Item
-            onPress={() => {
-              console.log("Option 3 was pressed");
-            }}
-            title="Option 3"
-            disabled
-          />
-        </Menu>
-      ) : null}
-    </Appbar.Header>
   );
 }
 
@@ -207,6 +163,7 @@ export default function App() {
                 name="Create Donation"
                 component={CreateDonationScreen}
               />
+              <Stack.Screen name="Thank You" component={ThankYouScreen} />
             </>
           )}
         </Stack.Navigator>
