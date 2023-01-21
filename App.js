@@ -27,7 +27,18 @@ import {
   CompleteProfileScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
+// import Onboarding from 'react-native-onboarding-swiper';
 
+// <Onboarding
+//     pages={[
+//     {
+//     backgroundColor: '#a6e4d0',
+//     image: <Image source={require('./assets/avatar.png')} />,
+//     title: 'Welcome',
+//     subtitle: 'Welcome to the first slide of the Onboarding Swiper.',
+//     },
+//     ]}
+// />
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -59,7 +70,7 @@ function Home() {
         options={{
           title: "donation drives",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bookmark" color={color} size={26} />
+            <MaterialCommunityIcons name="compass-outline" color={color} size={26} />
           ),
         }}
       />
