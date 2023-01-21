@@ -28,8 +28,4 @@ export { default as VerifyScreen } from "./VerifyScreen/VerifyScreen";
 
 export { default as AcceptDonationScreen } from "./AcceptDonationScreen/AcceptDonationScreen";
 
-
-
-
-
-
+export { default as ThankYouScreen } from "./ThankYouScreen/ThankYouScreen";

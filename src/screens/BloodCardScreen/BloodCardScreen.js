@@ -1,22 +1,9 @@
 import React from "react";
-import {
-  Image,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import {
-  Card,
-  IconButton,
-  Paragraph,
-  SegmentedButtons,
-  Title,
-} from "react-native-paper";
-import styles from "./styles";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Card, Title } from "react-native-paper";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import styles from "../../utils/styles";
 
 export default function BloodCardScreen({ navigation }) {
   const [value, setValue] = React.useState("");
@@ -35,20 +22,32 @@ export default function BloodCardScreen({ navigation }) {
   };
   return (
     <View style={styles.container}>
-      <Image style={styles.avatar} source={require("../../../assets/avatar.png")} />
+      <Image
+        style={styles.avatar}
+        source={require("../../../assets/avatar.png")}
+      />
       <Card>
         <Card.Content>
           <Title style={styles.title}>Edwin Odhiambo</Title>
         </Card.Content>
       </Card>
       <TouchableOpacity style={styles.button} onPress={toDonated}>
-        <Text style={styles.buttonTitle}><MaterialCommunityIcons name="shield-check-outline" size={18} /> i have donated</Text>
+        <Text style={styles.buttonTitle}>
+          <MaterialCommunityIcons name="shield-check-outline" size={18} /> i
+          have donated
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={toMyDonations}>
-        <Text style={styles.buttonTitle}><MaterialCommunityIcons name="format-list-checkbox" size={18} /> my donations</Text>
+        <Text style={styles.buttonTitle}>
+          <MaterialCommunityIcons name="format-list-checkbox" size={18} /> my
+          donations
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={toEditProfile}>
-        <Text style={styles.buttonTitle}><MaterialCommunityIcons name="account-edit-outline" size={18} /> edit profile</Text>
+        <Text style={styles.buttonTitle}>
+          <MaterialCommunityIcons name="account-edit-outline" size={18} /> edit
+          profile
+        </Text>
       </TouchableOpacity>
     </View>
   );

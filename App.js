@@ -100,9 +100,9 @@ export default function App() {
 
   const theme = useTheme({
     ...DefaultTheme,
-    colors: {
-      primary: "#d0312d",
-    },
+    // colors: {
+    //   primary: "#d0312d",
+    // },
   });
 
   return (

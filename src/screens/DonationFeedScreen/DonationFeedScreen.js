@@ -43,7 +43,7 @@ export default function DonationFeedScreen({ navigation }) {
       <FAB
         icon="plus"
         style={styles.fab}
-        color="primary"
+        color={styles.primary}
         onPress={() => navigation.navigate("Donation Post")}
       />
     </SafeAreaView>
