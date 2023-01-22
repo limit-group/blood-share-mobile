@@ -1,13 +1,32 @@
 import React, { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Button, TextInput } from "react-native-paper";
 import styles from "../../utils/styles";
-
 
 export default function CreateDonationScreen({ navigation }) {
   const [facility, setFacility] = useState("");
   const [donation, setDonation] = useState("");
   const [date, setDate] = useState("");
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+    setShow(true);
+  };
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
 
   const onFooterLinkPress = () => {
     navigation.navigate("Login");
@@ -15,7 +34,7 @@ export default function CreateDonationScreen({ navigation }) {
 
   const onCompletePress = () => {
     // fetch(`{api}/`);
-    navigation.navigate("Home");
+    navigation.navigate("Thank You");
   };
 
   return (
@@ -26,7 +45,7 @@ export default function CreateDonationScreen({ navigation }) {
       >
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
-            Record donation made to save lives.
+            record a donation made to save lives and earn life points.
           </Text>
         </View>
         <TextInput
@@ -47,21 +66,18 @@ export default function CreateDonationScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Date Of Birth"
-          onChangeText={(text) => setDate(text)}
-          value={date}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
+        <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 5 }}>
+          <Button mode="contained" onPress={showDatepicker}>
+            <MaterialCommunityIcons name="calendar" size={16} />
+            date of donation
+          </Button>
+        </View>
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => onCompletePress()}
         >
-          <Text style={styles.buttonTitle}>record.</Text>
+          <Text style={styles.buttonTitle}>record donation</Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>

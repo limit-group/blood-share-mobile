@@ -236,7 +236,7 @@ export default function App() {
                 // options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="Create Donation"
+                name="donated"
                 component={CreateDonationScreen}
               />
               <Stack.Screen name="Thank You" component={ThankYouScreen} />

@@ -31,7 +31,9 @@ export default function DonationScreen({
 
   const fabStyle = { [animateFrom]: 16 };
 
-  const toDonor = () => {};
+  const toDonor = () => {
+    navigation.navigate("donated")
+  };
 
   return (
     <SafeAreaView style={styles.container}>
