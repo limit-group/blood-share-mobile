@@ -1,7 +1,9 @@
 import "react-native-gesture-handler";
+import { useFonts } from "expo-font";
 import React, { useEffect, useState } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Octicons from "react-native-vector-icons/Octicons";
 import { NavigationContainer, TabActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
@@ -51,9 +53,12 @@ const Stack = createStackNavigator();
 function Home() {
   return (
     <Tab.Navigator
-      labeled={false}
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarActiveTintColor: "#d0312d",
+      }}
       barStyle={{ backgroundColor: "white" }}
-      activeColor="white"
+      // activeColor="white"
     >
       <Tab.Screen
         name="Home"
@@ -68,20 +73,35 @@ function Home() {
         name="Feed"
         component={DonationFeedScreen} // Search Screen
         options={{
-          title: "donation drives",
+          title: "feed",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="compass-outline" color={color} size={26} />
+            <Octicons name="feed-discussion" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Requests"
+        component={EmergencyFeedScreen}
+        options={{
+          tabBarBadge: 3,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="car-emergency"
+              color={color}
+              size={26}
+            />
           ),
         }}
       />
 
       <Tab.Screen
-        name="Requests"
-        component={EmergencyFeedScreen}
+        name="Donation"
+        component={DonationScreen} // Search Screen
         options={{
+          title: "donations",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
-              name="car-emergency"
+              name="compass-outline"
               color={color}
               size={26}
             />
@@ -106,14 +126,18 @@ function Home() {
 }
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Roboto: require("./assets/fonts/Roboto-Black.ttf"),
+  });
+
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(false);
 
   const theme = useTheme({
     ...DefaultTheme,
-    // colors: {
-    //   primary: "#d0312d",
-    // },
+    colors: {
+      primary: "#d0312d",
+    },
   });
 
   return (
@@ -156,7 +180,7 @@ export default function App() {
                 // options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="Emergency Post"
+                name="find a donor"
                 component={CreateEFeedScreen}
                 // options={{ headerShown: false }}
               />

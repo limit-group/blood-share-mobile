@@ -14,6 +14,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    // backgroundColor: "#ffffff"
   },
   title: {},
   logo: {
@@ -44,6 +45,16 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  i_button: {
+    backgroundColor: "#d0312d",
+    marginLeft: 30,
+    // marginRight: 30,
+    // marginTop: 20,
+    height: 38,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   pickButton: {
     backgroundColor: "white",
     marginLeft: 30,
@@ -55,6 +66,12 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  i_buttonTitle: {
+    color: "white",
+    fontSize: 16,
+    padding: 10,
+    fontWeight: "bold",
+  },
   buttonTitle: {
     color: "white",
     fontSize: 16,
@@ -63,7 +80,7 @@ export default StyleSheet.create({
   pickButtonTitle: {
     color: "#aaaaaa",
     fontSize: 16,
-    fontWeight: "bold",
+    // fontWeight: "bold",
   },
   footerView: {
     flex: 1,

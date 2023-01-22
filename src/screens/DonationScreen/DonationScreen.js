@@ -1,28 +1,74 @@
 import React from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
-import { List, Searchbar } from "react-native-paper";
+import {
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
+import { AnimatedFAB, List, Searchbar } from "react-native-paper";
 
-export default function DonationScreen() {
+export default function DonationScreen({
+  navigation,
+  animatedValue,
+  visible,
+  extended,
+  label,
+  animateFrom,
+  style,
+  iconMode,
+}) {
+  const [isExtended, setIsExtended] = React.useState(true);
+
+  const isIOS = Platform.OS === "ios";
+
+  const onScroll = ({ nativeEvent }) => {
+    const currentScrollPosition =
+      Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
+    setIsExtended(currentScrollPosition <= 0);
+  };
+
+  const fabStyle = { [animateFrom]: 16 };
+
+  const toDonor = () => {};
+
   return (
-    <View style={styles.container}>
-      <List.Item
-        title="makini hospital"
-        description="Item description"
-        left={(props) => <List.Icon {...props} icon="hospital-marker" />}
+    <SafeAreaView style={styles.container}>
+      <ScrollView onScroll={onScroll}>
+        <List.Item
+          title="makini hospital"
+          description="Item description"
+          left={(props) => <List.Icon {...props} icon="hospital-marker" />}
+        />
+        <List.Item
+          title="makini hospital"
+          description="Item description"
+          left={(props) => <List.Icon {...props} icon="hospital-marker" />}
+        />
+      </ScrollView>
+      <AnimatedFAB
+        icon={"arrow-right"}
+        label={"donated now"}
+        extended={isExtended}
+        onPress={toDonor}
+        visible={visible}
+        animateFrom={"right"}
+        iconMode={"static"}
+        style={[styles.fabStyle, style, fabStyle]}
       />
-      <List.Item
-        title="makini hospital"
-        description="Item description"
-        left={(props) => <List.Icon {...props} icon="hospital-marker" />}
-      />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     marginTop: StatusBar.currentHeight || 0,
-    padding: 10,
+  },
+  fabStyle: {
+    bottom: 16,
+    right: 16,
+    position: "absolute",
   },
 });
