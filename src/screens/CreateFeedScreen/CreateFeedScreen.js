@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import {
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as ImagePicker from "expo-image-picker";
+import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "../../utils/styles";
+import { Button, TextInput } from "react-native-paper";
 
 export default function CreateFeedScreen({ navigation }) {
   const [desc, setDesc] = useState("");
   const [image, setImage] = useState(null);
+
+  const pickLocation = () => {};
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -41,36 +39,51 @@ export default function CreateFeedScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        {image && (
-          <Image
-            source={{ uri: image }}
-            style={[styles.logo, { width: 200, height: 200 }]}
-          />
-        )}
-
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            tell others about upcoming blood donation drives.
-          </Text>
-        </View>
+        
         <TextInput
           style={styles.input}
-          placeholder="donation drive info..."
+          // multiline={true}
+          numberOfLines={6}
+          placeholder="about the donation drive..."
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setDesc(text)}
           value={desc}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-
-        <TouchableOpacity style={styles.pickButton} onPress={pickImage}>
-          <Text style={styles.pickButtonTitle}>
-            <MaterialCommunityIcons name="camera" size={16} /> donation poster
-          </Text>
-        </TouchableOpacity>
+         {image && (
+          <Image
+            source={{ uri: image }}
+            style={[{ width: '100%', height: 200,}]}
+          />
+        )}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            paddingLeft: 30,
+            paddingRight: 30,
+            paddingTop: 5,
+          }}
+        >
+          <Button style={styles.pickButton} onPress={pickImage} mode="outlined">
+            <Text style={styles.pickButtonTitle}>
+              <MaterialCommunityIcons name="camera" size={16} />
+            </Text>
+          </Button>
+          <Button
+            style={styles.pickButton}
+            onPress={pickLocation}
+            mode="outlined"
+          >
+            <Text style={styles.pickButtonTitle}>
+              <Entypo name="location" size={16} />
+            </Text>
+          </Button>
+        </View>
 
         <TouchableOpacity style={styles.button} onPress={() => onFeedPress()}>
-          <Text style={styles.buttonTitle}>Start Post</Text>
+          <Text style={styles.buttonTitle}>annonce drive</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
     </View>

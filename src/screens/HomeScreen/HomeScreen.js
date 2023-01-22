@@ -22,9 +22,6 @@ import {
 } from "react-native-paper";
 
 export default function HomeScreen({ navigation }) {
-  const [value, setValue] = React.useState("");
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const onChangeSearch = (query) => setSearchQuery(query);
   return (
     <View style={styles.container}>
       <View

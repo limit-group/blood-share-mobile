@@ -9,13 +9,7 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { AnimatedFAB } from "react-native-paper";
-import {
-  Avatar,
-  Button,
-  Card,
-  IconButton,
-  Text,
-} from "react-native-paper";
+import { Avatar, Button, Card, IconButton, Text } from "react-native-paper";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
@@ -30,7 +24,7 @@ export default function DonationFeedScreen({
   iconMode,
 }) {
   const toRequest = () => {
-    navigation.navigate("find a donor")
+    navigation.navigate("find a donor");
   };
   const [efeeds, setFeed] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -100,6 +94,7 @@ export default function DonationFeedScreen({
       <AnimatedFAB
         icon={"arrow-right"}
         label={"request donors"}
+        color="#000"
         extended={isExtended}
         onPress={toRequest}
         visible={visible}
@@ -115,10 +110,12 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: "#ffffff",
   },
   fabStyle: {
     bottom: 16,
     right: 16,
+    backgroundColor: "#ffffff",
     position: "absolute",
   },
   item: {

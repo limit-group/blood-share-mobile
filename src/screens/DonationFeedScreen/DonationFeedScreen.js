@@ -16,7 +16,9 @@ export default function DonationFeedScreen({
   style,
   iconMode,
 }) {
-  const toCreateFeed = () => {};
+  const toCreateFeed = () => {
+    navigation.navigate("announce donation drive");
+  };
   const [feeds, setFeeds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isExtended, setIsExtended] = React.useState(true);
@@ -74,6 +76,7 @@ export default function DonationFeedScreen({
       </ScrollView>
       <AnimatedFAB
         icon={"plus"}
+        color="#000"
         label={"annonce drive"}
         extended={isExtended}
         onPress={toCreateFeed}
@@ -90,11 +93,13 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: "#ffffff",
   },
   fabStyle: {
     bottom: 16,
     right: 16,
     position: "absolute",
+    backgroundColor: "#ffffff",
   },
   item: {
     backgroundColor: "#f9c2ff",

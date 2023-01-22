@@ -50,6 +50,7 @@ export default function DonationScreen({
       <AnimatedFAB
         icon={"arrow-right"}
         label={"donated now"}
+        color="#000"
         extended={isExtended}
         onPress={toDonor}
         visible={visible}
@@ -65,10 +66,12 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: "#ffffff",
   },
   fabStyle: {
     bottom: 16,
     right: 16,
     position: "absolute",
+    backgroundColor: "#ffffff",
   },
 });
