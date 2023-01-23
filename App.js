@@ -199,7 +199,7 @@ export default function App() {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="Complete"
+                name="Complete Profile"
                 component={CompleteProfileScreen}
                 options={{ headerShown: false }}
               />

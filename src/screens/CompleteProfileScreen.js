@@ -6,11 +6,13 @@ import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import styles from "../utils/styles";
-import { TextInput } from "react-native-paper";
+import { Button, RadioButton, TextInput } from "react-native-paper";
 
 // import { api } from "../../constants/index";
 
 export default function CompleteProfileScreen({ navigation }) {
+  const [gender, setGender] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [fullName, setFullName] = useState("");
   const [bloodType, setBloodType] = useState("");
   const [bodyWeight, setBodyWeight] = useState("");
@@ -68,29 +70,45 @@ export default function CompleteProfileScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        {image ? (
+        <View style={{ flex: 1, marginLeft: 30 }}>
+          <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>
+            Complete Profile.
+          </Text>
+        </View>
+        {/* {image ? (
           <Image
             source={{ uri: image }}
-            style={[styles.logo, { width: 200, height: 200 }]}
+            style={[styles.logo, { width: 200, height: 70 }]}
           />
         ) : (
           <Image
             style={styles.logo}
             source={require("../../assets/icon.png")}
           />
-        )}
+        )} */}
 
         <TextInput
           style={styles.input}
           label="Full Name"
-          // placeholderTextColor="#aaaaaa"
+          left={<TextInput.Icon icon={"square-edit-outline"} />}
           onChangeText={(text) => setFullName(text)}
           value={fullName}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
+        <TextInput
+          style={styles.input}
+          label="Email"
+          left={<TextInput.Icon icon={"email-outline"} />}
+          // placeholderTextColor="#aaaaaa"
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
         <Picker
           selectedValue={bloodType}
+          // mode="dropdown"
           style={styles.input}
           onValueChange={(itemValue, itemIndex) => setBloodType(itemValue)}
         >
@@ -135,27 +153,44 @@ export default function CompleteProfileScreen({ navigation }) {
             style={{ color: "#aaaaaa" }}
           />
         </Picker>
-        <TouchableOpacity style={styles.pickButton} onPress={showDatepicker}>
-          <Text style={styles.pickButtonTitle}>
-            <MaterialCommunityIcons name="calendar" size={16} />
-            {show ? date : "Date of Birth"}
-          </Text>
-        </TouchableOpacity>
+        <Button
+          onPress={showDatepicker}
+          mode="outlined"
+          textColor="#000"
+          style={styles.pickButton}
+        >
+          <MaterialCommunityIcons name="calendar" />
+          {show ? date : "Date of Birth"}
+        </Button>
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           label="Body Weight(in Kgs)"
+          left={<TextInput.Icon icon={"weight-lifter"} />}
           onChangeText={(text) => setBodyWeight(text)}
           value={bodyWeight}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TouchableOpacity style={styles.pickButton} onPress={pickImage}>
-          <Text style={styles.pickButtonTitle}>
-            <MaterialCommunityIcons name="camera" size={16} /> profile picture
-          </Text>
-        </TouchableOpacity>
+        <RadioButton.Group
+          onValueChange={(newValue) => setGender(newValue)}
+          value={gender}
+        >
+          <View style={[styles.input, { flexDirection: "row" }]}>
+            <Text>Male</Text>
+            <RadioButton value="male" />
+
+            <Text>Female</Text>
+            <RadioButton value="female" />
+
+            <Text>Non binary</Text>
+            <RadioButton value="non-binary" />
+          </View>
+        </RadioButton.Group>
+        <Button onPress={pickImage} mode="outlined" style={styles.pickButton}>
+          <MaterialCommunityIcons name="camera" size={16} /> profile picture
+        </Button>
 
         <TouchableOpacity
           style={styles.button}
@@ -163,14 +198,6 @@ export default function CompleteProfileScreen({ navigation }) {
         >
           <Text style={styles.buttonTitle}>complete</Text>
         </TouchableOpacity>
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            Your Data will be processed according to our{" "}
-            <Text onPress={onFooterLinkPress} style={styles.footerLink}>
-              Privacy Policy.
-            </Text>
-          </Text>
-        </View>
       </KeyboardAwareScrollView>
     </View>
   );

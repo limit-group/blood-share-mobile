@@ -20,7 +20,7 @@ export default function LoginScreen({ navigation }) {
     //   alert("Passwords don't match.");
     //   return;
     // }
-    navigation.navigate("Complete");
+    navigation.navigate("Complete Profile");
   };
 
   return (
@@ -38,10 +38,8 @@ export default function LoginScreen({ navigation }) {
         </View>
         <TextInput
           style={styles.input}
-          mode="outlined"
           label="Mobile(+254..)"
           left={<TextInput.Icon icon={"cellphone"} />}
-          // left={<TextInput.Affix text="+254" textStyle={styles.affix} />}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
           value={phone}
@@ -50,7 +48,6 @@ export default function LoginScreen({ navigation }) {
         />
         <TextInput
           style={styles.input}
-          mode="outlined"
           label="Password"
           placeholderTextColor="#aaaaaa"
           secureTextEntry

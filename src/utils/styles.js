@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   primary: {
@@ -14,12 +14,13 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
+    marginTop: StatusBar.currentHeight || 0,
   },
   title: {},
   logo: {
     flex: 1,
-    height: 160,
+    height: 150,
     width: '100%',
     alignSelf: "center",
     margin: 33,
@@ -70,11 +71,15 @@ export default StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     marginTop: 10,
+    color: '#000',
     // marginBottom: 10,
     height: 48,
     borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
+    borderColor: "#000",
+    border: 2,
+    borderStyle: '',
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   i_buttonTitle: {
     color: "white",
@@ -88,14 +93,13 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
   pickButtonTitle: {
-    color: "#aaaaaa",
+    // color: "#aaaaaa",
     fontSize: 16,
-    // fontWeight: "bold",
   },
   footerView: {
     flex: 1,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
   footerText: {
     fontSize: 16,
