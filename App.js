@@ -29,6 +29,7 @@ import {
   CreateEFeedScreen,
   CreateDonationScreen,
   CompleteProfileScreen,
+  ForgotPasswordScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
@@ -170,7 +171,7 @@ export default function App() {
   });
 
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(true);
 
   const theme = useTheme({
     ...DefaultTheme,
@@ -186,11 +187,7 @@ export default function App() {
         <Stack.Navigator>
           {user ? (
             <>
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false }}
-              />
+              
               <Stack.Screen
                 name="Registration"
                 component={RegistrationScreen}
@@ -205,6 +202,16 @@ export default function App() {
                 name="Complete"
                 component={CompleteProfileScreen}
                 options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Forgot Password"
+                component={ForgotPasswordScreen}
+                // options={{ headerShown: false }}
               />
             </>
           ) : (

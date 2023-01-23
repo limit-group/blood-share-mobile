@@ -8,7 +8,7 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
 // DateTimePickerAndroid.open(params: AndroidNativeProps)
 // DateTimePickerAndroid.dismiss(mode: AndroidNativeProps['mode'])
-import styles from "../../utils/styles";
+import styles from "../utils/styles";
 
 // import { api } from "../../constants/index";
 

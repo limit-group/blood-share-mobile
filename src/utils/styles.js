@@ -19,15 +19,25 @@ export default StyleSheet.create({
   title: {},
   logo: {
     flex: 1,
-    height: 120,
-    width: 90,
+    height: 160,
+    width: '100%',
     alignSelf: "center",
-    margin: 30,
+    margin: 33,
+  },
+  affix: {
+    fontWeight: 'bold',
+    color: '#000'
+  },
+  left: {
+    textAlign: 'right',
+    marginRight: 30,
+    fontSize: 16,
+    color: "#d0312d",
   },
   input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: "hidden",
+    // height: 48,
+    // borderRadius: 5,
+    // overflow: "hidden",
     backgroundColor: "white",
     marginTop: 10,
     marginBottom: 10,
@@ -90,6 +100,11 @@ export default StyleSheet.create({
   footerText: {
     fontSize: 16,
     color: "#2e2e2d",
+  },
+  disclaimer: {
+    marginTop: 20,
+    fontSize: 16,
+    marginLeft: 30
   },
   footerLink: {
     color: "#d0312d",

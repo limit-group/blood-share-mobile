@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Image, Text, View } from "react-native";
-import styles from "../../utils/styles";
+import styles from "../utils/styles";
 import { Button } from "react-native-paper";
 
 export default function ThankYouScreen({ navigation }) {
@@ -19,7 +19,11 @@ export default function ThankYouScreen({ navigation }) {
         <Text style={styles.footerText}>
           Thank You for taking a step towards savings lives.
         </Text>
-        <Button mode="contained" onPress={() => onGo()} style={{ marginTop: 20}}>
+        <Button
+          mode="contained"
+          onPress={() => onGo()}
+          style={{ marginTop: 20 }}
+        >
           <Text style={styles.buttonTitle}>
             continue donating <MaterialCommunityIcons name="arrow-right" />
           </Text>
@@ -28,5 +32,3 @@ export default function ThankYouScreen({ navigation }) {
     </View>
   );
 }
-
-

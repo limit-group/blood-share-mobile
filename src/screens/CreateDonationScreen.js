@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button, TextInput } from "react-native-paper";
-import styles from "../../utils/styles";
+import styles from "../utils/styles";
 
 export default function CreateDonationScreen({ navigation }) {
   const [facility, setFacility] = useState("");

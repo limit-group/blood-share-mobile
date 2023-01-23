@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import styles from "../../utils/styles";
+import styles from "../utils/styles";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
@@ -100,7 +100,7 @@ export default function CreateEFeedScreen({ navigation }) {
         <View style={styles.footerView}>
           <Text style={styles.footerText}>additional info.</Text>
         </View>
-        
+
         <TextInput
           style={styles.input}
           // mode="outlined"

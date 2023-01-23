@@ -1,25 +1,26 @@
 import React, { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import styles from "../../utils/styles";
-
-
+import { TextInput } from "react-native-paper";
+import styles from "../utils/styles";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 export default function LoginScreen({ navigation }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const onFooterLinkPress = () => {
-    navigation.navigate("Login");
+    navigation.navigate("Registration");
   };
 
-  const onRegisterPress = () => {
+  const toForgot = () => {
+    navigation.navigate("Forgot Password");
+  };
+  const onLoginPress = () => {
     // if (password !== confirmPassword) {
     //   alert("Passwords don't match.");
     //   return;
     // }
-
-    navigation.navigate("Verify");
+    navigation.navigate("Complete");
   };
 
   return (
@@ -30,54 +31,49 @@ export default function LoginScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/icon.png")}
+          source={require("../../../assets/login.png")}
         />
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            start saving lives with a drop today.
-          </Text>
+        <View style={{ flex: 1, marginLeft: 30 }}>
+          <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>Login.</Text>
         </View>
         <TextInput
           style={styles.input}
-          placeholder="Phone Number(+254..)"
+          mode="outlined"
+          label="Mobile(+254..)"
+          left={<TextInput.Icon icon={"cellphone"} />}
+          // left={<TextInput.Affix text="+254" textStyle={styles.affix} />}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
           value={phone}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
+          // underlineColorAndroid="transparent"
+          // autoCapitalize="none"
         />
         <TextInput
           style={styles.input}
+          mode="outlined"
+          label="Password"
           placeholderTextColor="#aaaaaa"
           secureTextEntry
-          placeholder="Password"
+          // placeholder="password"
+          left={<TextInput.Icon icon={"shield-lock-outline"} />}
           onChangeText={(text) => setPassword(text)}
           value={password}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Confirm Password"
-          onChangeText={(text) => setConfirmPassword(text)}
-          value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => onRegisterPress()}
-        >
-          <Text style={styles.buttonTitle}>Create Account</Text>
+        <Text style={styles.left} onPress={toForgot}>
+          Forgot password?
+        </Text>
+
+        <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
+          <Text style={styles.buttonTitle}>login</Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
-            Have an account?{" "}
+            Don't have an account?{" "}
             <Text onPress={onFooterLinkPress} style={styles.footerLink}>
-              LogIn
+              sign up
             </Text>
           </Text>
         </View>

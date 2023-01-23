@@ -9,7 +9,7 @@ import {
   Paragraph,
   Portal,
 } from "react-native-paper";
-import styles from "../../utils/styles";
+import styles from "../utils/styles";
 
 export default function ProfileScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);

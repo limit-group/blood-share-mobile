@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import * as ImagePicker from "expo-image-picker";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import styles from "../../utils/styles";
+import styles from "../utils/styles";
 import { Button, TextInput } from "react-native-paper";
 
 export default function CreateFeedScreen({ navigation }) {
@@ -39,7 +39,6 @@ export default function CreateFeedScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        
         <TextInput
           style={styles.input}
           // multiline={true}
@@ -51,10 +50,10 @@ export default function CreateFeedScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-         {image && (
+        {image && (
           <Image
             source={{ uri: image }}
-            style={[{ width: '100%', height: 200,}]}
+            style={[{ width: "100%", height: 200 }]}
           />
         )}
         <View
@@ -83,7 +82,9 @@ export default function CreateFeedScreen({ navigation }) {
         </View>
 
         <TouchableOpacity style={styles.button} onPress={() => onFeedPress()}>
-          <Text style={styles.buttonTitle}>annonce drive</Text>
+          <Text style={styles.buttonTitle}>
+            annonce drive <MaterialCommunityIcons name="share" size={16} />
+          </Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
     </View>

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import styles from "../../utils/styles";
-
+import { TextInput } from "react-native-paper";
+import styles from "../utils/styles";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const [phone, setPhone] = useState("");
 
   const onForgotPress = () => {
-    navigation.navigate("Complete")
+    navigation.navigate("Complete");
   };
 
   return (
@@ -19,16 +19,21 @@ export default function ForgotPasswordScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/icon.png")}
+          source={require("../../../assets/forgot.png")}
         />
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            enter the phone number used during registration.
+        <View style={{ flex: 1, marginLeft: 30 }}>
+          <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>
+            Forgot Password?
+          </Text>
+          <Text>
+            Don't worry! It happens. Please enter the mobile number associated
+            with your account.
           </Text>
         </View>
         <TextInput
           style={styles.input}
-          placeholder="phone number "
+          label="Mobile(+254..)"
+          left={<TextInput.Icon icon={"cellphone"} />}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
           value={phone}
@@ -36,7 +41,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           autoCapitalize="none"
         />
         <TouchableOpacity style={styles.button} onPress={() => onForgotPress()}>
-          <Text style={styles.buttonTitle}>Reset Password</Text>
+          <Text style={styles.buttonTitle}>Submit</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
     </View>

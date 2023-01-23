@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import styles from "../../utils/styles";
-
+import { TextInput } from "react-native-paper";
+import styles from "../utils/styles";
 
 export default function VerifyScreen({ navigation }) {
   const [code, setCode] = useState("");
 
   const onVerifyPress = () => {
-    navigation.navigate("Complete")
+    navigation.navigate("Complete");
   };
 
   return (
@@ -19,16 +19,15 @@ export default function VerifyScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/icon.png")}
+          source={require("../../../assets/verify.png")}
         />
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            enter the 4 digit code shared via sms.
-          </Text>
+        <View style={{ flex: 1, marginLeft: 30 }}>
+          <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>Enter OTP</Text>
+          <Text>A 4 digit code has been sent to you phone</Text>
         </View>
         <TextInput
           style={styles.input}
-          placeholder="4-digit-code"
+          label="4-digit-code"
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setCode(text)}
           value={code}
