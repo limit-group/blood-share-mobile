@@ -19,7 +19,7 @@ export default function ForgotPasswordScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/forgot.png")}
+          source={require("../../assets/forgot.png")}
         />
         <View style={{ flex: 1, marginLeft: 30 }}>
           <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>

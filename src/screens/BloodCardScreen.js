@@ -24,7 +24,7 @@ export default function BloodCardScreen({ navigation }) {
     <View style={styles.container}>
       {/* <Image source={require("../../../assets/avatar.png")} /> */}
       <ImageBackground
-        source={require("../../../assets/avatar.png")}
+        source={require("../../assets/avatar.png")}
         style={styles.image}
       >
         <Text style={styles.text}>edwin odhiambo</Text>

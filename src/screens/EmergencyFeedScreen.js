@@ -84,7 +84,7 @@ export default function DonationFeedScreen({
                 </Text>
               </Card.Content>
               <Card.Cover
-                source={require("../../../assets/blood.jpg")}
+                source={require("../../assets/blood.jpg")}
                 style={{ padding: 5 }}
               />
             </Card>

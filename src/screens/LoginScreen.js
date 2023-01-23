@@ -31,7 +31,7 @@ export default function LoginScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/login.png")}
+          source={require("../../assets/login.png")}
         />
         <View style={{ flex: 1, marginLeft: 30 }}>
           <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>Login.</Text>

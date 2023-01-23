@@ -13,7 +13,7 @@ export default function AcceptDonationScreen({ navigation }) {
   };
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require("../../../assets/icon.png")} />
+      <Image style={styles.logo} source={require("../../assets/icon.png")} />
       <View style={styles.footerView}>
         <Text style={styles.footerText}>
           Accept to go and donate.You will recieve map directions in sms

@@ -38,7 +38,7 @@ export default function HomeScreen({ navigation }) {
         </Text>
         <Avatar.Image
           size={64}
-          source={require("../../../assets/avatar.png")}
+          source={require("../../assets/avatar.png")}
         />
       </View>
       <Card mode="outlined" style={styles.highlight}>

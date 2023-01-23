@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-
-// DateTimePickerAndroid.open(params: AndroidNativeProps)
-// DateTimePickerAndroid.dismiss(mode: AndroidNativeProps['mode'])
 import styles from "../utils/styles";
+import { TextInput } from "react-native-paper";
 
 // import { api } from "../../constants/index";
 
@@ -78,14 +76,14 @@ export default function CompleteProfileScreen({ navigation }) {
         ) : (
           <Image
             style={styles.logo}
-            source={require("../../../assets/icon.png")}
+            source={require("../../assets/icon.png")}
           />
         )}
 
         <TextInput
           style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#aaaaaa"
+          label="Full Name"
+          // placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setFullName(text)}
           value={fullName}
           underlineColorAndroid="transparent"
@@ -147,7 +145,7 @@ export default function CompleteProfileScreen({ navigation }) {
           style={styles.input}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
-          placeholder="Body Weight(in Kgs)"
+          label="Body Weight(in Kgs)"
           onChangeText={(text) => setBodyWeight(text)}
           value={bodyWeight}
           underlineColorAndroid="transparent"

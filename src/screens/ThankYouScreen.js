@@ -13,7 +13,7 @@ export default function ThankYouScreen({ navigation }) {
     <View style={styles.container}>
       <Image
         style={{ height: 270, margin: 50, width: "100%", borderRadius: 50 }}
-        source={require("../../../assets/thank-you.png")}
+        source={require("../../assets/thank-you.png")}
       />
       <View style={styles.footerView}>
         <Text style={styles.footerText}>

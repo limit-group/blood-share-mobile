@@ -25,7 +25,7 @@ export default function ResetPasswordScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/reset.png")}
+          source={require("../../assets/reset.png")}
         />
         <View style={{ flex: 1, marginLeft: 30 }}>
           <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>Reset Password.</Text>

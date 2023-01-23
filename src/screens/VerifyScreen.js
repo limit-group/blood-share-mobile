@@ -19,7 +19,7 @@ export default function VerifyScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/verify.png")}
+          source={require("../../assets/verify.png")}
         />
         <View style={{ flex: 1, marginLeft: 30 }}>
           <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>Enter OTP</Text>
