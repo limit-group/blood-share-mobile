@@ -30,6 +30,7 @@ import {
   CreateDonationScreen,
   CompleteProfileScreen,
   ForgotPasswordScreen,
+  FinderScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
@@ -84,26 +85,10 @@ function Home() {
         }}
       />
       <Tab.Screen
-        name="Requests"
-        component={EmergencyFeedScreen}
+        name="Finder"
+        component={FinderScreen} // Search Screen
         options={{
-          title: "requests",
-          tabBarBadge: 3,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="car-emergency"
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Donation"
-        component={DonationScreen} // Search Screen
-        options={{
-          title: "donations",
+          title: "finder",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="compass-outline"
@@ -117,6 +102,7 @@ function Home() {
         name="Card"
         component={BloodCardScreen}
         options={{
+          title: "profile",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="card-account-details-outline"
@@ -132,7 +118,7 @@ function Home() {
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    Roboto: require("./assets/fonts/Roboto-Black.ttf"),
+    Oregano: require("./assets/fonts/Oregano-Regular.ttf"),
   });
 
   const [loading, setLoading] = useState(true);

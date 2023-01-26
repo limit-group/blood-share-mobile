@@ -48,49 +48,56 @@ export default function DonationFeedScreen({
       });
   }, []);
   return (
-    <><Navbar /><SafeAreaView style={styles.container}>
-      <ScrollView onScroll={onScroll}>
-        <Card style={{ paddingBottom: 2 }}>
-          <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
-          <Card.Content>
-            <Text variant="bodySmall">
-              Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd adwefe{" "}
-            </Text>
-          </Card.Content>
-          <Card.Cover
-            source={require("../../assets/blood.jpg")}
-            style={{ padding: 5 }} />
-        </Card>
-        <Card style={{ paddingBottom: 2 }}>
-          <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
-          <Card.Content>
-            <Text variant="bodySmall">
-              Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd adwefe{" "}
-            </Text>
-          </Card.Content>
-          <Card.Cover
-            source={require("../../assets/blood.jpg")}
-            style={{ padding: 5 }} />
-        </Card>
-      </ScrollView>
-      <AnimatedFAB
-        icon={"plus"}
-        color="#000"
-        label={"annonce drive"}
-        extended={isExtended}
-        onPress={toCreateFeed}
-        visible={visible}
-        animateFrom={"right"}
-        iconMode={"static"}
-        style={[styles.fabStyle, style, fabStyle]} />
-    </SafeAreaView></>
+    <>
+      <SafeAreaView style={styles.container}>
+        <ScrollView onScroll={onScroll}>
+          <Card style={{ paddingBottom: 2 }}>
+            <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
+            <Card.Content>
+              <Text variant="bodySmall">
+                Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd
+                adwefe{" "}
+              </Text>
+            </Card.Content>
+            <Card.Cover
+              source={require("../../assets/blood.jpg")}
+              style={{ padding: 5 }}
+            />
+          </Card>
+          <Card style={{ paddingBottom: 2 }}>
+            <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
+            <Card.Content>
+              <Text variant="bodySmall">
+                Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd
+                adwefe{" "}
+              </Text>
+            </Card.Content>
+            <Card.Cover
+              source={require("../../assets/blood.jpg")}
+              style={{ padding: 5 }}
+            />
+          </Card>
+        </ScrollView>
+        <AnimatedFAB
+          icon={"plus"}
+          color="#000"
+          label={"annonce drive"}
+          extended={isExtended}
+          onPress={toCreateFeed}
+          visible={visible}
+          animateFrom={"right"}
+          iconMode={"static"}
+          style={[styles.fabStyle, style, fabStyle]}
+        />
+      </SafeAreaView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    // marginTop: StatusBar.currentHeight || 0,
+    marginTop: StatusBar.currentHeight || 0,
     backgroundColor: "#ffffff",
   },
   fabStyle: {

@@ -31,3 +31,9 @@ export { default as AcceptDonationScreen } from "./AcceptDonationScreen";
 export { default as ThankYouScreen } from "./ThankYouScreen";
 
 export { default as ResetPasswordScreen } from "./ResetPasswordScreen";
+
+export { default as FinderScreen } from "./FinderScreen";
+
+export { default as ConfirmScreen } from "./ConfirmScreen";
+
+

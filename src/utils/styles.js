@@ -15,7 +15,8 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#ffffff",
-    marginTop: StatusBar.currentHeight || 0,
+    // marginTop: StatusBar.currentHeight || 0,
+    fontFamily: 'Oregano'
   },
   title: {},
   logo: {

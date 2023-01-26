@@ -5,7 +5,7 @@ export default function Navbar({ navigation, back }) {
   return (
     <Appbar.Header style={{ backgroundColor: "#fff" }} mode={"center-aligned"}>
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-      <Appbar.Content title="" />
+      <Appbar.Content title="BloodShare" />
       <Appbar.Action
         icon="account-circle-outline"
         size={40}
