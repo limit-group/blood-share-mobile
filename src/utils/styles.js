@@ -77,7 +77,7 @@ export default StyleSheet.create({
     borderRadius: 5,
     borderColor: "#000",
     border: 2,
-    borderStyle: '',
+    // borderStyle: '',
     // alignItems: "center",
     // justifyContent: "center",
   },

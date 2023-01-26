@@ -20,10 +20,11 @@ import {
   Searchbar,
   SegmentedButtons,
 } from "react-native-paper";
+import Navbar from "../components/Navbar";
 
 export default function HomeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
+    <><Navbar /><View style={styles.container}>
       <View
         style={{
           flexDirection: "row",
@@ -38,8 +39,7 @@ export default function HomeScreen({ navigation }) {
         </Text>
         <Avatar.Image
           size={64}
-          source={require("../../assets/avatar.png")}
-        />
+          source={require("../../assets/avatar.png")} />
       </View>
       <Card mode="outlined" style={styles.highlight}>
         <Card.Content>
@@ -65,8 +65,7 @@ export default function HomeScreen({ navigation }) {
               icon="magnify"
               size={40}
               mode="outlined"
-              onPress={() => navigation.navigate("find a donor")}
-            />
+              onPress={() => navigation.navigate("find a donor")} />
             <Paragraph>find a donor</Paragraph>
           </Card.Content>
         </Card>
@@ -76,8 +75,7 @@ export default function HomeScreen({ navigation }) {
               icon="car"
               mode="outlined"
               size={40}
-              onPress={() => navigation.navigate("Feed")}
-            />
+              onPress={() => navigation.navigate("Feed")} />
             <Paragraph>donation drives</Paragraph>
           </Card.Content>
         </Card>
@@ -89,8 +87,7 @@ export default function HomeScreen({ navigation }) {
               icon="hospital"
               size={40}
               mode="outlined"
-              onPress={() => navigation.navigate("Requests")}
-            />
+              onPress={() => navigation.navigate("Requests")} />
             <Paragraph>Requests.</Paragraph>
           </Card.Content>
         </Card>
@@ -101,13 +98,12 @@ export default function HomeScreen({ navigation }) {
               icon="hospital-marker"
               size={40}
               mode="outlined"
-              onPress={() => navigation.navigate("Feed")}
-            />
+              onPress={() => navigation.navigate("Feed")} />
             <Paragraph>facilities</Paragraph>
           </Card.Content>
         </Card>
       </View>
-    </View>
+    </View></>
   );
 }
 
@@ -125,7 +121,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    // marginTop: StatusBar.currentHeight || 0,
     padding: 10,
     backgroundColor: "#ffffff",
   },

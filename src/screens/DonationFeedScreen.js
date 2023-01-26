@@ -4,6 +4,7 @@ import { StatusBar, StyleSheet, SafeAreaView, Platform } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Avatar, Card, FAB, Text } from "react-native-paper";
 import { AnimatedFAB } from "react-native-paper";
+import Navbar from "../components/Navbar";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 export default function DonationFeedScreen({
@@ -47,7 +48,7 @@ export default function DonationFeedScreen({
       });
   }, []);
   return (
-    <SafeAreaView style={styles.container}>
+    <><Navbar /><SafeAreaView style={styles.container}>
       <ScrollView onScroll={onScroll}>
         <Card style={{ paddingBottom: 2 }}>
           <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
@@ -58,8 +59,7 @@ export default function DonationFeedScreen({
           </Card.Content>
           <Card.Cover
             source={require("../../assets/blood.jpg")}
-            style={{ padding: 5 }}
-          />
+            style={{ padding: 5 }} />
         </Card>
         <Card style={{ paddingBottom: 2 }}>
           <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
@@ -70,8 +70,7 @@ export default function DonationFeedScreen({
           </Card.Content>
           <Card.Cover
             source={require("../../assets/blood.jpg")}
-            style={{ padding: 5 }}
-          />
+            style={{ padding: 5 }} />
         </Card>
       </ScrollView>
       <AnimatedFAB
@@ -83,16 +82,15 @@ export default function DonationFeedScreen({
         visible={visible}
         animateFrom={"right"}
         iconMode={"static"}
-        style={[styles.fabStyle, style, fabStyle]}
-      />
-    </SafeAreaView>
+        style={[styles.fabStyle, style, fabStyle]} />
+    </SafeAreaView></>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    // marginTop: StatusBar.currentHeight || 0,
     backgroundColor: "#ffffff",
   },
   fabStyle: {

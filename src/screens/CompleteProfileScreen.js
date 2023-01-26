@@ -56,12 +56,8 @@ export default function CompleteProfileScreen({ navigation }) {
     }
   };
 
-  const onFooterLinkPress = () => {
-    navigation.navigate("Login");
-  };
-
   const onCompletePress = () => {
-    navigation.navigate("Home");
+    navigation.navigate("BloodShare", { screen: "Home"});
   };
 
   return (
@@ -100,7 +96,6 @@ export default function CompleteProfileScreen({ navigation }) {
           style={styles.input}
           label="Email"
           left={<TextInput.Icon icon={"email-outline"} />}
-          // placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setEmail(text)}
           value={email}
           underlineColorAndroid="transparent"
@@ -108,8 +103,9 @@ export default function CompleteProfileScreen({ navigation }) {
         />
         <Picker
           selectedValue={bloodType}
-          // mode="dropdown"
-          style={styles.input}
+          mode="dropdown"
+          // mode="dialog"
+          style={[styles.input, { borderColor: "#000", borderWidth: 3}]}
           onValueChange={(itemValue, itemIndex) => setBloodType(itemValue)}
         >
           <Picker.Item
@@ -148,9 +144,9 @@ export default function CompleteProfileScreen({ navigation }) {
             style={{ fontWeight: "bold" }}
           />
           <Picker.Item
-            label="blood type"
+            label="Blood Group"
             value=""
-            style={{ color: "#aaaaaa" }}
+            // style={{ color: "#aaaaaa" }}
           />
         </Picker>
         <Button

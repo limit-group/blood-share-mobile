@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Card, Title } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Navbar from "../components/Navbar";
 
 export default function BloodCardScreen({ navigation }) {
   const [value, setValue] = React.useState("");
@@ -21,15 +22,18 @@ export default function BloodCardScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      {/* <Image source={require("../../../assets/avatar.png")} /> */}
-      <ImageBackground
-        source={require("../../assets/avatar.png")}
-        style={styles.image}
-      >
-        <Text style={styles.text}>edwin odhiambo</Text>
-      </ImageBackground>
-    </View>
+    <>
+    <Navbar />
+      <View style={styles.container}>
+        {/* <Image source={require("../../../assets/avatar.png")} /> */}
+        <ImageBackground
+          source={require("../../assets/avatar.png")}
+          style={styles.image}
+        >
+          <Text style={styles.text}>edwin odhiambo</Text>
+        </ImageBackground>
+      </View>
+    </>
   );
 }
 
