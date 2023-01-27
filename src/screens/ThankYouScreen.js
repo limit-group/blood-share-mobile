@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Image, Text, View } from "react-native";
 import styles from "../utils/styles";
-import { Button } from "react-native-paper";
+import { Button, HelperText } from "react-native-paper";
 
 export default function ThankYouScreen({ navigation }) {
   const onGo = () => {
@@ -15,10 +15,11 @@ export default function ThankYouScreen({ navigation }) {
         style={{ height: 270, margin: 50, width: "100%", borderRadius: 50 }}
         source={require("../../assets/thank-you.png")}
       />
-      <View style={styles.footerView}>
+      <View style={[styles.footerView, {margin: 30}]}>
         <Text style={styles.footerText}>
           Thank You for taking a step towards savings lives.
         </Text>
+        <HelperText>Now check your mobile sms for directions and hurry because their life is dependent on you.</HelperText>
         <Button
           mode="contained"
           onPress={() => onGo()}

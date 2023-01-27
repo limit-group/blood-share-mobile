@@ -23,7 +23,7 @@ import {
 export default function HomeScreen({ navigation }) {
   const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
   const toConfirm = () => {
-    navigation.navigate("");
+    navigation.navigate("Confirm");
   };
   return (
     <>
