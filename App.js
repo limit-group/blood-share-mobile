@@ -113,7 +113,7 @@ export default function App() {
   });
 
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   const theme = useTheme({
     ...DefaultTheme,
@@ -121,14 +121,6 @@ export default function App() {
       primary: "#d0312d",
     },
   });
-
-  // useEffect(() => {
-  //   if (getValueFor("token")) {
-  //     setLoggedIn(true);
-  //     console.log("logged in");
-  //   }
-  // }, []);
-
   return (
     <PaperProvider theme={theme}>
       {/* <StatusBar style="light" /> */}
@@ -169,6 +161,11 @@ export default function App() {
           ) : (
             <>
               <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
                 name="Registration"
                 component={RegistrationScreen}
                 options={{ headerShown: false }}
@@ -183,11 +180,7 @@ export default function App() {
                 component={CompleteProfileScreen}
                 options={{ headerShown: false }}
               />
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false }}
-              />
+
               <Stack.Screen
                 name="Forgot Password"
                 component={ForgotPasswordScreen}

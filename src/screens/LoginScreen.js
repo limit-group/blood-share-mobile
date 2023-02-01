@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput } from "react-native-paper";
 import styles from "../utils/styles";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import axios from "axios";
 import { api } from "../utils/api";
 import { save } from "../utils/auth";
@@ -24,11 +23,12 @@ export default function LoginScreen({ navigation }) {
       .then((res) => {
         if (res.status == 200) {
           save("token", res.data.token);
-          navigation.navigate("BloodShare");
+        } else {
+          alert("wrong login credentials");
         }
       })
       .catch((err) => {
-        alert(err)
+        // alert(err);
         console.log(err);
       });
   };
