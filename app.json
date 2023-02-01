@@ -3,24 +3,13 @@
     "name": "blood-share",
     "slug": "blood-share",
     "version": "1.0.0",
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
-    "icon": "./assets/blood.jpg",
-    "android.package": "com.limitgroup.bloodshare",
-    "android.config.googleMaps.apiKey": "AIzaSyBgOswFYIypdvHSj78WOH6HEkCSl2iuOh0",
-    "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/blood.jpg",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "plugins": [
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "The app accesses your photos and used to identify you."
-        }
-      ]
-    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -30,12 +19,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }

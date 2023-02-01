@@ -7,12 +7,13 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { Button, Checkbox, TextInput } from "react-native-paper";
 export default function CreateEFeedScreen({ navigation }) {
-  const [bloodType, setBloodType] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
   const [show, setShow] = useState(false);
   const [when, setWhen] = useState("");
   const [date, setDate] = useState(new Date(1598051730000));
   const [desc, setDesc] = useState("");
   const [checked, setChecked] = React.useState(false);
+  const [mode, setMode] = useState("outlined")
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -43,6 +44,10 @@ export default function CreateEFeedScreen({ navigation }) {
     setWhen("now");
   };
 
+  const blood = () => {
+
+  }
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
@@ -61,16 +66,16 @@ export default function CreateEFeedScreen({ navigation }) {
             paddingTop: 5,
           }}
         >
-          <Button mode="contained" onPress={pickDay}>
+          <Button mode={mode} onPress={() => setBloodGroup()}>
             A +
           </Button>
-          <Button mode="contained" onPress={pickDay}>
+          <Button mode={mode} onPress={setBloodGroup}>
             A -
           </Button>
-          <Button mode="contained" onPress={pickDay}>
+          <Button mode={mode} onPress={setBloodGroup}>
             AB-
           </Button>
-          <Button mode="contained" onPress={pickDay}>
+          <Button mode={mode} onPress={setBloodGroup}>
             AB+
           </Button>
         </View>
@@ -84,16 +89,16 @@ export default function CreateEFeedScreen({ navigation }) {
             paddingTop: 5,
           }}
         >
-          <Button mode="contained" onPress={pickDay}>
+          <Button mode={mode} onPress={setBloodGroup}>
             B +
           </Button>
-          <Button mode="contained" onPress={pickDay}>
+          <Button mode={mode} onPress={setBloodGroup}>
             B -
           </Button>
-          <Button mode="contained" onPress={pickDay}>
+          <Button mode={mode} onPress={setBloodGroup}>
             O -
           </Button>
-          <Button mode="contained" onPress={pickDay}>
+          <Button mode={mode} onPress={setBloodGroup}>
             O +
           </Button>
         </View>
