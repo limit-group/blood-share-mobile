@@ -1,10 +1,18 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { TextInput } from "react-native-paper";
+import { Snackbar, TextInput } from "react-native-paper";
+import { api } from "../utils/api";
 import styles from "../utils/styles";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Feedback from "../components/Feedback";
 
 export default function LoginScreen({ navigation }) {
+  const [visible, setVisible] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const onDismissSnackBar = () => setVisible(false);
+  const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -14,12 +22,27 @@ export default function LoginScreen({ navigation }) {
   };
 
   const onRegisterPress = () => {
-    // if (password !== confirmPassword) {
-    //   alert("Passwords don't match.");
-    //   return;
-    // }
-
-    navigation.navigate("Verify");
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      setVisible(true);
+      return;
+    }
+    setLoading(true);
+    axios
+      .post(`${api}/auth/signup`, { phone, password })
+      .then((res) => {
+        if (res.status == 201) {
+          navigation.navigate("Verify");
+        } else if (res.status == 400) {
+          setError(res.data.message);
+          setVisible(true);
+          return;
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   };
 
   return (
@@ -63,7 +86,7 @@ export default function LoginScreen({ navigation }) {
           left={<TextInput.Icon icon={"shield-lock-outline"} />}
           label="Confirm Password"
           onChangeText={(text) => setConfirmPassword(text)}
-          value={password}
+          value={confirmPassword}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
@@ -84,7 +107,9 @@ export default function LoginScreen({ navigation }) {
           style={styles.button}
           onPress={() => onRegisterPress()}
         >
-          <Text style={styles.buttonTitle}>Continue</Text>
+          <Text style={styles.buttonTitle}>
+            {loading ? <MaterialCommunityIcons name="loading" /> : "Continue"}
+          </Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
@@ -95,6 +120,19 @@ export default function LoginScreen({ navigation }) {
           </Text>
         </View>
       </KeyboardAwareScrollView>
+      <Snackbar
+        visible={visible}
+        duration={1000}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </View>
   );
 }

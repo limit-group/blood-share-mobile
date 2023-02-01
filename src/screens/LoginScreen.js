@@ -4,6 +4,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { TextInput } from "react-native-paper";
 import styles from "../utils/styles";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import axios from "axios";
+import { api } from "../utils/api";
+import { save } from "../utils/auth";
 export default function LoginScreen({ navigation }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -16,11 +19,18 @@ export default function LoginScreen({ navigation }) {
     navigation.navigate("Forgot Password");
   };
   const onLoginPress = () => {
-    // if (password !== confirmPassword) {
-    //   alert("Passwords don't match.");
-    //   return;
-    // }
-    navigation.navigate("Complete Profile");
+    axios
+      .post(`${api}/auth/login`, { phone, password })
+      .then((res) => {
+        if (res.status == 200) {
+          save("token", res.data.token);
+          navigation.navigate("BloodShare");
+        }
+      })
+      .catch((err) => {
+        alert(err)
+        console.log(err);
+      });
   };
 
   return (
@@ -29,10 +39,7 @@ export default function LoginScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        <Image
-          style={styles.logo}
-          source={require("../../assets/login.png")}
-        />
+        <Image style={styles.logo} source={require("../../assets/login.png")} />
         <View style={{ flex: 1, marginLeft: 30 }}>
           <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>Login.</Text>
         </View>

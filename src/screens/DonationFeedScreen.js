@@ -37,9 +37,10 @@ export default function DonationFeedScreen({
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/feeds")
+      .get("https://0f0c-154-159-237-226.in.ngrok.io/api/feeds")
       .then((res) => {
         setFeeds(res.data);
+        console.log(res);
         setLoading(false);
       })
       .catch((err) => {
@@ -50,34 +51,39 @@ export default function DonationFeedScreen({
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <ScrollView onScroll={onScroll}>
-          <Card style={{ paddingBottom: 2 }}>
-            <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
-            <Card.Content>
-              <Text variant="bodySmall">
-                Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd
-                adwefe{" "}
-              </Text>
-            </Card.Content>
-            <Card.Cover
-              source={require("../../assets/blood.jpg")}
-              style={{ padding: 5 }}
-            />
-          </Card>
-          <Card style={{ paddingBottom: 2 }}>
-            <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
-            <Card.Content>
-              <Text variant="bodySmall">
-                Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd
-                adwefe{" "}
-              </Text>
-            </Card.Content>
-            <Card.Cover
-              source={require("../../assets/blood.jpg")}
-              style={{ padding: 5 }}
-            />
-          </Card>
-        </ScrollView>
+        {loading ? (
+          <></>
+        ) : (
+          <ScrollView onScroll={onScroll}>
+            <Card style={{ paddingBottom: 2 }}>
+              <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
+              <Card.Content>
+                <Text variant="bodySmall">
+                  Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd
+                  adwefe{" "}
+                </Text>
+              </Card.Content>
+              <Card.Cover
+                source={require("../../assets/blood.jpg")}
+                style={{ padding: 5 }}
+              />
+            </Card>
+            <Card style={{ paddingBottom: 2 }}>
+              <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
+              <Card.Content>
+                <Text variant="bodySmall">
+                  Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd
+                  adwefe{" "}
+                </Text>
+              </Card.Content>
+              <Card.Cover
+                source={require("../../assets/blood.jpg")}
+                style={{ padding: 5 }}
+              />
+            </Card>
+          </ScrollView>
+        )}
+
         <AnimatedFAB
           icon={"plus"}
           color="#000"

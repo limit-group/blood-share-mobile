@@ -6,6 +6,8 @@ import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "../utils/styles";
 import { Button, TextInput } from "react-native-paper";
+import axios from "axios";
+import api from "../utils/api";
 
 export default function CreateFeedScreen({ navigation }) {
   const [desc, setDesc] = useState("");
@@ -30,6 +32,7 @@ export default function CreateFeedScreen({ navigation }) {
   };
 
   const onFeedPress = () => {
+    axios.post(`${api}/profiles`, { image, desc})
     navigation.navigate("Complete");
   };
 

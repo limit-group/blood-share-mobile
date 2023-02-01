@@ -14,6 +14,7 @@ import {
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
+import * as SecureStore from "expo-secure-store";
 import {
   LoginScreen,
   HomeScreen,
@@ -35,18 +36,7 @@ import {
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
-// import Onboarding from 'react-native-onboarding-swiper';
-
-// <Onboarding
-//     pages={[
-//     {
-//     backgroundColor: '#a6e4d0',
-//     image: <Image source={require('./assets/avatar.png')} />,
-//     title: 'Welcome',
-//     subtitle: 'Welcome to the first slide of the Onboarding Swiper.',
-//     },
-//     ]}
-// />
+import { getValueFor } from "./src/utils/auth";
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -123,7 +113,7 @@ export default function App() {
   });
 
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const theme = useTheme({
     ...DefaultTheme,
@@ -132,41 +122,19 @@ export default function App() {
     },
   });
 
+  // useEffect(() => {
+  //   if (getValueFor("token")) {
+  //     setLoggedIn(true);
+  //     console.log("logged in");
+  //   }
+  // }, []);
+
   return (
     <PaperProvider theme={theme}>
       {/* <StatusBar style="light" /> */}
       <NavigationContainer>
         <Stack.Navigator>
-          {user ? (
-            <>
-              
-              <Stack.Screen
-                name="Registration"
-                component={RegistrationScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Verify"
-                component={VerifyScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Complete Profile"
-                component={CompleteProfileScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Forgot Password"
-                component={ForgotPasswordScreen}
-                // options={{ headerShown: false }}
-              />
-            </>
-          ) : (
+          {loggedIn ? (
             <>
               <Stack.Screen
                 name="BloodShare"
@@ -194,12 +162,37 @@ export default function App() {
                 component={DonationScreen}
                 // options={{ headerShown: false }}
               />
-              <Stack.Screen
-                name="donated"
-                component={CreateDonationScreen}
-              />
+              <Stack.Screen name="donated" component={CreateDonationScreen} />
               <Stack.Screen name="Thank You" component={ThankYouScreen} />
               <Stack.Screen name="Confirm" component={ConfirmScreen} />
+            </>
+          ) : (
+            <>
+              <Stack.Screen
+                name="Registration"
+                component={RegistrationScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Verify"
+                component={VerifyScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Complete Profile"
+                component={CompleteProfileScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Forgot Password"
+                component={ForgotPasswordScreen}
+                // options={{ headerShown: false }}
+              />
             </>
           )}
         </Stack.Navigator>
