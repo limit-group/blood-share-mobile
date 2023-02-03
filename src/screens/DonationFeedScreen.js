@@ -1,10 +1,23 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { StatusBar, StyleSheet, SafeAreaView, Platform } from "react-native";
+import {
+  StatusBar,
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  View,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Avatar, Card, FAB, Text } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Avatar,
+  Card,
+  FAB,
+  Snackbar,
+  Text,
+} from "react-native-paper";
 import { AnimatedFAB } from "react-native-paper";
-import Navbar from "../components/Navbar";
+import { getFeeds } from "../utils/api";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 export default function DonationFeedScreen({
@@ -20,9 +33,13 @@ export default function DonationFeedScreen({
   const toCreateFeed = () => {
     navigation.navigate("announce donation drive");
   };
-  const [feeds, setFeeds] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [isExtended, setIsExtended] = React.useState(true);
+  const [visibo, setVisibo] = React.useState(false);
+  const onDismissSnackBar = () => setVisibo(false);
+  const [error, setError] = React.useState("");
+  const [feeds, setFeeds] = React.useState([]);
 
   const isIOS = Platform.OS === "ios";
 
@@ -36,52 +53,38 @@ export default function DonationFeedScreen({
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get("https://0f0c-154-159-237-226.in.ngrok.io/api/feeds")
-      .then((res) => {
-        setFeeds(res.data);
-        console.log(res);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    const feeds = getFeeds();
+    if (!feeds) {
+      setLoading(false);
+      setError("failed to fetch feed!");
+      setVisibo(true);
+    }
+    setLoading(false);
+    setFeeds(feeds);
   }, []);
+
   return (
-    <>
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView onScroll={onScroll}>
         {loading ? (
-          <></>
+          <View style={{ paddingTop: 50 }}>
+            <ActivityIndicator animating={true} size={50} />
+          </View>
         ) : (
-          <ScrollView onScroll={onScroll}>
-            <Card style={{ paddingBottom: 2 }}>
-              <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
-              <Card.Content>
-                <Text variant="bodySmall">
-                  Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd
-                  adwefe{" "}
-                </Text>
-              </Card.Content>
-              <Card.Cover
-                source={require("../../assets/blood.jpg")}
-                style={{ padding: 5 }}
-              />
-            </Card>
-            <Card style={{ paddingBottom: 2 }}>
-              <Card.Title title="edwin " subtitle="2mins" left={LeftContent} />
-              <Card.Content>
-                <Text variant="bodySmall">
-                  Card content eete etebf ghjjjjj yjyj yuyuyi iyi sdsd sadasd
-                  adwefe{" "}
-                </Text>
-              </Card.Content>
-              <Card.Cover
-                source={require("../../assets/blood.jpg")}
-                style={{ padding: 5 }}
-              />
-            </Card>
-          </ScrollView>
+          <View>
+            {feeds.map((feed) => {
+              <Card style={{ paddingBottom: 2 }}>
+                <Card.Title title="edwin" subtitle="2mins" left={LeftContent} />
+                <Card.Content>
+                  <Text variant="bodySmall">{feed.information}</Text>
+                </Card.Content>
+                <Card.Cover
+                  source={require("../../assets/blood.jpg")}
+                  style={{ padding: 5 }}
+                />
+              </Card>;
+            })}
+          </View>
         )}
 
         <AnimatedFAB
@@ -95,8 +98,22 @@ export default function DonationFeedScreen({
           iconMode={"static"}
           style={[styles.fabStyle, style, fabStyle]}
         />
-      </SafeAreaView>
-    </>
+      </ScrollView>
+      <Snackbar
+        visible={visibo}
+        duration={1000}
+        style={{ color: "red" }}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
+    </SafeAreaView>
   );
 }
 

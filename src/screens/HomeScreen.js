@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   FlatList,
   ScrollView,
@@ -11,20 +12,42 @@ import {
   View,
 } from "react-native";
 import {
+  ActivityIndicator,
   Avatar,
   Button,
   Card,
   IconButton,
   List,
   Paragraph,
+  Snackbar,
   Title,
 } from "react-native-paper";
+import axios from "axios";
+import { getRequests } from "../utils/api";
 
 export default function HomeScreen({ navigation }) {
+  const [visible, setVisible] = React.useState(false);
+  const onDismissSnackBar = () => setVisible(false);
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = useState(true);
+  const [requests, setRequests] = useState([]);
   const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
   const toConfirm = () => {
     navigation.navigate("Confirm");
   };
+
+  useEffect(() => {
+    setLoading(true);
+    const requests = getRequests();
+    if (!requests) {
+      setLoading(false);
+      setError("could not get request!");
+      setVisible(true);
+    }
+    setLoading(false);
+    setRequests(requests);
+  }, []);
+
   return (
     <>
       {/* <Navbar /> */}
@@ -100,44 +123,68 @@ export default function HomeScreen({ navigation }) {
           <Title style={{ paddingLeft: 10, paddingTop: 20 }}>
             Donation Requests.
           </Title>
-          <Card style={{ backgroundColor: "#ffffff" }}>
-            <Card.Title
-              title="edwin "
-              subtitle="2mins"
-              left={LeftContent}
-              // right={(props) => (
-              //   <IconButton {...props} icon="plus" onPress={() => {}} />
-              // )}
-            />
-            <Card.Content>
-              <View
-                style={{
-                  justifyContent: "space-evenly",
-                  flexDirection: "row",
-                  // paddingTop: 20,
-                }}
-              >
-                <Text variant="bodySmall">
-                  <Fontisto name="blood-drop" size={18} color="#d0312d" /> A+
-                </Text>
-                <Text variant="bodySmall">
-                  <FontAwesome
-                    name="location-arrow"
-                    size={18}
-                    color="#d0312d"
-                  />{" "}
-                  4th street Kisii
-                </Text>
-              </View>
-              <Text>fdfiej eiijir eijriej eijrie erioejir enriweior</Text>
-              <Card.Actions>
-                <Button mode="contained" onPress={toConfirm}>
-                  donate <FontAwesome name="smile-o" size={18} />{" "}
-                </Button>
-              </Card.Actions>
-            </Card.Content>
-          </Card>
+          {loading ? (
+            <View style={{ paddingTop: 50 }}>
+              <ActivityIndicator animating={true} size={50} />
+            </View>
+          ) : (
+            <View>
+              {requests.map((req) => {
+                <Card style={{ backgroundColor: "#ffffff" }}>
+                  <Card.Title
+                    title="edwin "
+                    subtitle="2mins"
+                    left={LeftContent}
+                    // right={(props) => (
+                    //   <IconButton {...props} icon="plus" onPress={() => {}} />
+                    // )}
+                  />
+                  <Card.Content>
+                    <View
+                      style={{
+                        justifyContent: "space-evenly",
+                        flexDirection: "row",
+                        // paddingTop: 20,
+                      }}
+                    >
+                      <Text variant="bodySmall">
+                        <Fontisto name="blood-drop" size={18} color="#d0312d" />{" "}
+                        A+
+                      </Text>
+                      <Text variant="bodySmall">
+                        <FontAwesome
+                          name="location-arrow"
+                          size={18}
+                          color="#d0312d"
+                        />{" "}
+                        4th street Kisii
+                      </Text>
+                    </View>
+                    <Text>fdfiej eiijir eijriej eijrie erioejir enriweior</Text>
+                    <Card.Actions>
+                      <Button mode="contained" onPress={toConfirm}>
+                        donate <FontAwesome name="smile-o" size={18} />{" "}
+                      </Button>
+                    </Card.Actions>
+                  </Card.Content>
+                </Card>;
+              })}
+            </View>
+          )}
         </View>
+        <Snackbar
+          visible={visible}
+          duration={1000}
+          onDismiss={onDismissSnackBar}
+          action={{
+            label: "ok",
+            onPress: () => {
+              // Do something
+            },
+          }}
+        >
+          {error}
+        </Snackbar>
       </View>
     </>
   );
