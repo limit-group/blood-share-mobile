@@ -10,12 +10,12 @@ import {
   Provider as PaperProvider,
   MD3LightTheme as DefaultTheme,
 } from "react-native-paper";
-import {
-  useFonts,
-  Oregano_400Regular,
-  Oregano_400Regular_Italic,
-} from "@expo-google-fonts/oregano";
-import { AppLoading, Font } from "expo";
+// import {
+//   useFonts,
+//   Oregano_400Regular,
+//   Oregano_400Regular_Italic,
+// } from "@expo-google-fonts/oregano";
+// import { AppLoading, Font } from "expo";
 
 import * as SecureStore from "expo-secure-store";
 import {
@@ -102,7 +102,7 @@ export default function App() {
                   options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                  name="Donations"
+                  name="My Donations"
                   component={DonationScreen}
                   // options={{ headerShown: false }}
                 />

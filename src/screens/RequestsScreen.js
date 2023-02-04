@@ -28,12 +28,12 @@ export default function RequestsScreen({
   iconMode,
 }) {
   const toRequest = () => {
-    navigation.navigate("find a donor");
+    navigation.navigate("Request for Blood");
   };
   const [efeeds, setFeed] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isExtended, setIsExtended] = React.useState(true);
-
+ 
   const isIOS = Platform.OS === "ios";
 
   const onScroll = ({ nativeEvent }) => {
@@ -161,7 +161,7 @@ export default function RequestsScreen({
       </ScrollView>
       <AnimatedFAB
         icon={"arrow-right"}
-        label={"request donors"}
+        label={"request donor"}
         color="#000"
         extended={isExtended}
         onPress={toRequest}

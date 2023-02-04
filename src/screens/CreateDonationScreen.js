@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Button, TextInput } from "react-native-paper";
+import { Button, TextInput, Title } from "react-native-paper";
 import styles from "../utils/styles";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import axios from "axios";
+import { api } from "../utils/api";
 
 export default function CreateDonationScreen({ navigation }) {
   const [facility, setFacility] = useState("");
-  const [donation, setDonation] = useState("");
-  const [date, setDate] = useState("");
+  const [value, setValue] = useState("");
+  const [donor_number, setDonation] = useState("");
+  const [date, setDate] = useState(new Date());
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
@@ -33,8 +37,16 @@ export default function CreateDonationScreen({ navigation }) {
   };
 
   const onCompletePress = () => {
-    // fetch(`{api}/`);
-    navigation.navigate("Thank You");
+    axios
+      .post(`${api}/donations`, { donor_number, facility, date })
+      .then((res) => {
+        if (res.status == 201) {
+          navigation.navigate("Thank You");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -43,14 +55,17 @@ export default function CreateDonationScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            record a donation made to save lives and earn life points.
-          </Text>
+        <View style={styles.input}>
+          <Title>
+            Record a donation made to save lives and earn life points.
+          </Title>
         </View>
         <TextInput
           style={styles.input}
-          placeholder="name of health facility"
+          label="Facility Name"
+          mode="outlined"
+          left={<TextInput.Icon icon={"hospital-building"} />}
+          placeholder="e.g RedCross"
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setFacility(text)}
           value={facility}
@@ -59,17 +74,20 @@ export default function CreateDonationScreen({ navigation }) {
         />
         <TextInput
           style={styles.input}
-          placeholder="donation number"
+          label="Donor ID"
+          left={<TextInput.Icon icon={"identifier"} />}
+          mode="outlined"
+          placeholder="e.g RC0001"
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setDonation(text)}
-          value={donation}
+          value={donor_number}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
         <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 5 }}>
           <Button mode="contained" onPress={showDatepicker}>
             <MaterialCommunityIcons name="calendar" size={16} />
-            date of donation
+            date of donation:
           </Button>
         </View>
 
@@ -79,7 +97,7 @@ export default function CreateDonationScreen({ navigation }) {
         >
           <Text style={styles.buttonTitle}>record donation</Text>
         </TouchableOpacity>
-        <View style={styles.footerView}>
+        <View style={styles.input}>
           <Text style={styles.footerText}>
             Your Data will be processed according to our{" "}
             <Text onPress={onFooterLinkPress} style={styles.footerLink}>

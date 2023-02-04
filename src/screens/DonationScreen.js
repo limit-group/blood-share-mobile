@@ -67,7 +67,7 @@ export default function DonationScreen({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    // marginTop: StatusBar.currentHeight || 0,
     backgroundColor: "#ffffff",
   },
   fabStyle: {

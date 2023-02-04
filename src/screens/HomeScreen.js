@@ -33,28 +33,6 @@ export default function HomeScreen({ navigation }) {
   const [error, setError] = React.useState("");
   const [loading, setLoading] = useState(false);
   const [requests, setRequests] = useState([]);
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
-  React.useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
-  let text = "Waiting..";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
   const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
   const toConfirm = () => {
     navigation.navigate("Confirm");
@@ -110,7 +88,7 @@ export default function HomeScreen({ navigation }) {
                 icon="hospital"
                 size={20}
                 mode="outlined"
-                onPress={() => navigation.navigate("Requests")}
+                onPress={() => navigation.navigate("announce donation drive")}
               />
               <Paragraph>post drive.</Paragraph>
             </Card.Content>
@@ -121,7 +99,7 @@ export default function HomeScreen({ navigation }) {
                 icon="car"
                 mode="outlined"
                 size={20}
-                onPress={() => navigation.navigate("Feed")}
+                onPress={() => navigation.navigate("My Donations")}
               />
               <Paragraph>donations</Paragraph>
             </Card.Content>
@@ -149,6 +127,13 @@ export default function HomeScreen({ navigation }) {
           <Title style={{ paddingLeft: 10, paddingTop: 20 }}>
             Donation Requests.
           </Title>
+          <View
+            style={{
+              borderBottomColor: "black",
+              padding: 5,
+              borderBottomWidth: StyleSheet.hairlineWidth,
+            }}
+          />
           {loading ? (
             <View style={{ paddingTop: 50 }}>
               <ActivityIndicator animating={true} size={50} />
