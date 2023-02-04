@@ -1,15 +1,46 @@
-import React, { useEffect, useState , useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { TextInput } from "react-native-paper";
+import { ActivityIndicator, TextInput } from "react-native-paper";
 import styles from "../utils/styles";
 import axios from "axios";
 import { api } from "../utils/api";
-import { save } from "../utils/auth";
+import * as SecureStore from "expo-secure-store";
+
 export default function LoginScreen({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
+  async function save(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  async function getValueFor(key) {
+    let result = await SecureStore.getItemAsync(key);
+    return result;
+  }
+
+  const onLoginPress = () => {
+    setLoading(true);
+    axios
+      .post(`${api}/auth/login`, { phone, password })
+      .then((res) => {
+        if (res.status == 200) {
+          console.log(res);
+          save("token", res.data.token);
+          setLoading(false);
+          navigation.navigate("Complete Profile");
+        } else {
+          alert("wrong login credentials");
+        }
+      })
+      .catch((err) => {
+        // alert(err);
+        setLoading(false);
+        console.log(err);
+      });
+  };
   const onFooterLinkPress = () => {
     navigation.navigate("Registration");
   };
@@ -17,21 +48,12 @@ export default function LoginScreen({ navigation }) {
   const toForgot = () => {
     navigation.navigate("Forgot Password");
   };
-  const onLoginPress = () => {
-    axios
-      .post(`${api}/auth/login`, { phone, password })
-      .then((res) => {
-        if (res.status == 200) {
-          save("token", res.data.token);
-        } else {
-          alert("wrong login credentials");
-        }
-      })
-      .catch((err) => {
-        // alert(err);
-        console.log(err);
-      });
-  };
+
+  React.useEffect(() => {
+   const token =  getValueFor("token");
+   console.log(token);
+
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -46,6 +68,7 @@ export default function LoginScreen({ navigation }) {
         <TextInput
           style={styles.input}
           label="Mobile(+254..)"
+          mode="outlined"
           left={<TextInput.Icon icon={"cellphone"} />}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
@@ -58,7 +81,7 @@ export default function LoginScreen({ navigation }) {
           label="Password"
           placeholderTextColor="#aaaaaa"
           secureTextEntry
-          // placeholder="password"
+          mode="outlined"
           left={<TextInput.Icon icon={"shield-lock-outline"} />}
           onChangeText={(text) => setPassword(text)}
           value={password}
@@ -70,9 +93,17 @@ export default function LoginScreen({ navigation }) {
           Forgot password?
         </Text>
 
-        <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
-          <Text style={styles.buttonTitle}>login</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator animating={true} size={50} />
+        ) : (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onLoginPress()}
+          >
+            <Text style={styles.buttonTitle}>login</Text>
+          </TouchableOpacity>
+        )}
+
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
             Don't have an account?{" "}

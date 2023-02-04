@@ -1,14 +1,27 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput } from "react-native-paper";
+import { api } from "../utils/api";
 import styles from "../utils/styles";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const [phone, setPhone] = useState("");
 
   const onForgotPress = () => {
-    navigation.navigate("Complete");
+    console.log("clicked");
+    axios
+      .post(`${api}/auth/forgot`, { phone })
+      .then((res) => {
+        if (res.status == 200) {
+          console.log(res.status);
+          navigation.navigate("Verify");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -32,6 +45,7 @@ export default function ForgotPasswordScreen({ navigation }) {
         </View>
         <TextInput
           style={styles.input}
+          mode="outlined"
           label="Mobile(+254..)"
           left={<TextInput.Icon icon={"cellphone"} />}
           placeholderTextColor="#aaaaaa"
@@ -40,7 +54,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TouchableOpacity style={styles.button} onPress={() => onForgotPress()}>
+        <TouchableOpacity style={styles.button} onPress={onForgotPress}>
           <Text style={styles.buttonTitle}>Submit</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>

@@ -55,7 +55,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const theme = useTheme({
     ...DefaultTheme,

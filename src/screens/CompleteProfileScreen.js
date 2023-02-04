@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View, StatusBar } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import styles from "../utils/styles";
-import { Button, RadioButton, TextInput } from "react-native-paper";
-
-// import { api } from "../../constants/index";
-
+import { Button, HelperText, RadioButton, TextInput } from "react-native-paper";
+import * as SecureStore from "expo-secure-store";
+import axios from "axios";
+import { api } from "../utils/api";
 export default function CompleteProfileScreen({ navigation }) {
+  const [loading, setLoading] = useState(false);
   const [gender, setGender] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [fullName, setFullName] = useState("");
   const [bloodType, setBloodType] = useState("");
   const [bodyWeight, setBodyWeight] = useState("");
-  const [dob, setDob] = useState(new Date(1598051730000));
+  const [dob, setDob] = useState(new Date());
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);
   const date = dob.getFullYear() + "/" + dob.getMonth() + "/" + dob.getDate();
@@ -56,12 +57,51 @@ export default function CompleteProfileScreen({ navigation }) {
     }
   };
 
+  async function getValueFor(key) {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+      alert("🔐 Here's your value 🔐 \n" + result);
+    } else {
+      alert("No values stored under that key.");
+    }
+  }
+  async function save(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
   const onCompletePress = () => {
-    navigation.navigate("BloodShare", { screen: "Home"});
+    setLoading(true);
+    axios
+      .post(`${api}/profiles`, {
+        gender,
+        email,
+        bodyWeight,
+        dob,
+        email,
+        fullName,
+        image,
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          save("profile", "complete");
+          setLoading(false);
+          navigation.navigate("BloodShare", { screen: "Home" });
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   };
 
+  React.useEffect(() => {
+    
+  })
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { marginTop: StatusBar.currentHeight || 0 }]}
+    >
       <KeyboardAwareScrollView
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
@@ -70,6 +110,7 @@ export default function CompleteProfileScreen({ navigation }) {
           <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>
             Complete Profile.
           </Text>
+          <HelperText>You know about us, help us know you too.</HelperText>
         </View>
         {/* {image ? (
           <Image
@@ -86,6 +127,8 @@ export default function CompleteProfileScreen({ navigation }) {
         <TextInput
           style={styles.input}
           label="Full Name"
+          placeholder="john doe"
+          mode="outlined"
           left={<TextInput.Icon icon={"square-edit-outline"} />}
           onChangeText={(text) => setFullName(text)}
           value={fullName}
@@ -95,6 +138,8 @@ export default function CompleteProfileScreen({ navigation }) {
         <TextInput
           style={styles.input}
           label="Email"
+          mode="outlined"
+          placeholder="john doe"
           left={<TextInput.Icon icon={"email-outline"} />}
           onChangeText={(text) => setEmail(text)}
           value={email}
@@ -105,7 +150,7 @@ export default function CompleteProfileScreen({ navigation }) {
           selectedValue={bloodType}
           mode="dropdown"
           // mode="dialog"
-          style={[styles.input, { borderColor: "#000", borderWidth: 3}]}
+          style={[styles.input, { borderColor: "#000", borderWidth: 3 }]}
           onValueChange={(itemValue, itemIndex) => setBloodType(itemValue)}
         >
           <Picker.Item
@@ -161,7 +206,8 @@ export default function CompleteProfileScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
-          secureTextEntry
+          mode="outlined"
+          placeholder="e.g 50"
           label="Body Weight(in Kgs)"
           left={<TextInput.Icon icon={"weight-lifter"} />}
           onChangeText={(text) => setBodyWeight(text)}
@@ -192,7 +238,7 @@ export default function CompleteProfileScreen({ navigation }) {
           style={styles.button}
           onPress={() => onCompletePress()}
         >
-          <Text style={styles.buttonTitle}>complete</Text>
+          <Text style={styles.buttonTitle}>Complete</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
     </View>

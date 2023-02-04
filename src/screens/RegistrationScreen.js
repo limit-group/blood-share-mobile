@@ -61,6 +61,7 @@ export default function LoginScreen({ navigation }) {
         <TextInput
           style={styles.input}
           label="Mobile(+254..)"
+          mode="outlined"
           left={<TextInput.Icon icon={"cellphone"} />}
           // placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
@@ -72,6 +73,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.input}
           // placeholderTextColor="#aaaaaa"
           secureTextEntry
+          mode="outlined"
           label="Password"
           left={<TextInput.Icon icon={"shield-lock-outline"} />}
           onChangeText={(text) => setPassword(text)}
@@ -83,6 +85,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.input}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
+          mode="outlined"
           left={<TextInput.Icon icon={"shield-lock-outline"} />}
           label="Confirm Password"
           onChangeText={(text) => setConfirmPassword(text)}
