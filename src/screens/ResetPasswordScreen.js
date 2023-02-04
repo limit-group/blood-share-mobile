@@ -1,11 +1,12 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { TextInput } from "react-native-paper";
+import { HelperText, TextInput } from "react-native-paper";
+import { api } from "../utils/api";
 import styles from "../utils/styles";
 
 export default function ResetPasswordScreen({ navigation }) {
-
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -14,7 +15,16 @@ export default function ResetPasswordScreen({ navigation }) {
       alert("Passwords don't match.");
       return;
     }
-    navigation.navigate("Verify");
+    axios
+      .post(`${api}/auth/password`, { password })
+      .then((res) => {
+        if (res.status == 200) {
+          navigation.navigate("Settings");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -23,17 +33,21 @@ export default function ResetPasswordScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        <Image
-          style={styles.logo}
-          source={require("../../assets/reset.png")}
-        />
+        <Image style={styles.logo} source={require("../../assets/reset.png")} />
         <View style={{ flex: 1, marginLeft: 30 }}>
-          <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>Reset Password.</Text>
+          <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>
+            Reset Password.
+          </Text>
+          <HelperText>
+            Make it memorable but not obvious! If you forget it we will help
+            your recover it.
+          </HelperText>
         </View>
         <TextInput
           style={styles.input}
           secureTextEntry
           label="New Password"
+          mode="outlined"
           left={<TextInput.Icon icon={"shield-lock-outline"} />}
           onChangeText={(text) => setPassword(text)}
           value={password}
@@ -43,6 +57,7 @@ export default function ResetPasswordScreen({ navigation }) {
         <TextInput
           style={styles.input}
           secureTextEntry
+          mode="outlined"
           left={<TextInput.Icon icon={"shield-lock-outline"} />}
           label="Confirm Password"
           onChangeText={(text) => setConfirmPassword(text)}
@@ -50,10 +65,7 @@ export default function ResetPasswordScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => onResetPress()}
-        >
+        <TouchableOpacity style={styles.button} onPress={() => onResetPress()}>
           <Text style={styles.buttonTitle}>Submit</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>

@@ -24,8 +24,8 @@ export default function SettingsScreen({ navigation }) {
   };
 
   const onDelete = () => {
-    alert("Are you sure?")
-  }
+    alert("Are you sure?");
+  };
 
   return (
     <>
@@ -48,7 +48,9 @@ export default function SettingsScreen({ navigation }) {
         <View style={{ padding: 30, paddingTop: 0 }}>
           <Card style={styles.card}>
             <Card.Content>
-              <Title style={[styles.rounded, { color: "#fc7d7b"}]}>Legal</Title>
+              <Title style={[styles.rounded, { color: "#fc7d7b" }]}>
+                Legal
+              </Title>
               <Title style={styles.rounded}>Licenses </Title>
               <Title style={styles.rounded}>Privacy Policy </Title>
               <Title style={styles.rounded}>Terms of Service </Title>
@@ -57,13 +59,25 @@ export default function SettingsScreen({ navigation }) {
               </Button>
             </Card.Content>
           </Card>
-
+          <Button
+            mode="outlined"
+            icon="lock-reset"
+            style={{
+              borderRadius: 50,
+              marginTop: 13,
+              marginBottom: 10,
+              fontSize: "40px",
+            }}
+            onPress={() => navigation.navigate("Reset Password")}
+          >
+            Reset Password
+          </Button>
           <Button
             mode="contained"
             icon="logout"
             style={{
               borderRadius: 50,
-              marginTop: 23,
+              marginTop: 13,
               marginBottom: 10,
               fontSize: "40px",
             }}

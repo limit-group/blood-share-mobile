@@ -38,6 +38,7 @@ import {
   ConfirmScreen,
   SettingsScreen,
   RequestsScreen,
+  ResetPasswordScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
@@ -104,6 +105,11 @@ export default function App() {
                 <Stack.Screen
                   name="My Donations"
                   component={DonationScreen}
+                  // options={{ headerShown: false }}
+                />
+                 <Stack.Screen
+                  name="Reset Password"
+                  component={ResetPasswordScreen}
                   // options={{ headerShown: false }}
                 />
                 <Stack.Screen name="donated" component={CreateDonationScreen} />
