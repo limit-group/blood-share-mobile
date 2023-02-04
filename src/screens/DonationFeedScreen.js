@@ -19,7 +19,7 @@ import {
 import { AnimatedFAB } from "react-native-paper";
 import Navbar from "../components/Navbar";
 import { api, getFeeds } from "../utils/api";
-import moment from 'moment';
+import moment from "moment";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 export default function DonationFeedScreen({
@@ -76,25 +76,33 @@ export default function DonationFeedScreen({
             <ActivityIndicator animating={true} size={50} />
           </View>
         ) : (
-          <View style={{ padding: 10 }}>
-            {feeds.map((feed) => (
-              <Card style={styles.card} mode="outlined">
-                <Card.Title
-                  title="edwin"
-                  subtitle={moment(feed.createdAt).fromNow()}
-                  left={LeftContent}
-                />
-                <Card.Content>
-                  <Text variant="bodySmall">{feed.information}</Text>
-                </Card.Content>
-                {/* <Card.Cover
-                  source={require("../../assets/blood.jpg")}
-                  style={{ padding: 5 }}
-                /> */}
-              </Card>
-            ))}
-            <View style={{ padding: 5 }}></View>
-          </View>
+          <>
+            <View style={{ padding: 10 }}>
+              {feeds.map((feed) => (
+                <Card style={styles.card} mode="" key={feed.id}>
+                  <Card.Title
+                    title="edwin"
+                    subtitle={moment(feed.createdAt).fromNow()}
+                    left={LeftContent}
+                  />
+                  <Card.Content>
+                    <Text variant="bodySmall">{feed.information}</Text>
+                  </Card.Content>
+                  {/* <Card.Cover
+                    source={require("../../assets/blood.jpg")}
+                    // style={{ padding: 5 }}
+                  /> */}
+                  <View
+                    style={{
+                      borderBottomColor: "black",
+                      padding: 5,
+                      borderBottomWidth: StyleSheet.hairlineWidth,
+                    }}
+                  />
+                </Card>
+              ))}
+            </View>
+          </>
         )}
       </ScrollView>
       <AnimatedFAB

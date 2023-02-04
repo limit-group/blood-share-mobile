@@ -23,6 +23,10 @@ export default function SettingsScreen({ navigation }) {
     navigation.navigate("Profile");
   };
 
+  const onDelete = () => {
+    alert("Are you sure?")
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -48,7 +52,7 @@ export default function SettingsScreen({ navigation }) {
               <Title style={styles.rounded}>Licenses </Title>
               <Title style={styles.rounded}>Privacy Policy </Title>
               <Title style={styles.rounded}>Terms of Service </Title>
-              <Button style={styles.rounded} mode="text">
+              <Button style={styles.rounded} mode="text" onPress={onDelete}>
                 Delete Account
               </Button>
             </Card.Content>

@@ -5,15 +5,14 @@ import * as ImagePicker from "expo-image-picker";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "../utils/styles";
-import { Button, TextInput } from "react-native-paper";
+import { Button, Chip, TextInput, Title } from "react-native-paper";
 import axios from "axios";
 import api from "../utils/api";
 
-export default function CreateFeedScreen({ navigation }) {
-  const [desc, setDesc] = useState("");
-  const [image, setImage] = useState(null);
 
-  const pickLocation = () => {};
+export default function CreateFeedScreen({ navigation }) {
+  const [description, setDesc] = useState("");
+  const [image, setImage] = useState(null);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -23,17 +22,24 @@ export default function CreateFeedScreen({ navigation }) {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
-
+    // console.log(result);
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
 
   const onFeedPress = () => {
-    axios.post(`${api}/profiles`, { image, desc });
-    navigation.navigate("Complete");
+    axios
+      .post(`${api}/feeds`, { description, image })
+      .then((res) => {
+        console.log(res);
+        if (res.status == 201) {
+          navigation.navigate("Feed");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -42,53 +48,54 @@ export default function CreateFeedScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        <TextInput
-          style={styles.input}
-          multiline={true}
-          numberOfLines={4}
-          placeholder="about the donation drive..."
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setDesc(text)}
-          value={desc}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        {image && (
-          <Image
-            source={{ uri: image }}
-            style={[{ width: "100%", height: 200 }]}
-          />
-        )}
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-evenly",
             paddingLeft: 30,
             paddingRight: 30,
-            paddingTop: 5,
+            paddingTop: 50,
           }}
         >
-          <Button style={styles.pickButton} onPress={pickImage} mode="outlined">
-            <Text style={styles.pickButtonTitle}>
-              <MaterialCommunityIcons name="camera" size={16} />
-            </Text>
-          </Button>
-          <Button
-            style={styles.pickButton}
-            onPress={pickLocation}
-            mode="outlined"
+          <Title>Start post</Title>
+          <Chip icon="camera" onPress={pickImage} mode="outlined">
+            media
+          </Chip>
+        </View>
+        {image && (
+          <View
+            style={[
+              { width: "100%", height: 200, paddingLeft: 30, paddingRight: 30 },
+            ]}
           >
-            <Text style={styles.pickButtonTitle}>
-              <Entypo name="location" size={16} />
-            </Text>
+            <Image
+              source={{ uri: image }}
+              style={[{ width: "100%", height: 200, paddingLeft: 30 }]}
+            />
+          </View>
+        )}
+        <TextInput
+          style={styles.input}
+          multiline={true}
+          numberOfLines={4}
+          mode="outlined"
+          placeholder="about the donation drive..."
+          placeholderTextColor="#aaaaaa"
+          onChangeText={(text) => setDesc(text)}
+          value={description}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+
+        <View style={{ padding: 30, paddingTop: 0 }}>
+          <Button
+            mode="contained"
+            onPress={() => onFeedPress()}
+            style={styles.rounded}
+          >
+            annonce drive <MaterialCommunityIcons name="share" size={16} />
           </Button>
         </View>
-
-        <TouchableOpacity style={styles.button} onPress={() => onFeedPress()}>
-          <Text style={styles.buttonTitle}>
-            annonce drive <MaterialCommunityIcons name="share" size={16} />
-          </Text>
-        </TouchableOpacity>
       </KeyboardAwareScrollView>
     </View>
   );

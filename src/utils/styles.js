@@ -5,10 +5,10 @@ export default StyleSheet.create({
     color: "#d0312d",
   },
   rounded: {
-    borderRadius: 50,
+    // borderRadius: 50,
     marginTop: 23,
     marginBottom: 10,
-    fontSize: '40px',
+    // fontSize: '40px',
   },
   avatar: {
     height: 50,
@@ -20,7 +20,6 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    fontFamily: 'Oregano_400Regular',
     backgroundColor: "#ffffff",
     // marginTop: StatusBar.currentHeight || 0,
     fontFamily: "Oregano",

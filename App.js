@@ -15,9 +15,8 @@ import {
   Oregano_400Regular,
   Oregano_400Regular_Italic,
 } from "@expo-google-fonts/oregano";
-import Entypo from "@expo/vector-icons/Entypo";
-import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
+import { AppLoading, Font } from "expo";
+
 import * as SecureStore from "expo-secure-store";
 import {
   LoginScreen,
@@ -43,6 +42,7 @@ import {
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
 import { getValueFor } from "./src/utils/auth";
+import * as SplashScreen from "expo-splash-screen";
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -52,6 +52,101 @@ if (!global.atob) {
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
+export default function App() {
+  const [loading, setLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(true);
+
+  const theme = useTheme({
+    ...DefaultTheme,
+    colors: {
+      primary: "#fc7d7b",
+    },
+  });
+
+  // React.useEffect(() => {
+  //   loadFonts();
+  // }, []);
+
+  // const loadFonts = async () => {
+  //   await Font.loadAsync({
+  //     Oregano: require("./assets/fonts/Oregano-Regular.ttf"),
+  //   });
+  // };
+
+    return (
+      <PaperProvider theme={theme}>
+        {/* <StatusBar style="light" /> */}
+        <NavigationContainer>
+          <Stack.Navigator>
+            {loggedIn ? (
+              <>
+                <Stack.Screen
+                  name="BloodShare"
+                  component={Home}
+                  // onLayout={onLayoutRootView}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="announce donation drive"
+                  component={CreateFeedScreen}
+                  // options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Request for Blood"
+                  component={CreateEFeedScreen}
+                  // options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Profile"
+                  component={ProfileScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Donations"
+                  component={DonationScreen}
+                  // options={{ headerShown: false }}
+                />
+                <Stack.Screen name="donated" component={CreateDonationScreen} />
+                <Stack.Screen name="Thank You" component={ThankYouScreen} />
+                <Stack.Screen name="Confirm" component={ConfirmScreen} />
+                <Stack.Screen name="Settings" component={SettingsScreen} />
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="Login"
+                  component={LoginScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Registration"
+                  component={RegistrationScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Verify"
+                  component={VerifyScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Complete Profile"
+                  component={CompleteProfileScreen}
+                  options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                  name="Forgot Password"
+                  component={ForgotPasswordScreen}
+                  // options={{ headerShown: false }}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    );
+  
+}
 function Screen() {
   return <Tab.Group></Tab.Group>;
 }
@@ -114,94 +209,5 @@ function Home() {
         }}
       />
     </Tab.Navigator>
-  );
-}
-
-export default function App() {
-  let [fontsLoaded] = useFonts({
-    Oregano_400Regular,
-    Oregano_400Regular_Italic,
-  });
-
-  const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(true);
-
-  const theme = useTheme({
-    ...DefaultTheme,
-    colors: {
-      primary: "#fc7d7b",
-    },
-  });
-  return (
-    <PaperProvider theme={theme}>
-      {/* <StatusBar style="light" /> */}
-      <NavigationContainer>
-        <Stack.Navigator>
-          {loggedIn ? (
-            <>
-              <Stack.Screen
-                name="BloodShare"
-                component={Home}
-                // onLayout={onLayoutRootView}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="announce donation drive"
-                component={CreateFeedScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Request for Blood"
-                component={CreateEFeedScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Donations"
-                component={DonationScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen name="donated" component={CreateDonationScreen} />
-              <Stack.Screen name="Thank You" component={ThankYouScreen} />
-              <Stack.Screen name="Confirm" component={ConfirmScreen} />
-              <Stack.Screen name="Settings" component={SettingsScreen} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Registration"
-                component={RegistrationScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Verify"
-                component={VerifyScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Complete Profile"
-                component={CompleteProfileScreen}
-                options={{ headerShown: false }}
-              />
-
-              <Stack.Screen
-                name="Forgot Password"
-                component={ForgotPasswordScreen}
-                // options={{ headerShown: false }}
-              />
-            </>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
   );
 }

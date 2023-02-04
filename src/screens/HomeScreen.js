@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import * as Location from "expo-location";
 import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Fontisto from "react-native-vector-icons/Fontisto";
@@ -32,6 +33,28 @@ export default function HomeScreen({ navigation }) {
   const [error, setError] = React.useState("");
   const [loading, setLoading] = useState(false);
   const [requests, setRequests] = useState([]);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  React.useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  let text = "Waiting..";
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
   const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
   const toConfirm = () => {
     navigation.navigate("Confirm");
@@ -136,7 +159,7 @@ export default function HomeScreen({ navigation }) {
                 <Card style={{ backgroundColor: "#ffffff" }}>
                   <Card.Title
                     title="edwin "
-                    subtitle="2mins"
+                    subtitle={moment(req.createdAt).fromNow()}
                     left={LeftContent}
                   />
                   <Card.Content>
@@ -204,7 +227,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // marginTop: StatusBar.currentHeight || 0,
-    fontFamily: 'Oregano_400Regular',
+    // fontFamily: 'Oregano_400Regular',
     padding: 10,
     backgroundColor: "#ffffff",
   },
@@ -232,7 +255,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: 'Oregano_400Regular',
+    fontFamily: "Oregano_400Regular",
   },
   icon: {
     // backgroundColor: '#d0312d',
