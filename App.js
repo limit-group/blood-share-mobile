@@ -1,5 +1,4 @@
 import "react-native-gesture-handler";
-import { useFonts } from "expo-font";
 import React, { useCallback, useEffect, useState } from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -11,6 +10,11 @@ import {
   Provider as PaperProvider,
   MD3LightTheme as DefaultTheme,
 } from "react-native-paper";
+import {
+  useFonts,
+  Oregano_400Regular,
+  Oregano_400Regular_Italic,
+} from "@expo-google-fonts/oregano";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -34,6 +38,7 @@ import {
   FinderScreen,
   ConfirmScreen,
   SettingsScreen,
+  RequestsScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
@@ -46,6 +51,10 @@ if (!global.atob) {
 }
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
+
+function Screen() {
+  return <Tab.Group></Tab.Group>;
+}
 
 function Home() {
   return (
@@ -77,10 +86,10 @@ function Home() {
         }}
       />
       <Tab.Screen
-        name="Finder"
-        component={FinderScreen} // Search Screen
+        name="Request"
+        component={RequestsScreen} // Search Screen
         options={{
-          title: "finder",
+          title: "requests",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="compass-outline"
@@ -109,8 +118,9 @@ function Home() {
 }
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    Oregano: require("./assets/fonts/Oregano-Regular.ttf"),
+  let [fontsLoaded] = useFonts({
+    Oregano_400Regular,
+    Oregano_400Regular_Italic,
   });
 
   const [loading, setLoading] = useState(true);

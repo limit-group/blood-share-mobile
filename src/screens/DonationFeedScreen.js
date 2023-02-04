@@ -17,7 +17,9 @@ import {
   Text,
 } from "react-native-paper";
 import { AnimatedFAB } from "react-native-paper";
-import { getFeeds } from "../utils/api";
+import Navbar from "../components/Navbar";
+import { api, getFeeds } from "../utils/api";
+import moment from 'moment';
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 export default function DonationFeedScreen({
@@ -51,54 +53,61 @@ export default function DonationFeedScreen({
 
   const fabStyle = { [animateFrom]: 16 };
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   const feeds = getFeeds();
-  //   if (!feeds) {
-  //     setLoading(false);
-  //     setError("failed to fetch feed!");
-  //     setVisibo(true);
-  //   }
-  //   setLoading(false);
-  //   setFeeds(feeds);
-  // }, []);
-
+  React.useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`${api}/feeds`)
+      .then((res) => {
+        setFeeds(res.data);
+        // console.log(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
+      <Navbar props={{ name: "Blood Donation Drives" }} />
       <ScrollView onScroll={onScroll}>
         {loading ? (
           <View style={{ paddingTop: 50 }}>
             <ActivityIndicator animating={true} size={50} />
           </View>
         ) : (
-          <View>
+          <View style={{ padding: 10 }}>
             {feeds.map((feed) => (
-              <Card style={{ paddingBottom: 2 }}>
-                <Card.Title title="edwin" subtitle="2mins" left={LeftContent} />
+              <Card style={styles.card} mode="outlined">
+                <Card.Title
+                  title="edwin"
+                  subtitle={moment(feed.createdAt).fromNow()}
+                  left={LeftContent}
+                />
                 <Card.Content>
                   <Text variant="bodySmall">{feed.information}</Text>
                 </Card.Content>
-                <Card.Cover
+                {/* <Card.Cover
                   source={require("../../assets/blood.jpg")}
                   style={{ padding: 5 }}
-                />
+                /> */}
               </Card>
             ))}
+            <View style={{ padding: 5 }}></View>
           </View>
         )}
-
-        <AnimatedFAB
-          icon={"plus"}
-          color="#000"
-          label={"annonce drive"}
-          extended={isExtended}
-          onPress={toCreateFeed}
-          visible={visible}
-          animateFrom={"right"}
-          iconMode={"static"}
-          style={[styles.fabStyle, style, fabStyle]}
-        />
       </ScrollView>
+      <AnimatedFAB
+        icon={"plus"}
+        color="#000"
+        label={"annonce drive"}
+        extended={isExtended}
+        onPress={toCreateFeed}
+        visible={visible}
+        animateFrom={"right"}
+        iconMode={"static"}
+        style={[styles.fabStyle, style, fabStyle]}
+      />
       <Snackbar
         visible={visibo}
         duration={1000}
@@ -120,7 +129,7 @@ export default function DonationFeedScreen({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    // marginTop: StatusBar.currentHeight || 0,
     backgroundColor: "#ffffff",
   },
   fabStyle: {
@@ -137,5 +146,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+  },
+  card: {
+    backgroundColor: "#ffffff",
   },
 });

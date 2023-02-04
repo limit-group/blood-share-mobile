@@ -20,6 +20,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    fontFamily: 'Oregano_400Regular',
     backgroundColor: "#ffffff",
     // marginTop: StatusBar.currentHeight || 0,
     fontFamily: "Oregano",

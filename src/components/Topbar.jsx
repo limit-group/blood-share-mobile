@@ -1,4 +1,6 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { DonationScreen } from "../screens";
+import RequestsScreen from "../screens/RequestsScreen";
 const TopTab = createMaterialTopTabNavigator();
 
 export default function TopTabNavigator() {
@@ -6,16 +8,16 @@ export default function TopTabNavigator() {
     <TopTab.Navigator tabBarPosition="top" initialRouteName="Chats">
       <TopTab.Screen
         name="Chats"
-        component={ChatsScreen}
+        component={DonationScreen}
         options={({ navigation }) => ({
-          title: "Chats",
+          title: "Recieved Requests",
         })}
       />
       <TopTab.Screen
         name="Calls"
-        component={CallsScreen}
+        component={DonationScreen}
         options={{
-          title: "Calls",
+          title: "My Requests",
         }}
       />
     </TopTab.Navigator>

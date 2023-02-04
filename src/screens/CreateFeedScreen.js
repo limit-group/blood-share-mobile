@@ -32,7 +32,7 @@ export default function CreateFeedScreen({ navigation }) {
   };
 
   const onFeedPress = () => {
-    axios.post(`${api}/profiles`, { image, desc})
+    axios.post(`${api}/profiles`, { image, desc });
     navigation.navigate("Complete");
   };
 
@@ -44,8 +44,8 @@ export default function CreateFeedScreen({ navigation }) {
       >
         <TextInput
           style={styles.input}
-          // multiline={true}
-          numberOfLines={6}
+          multiline={true}
+          numberOfLines={4}
           placeholder="about the donation drive..."
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setDesc(text)}

@@ -84,10 +84,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   card: {
-    // color: "white",
     backgroundColor: "#ffffff",
-    // fontSize: 42,
-    // padding: 50
   },
   rounded: {
     // borderRadius: 50,

@@ -23,70 +23,37 @@ import {
   Title,
 } from "react-native-paper";
 import axios from "axios";
-import { getRequests } from "../utils/api";
+import { api, getRequests } from "../utils/api";
 import Navbar from "../components/Navbar";
 
 export default function HomeScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const onDismissSnackBar = () => setVisible(false);
   const [error, setError] = React.useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [requests, setRequests] = useState([]);
   const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
   const toConfirm = () => {
     navigation.navigate("Confirm");
   };
 
-  // useEffect(() => {
-  //   const requests = getRequests();
-  //   if (!requests) {
-  //     setLoading(false);
-  //     setError("could not get request!");
-  //     setVisible(true);
-  //   }
-  //   setRequests(requests);
-  //   setLoading(false);
-  // }, []);
-
-  const latest = requests.map((req) => {
-    <Card style={{ backgroundColor: "#ffffff" }}>
-      <Card.Title
-        title="edwin "
-        subtitle="2mins"
-        left={LeftContent}
-        // right={(props) => (
-        //   <IconButton {...props} icon="plus" onPress={() => {}} />
-        // )}
-      />
-      <Card.Content>
-        <View
-          style={{
-            justifyContent: "space-evenly",
-            flexDirection: "row",
-            // paddingTop: 20,
-          }}
-        >
-          <Text variant="bodySmall">
-            <Fontisto name="blood-drop" size={18} color="#d0312d" /> A+
-          </Text>
-          <Text variant="bodySmall">
-            <FontAwesome name="location-arrow" size={18} color="#d0312d" /> 4th
-            street Kisii
-          </Text>
-        </View>
-        <Text>fdfiej eiijir eijriej eijrie erioejir enriweior</Text>
-        <Card.Actions>
-          <Button mode="contained" onPress={toConfirm}>
-            donate <FontAwesome name="smile-o" size={18} />{" "}
-          </Button>
-        </Card.Actions>
-      </Card.Content>
-    </Card>;
-  });
+  React.useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`${api}/requests`)
+      .then((res) => {
+        setRequests(res.data);
+        console.log(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <>
-      <Navbar props={{ name: "Blood Share"}} />
+      <Navbar props={{ name: "Blood Share" }} />
       <View style={styles.container}>
         <View
           style={{
@@ -107,7 +74,7 @@ export default function HomeScreen({ navigation }) {
             <Card.Content>
               <IconButton
                 icon="magnify"
-                // size={40}
+                size={20}
                 mode="outlined"
                 onPress={() => navigation.navigate("Request for Blood")}
               />
@@ -130,7 +97,7 @@ export default function HomeScreen({ navigation }) {
               <IconButton
                 icon="car"
                 mode="outlined"
-                // size={40}
+                size={20}
                 onPress={() => navigation.navigate("Feed")}
               />
               <Paragraph>donations</Paragraph>
@@ -165,23 +132,18 @@ export default function HomeScreen({ navigation }) {
             </View>
           ) : (
             <View>
-              {latest}
-              {/* {requests.map((req) => (
+              {requests.map((req) => (
                 <Card style={{ backgroundColor: "#ffffff" }}>
                   <Card.Title
                     title="edwin "
                     subtitle="2mins"
                     left={LeftContent}
-                    // right={(props) => (
-                    //   <IconButton {...props} icon="plus" onPress={() => {}} />
-                    // )}
                   />
                   <Card.Content>
                     <View
                       style={{
                         justifyContent: "space-evenly",
                         flexDirection: "row",
-                        // paddingTop: 20,
                       }}
                     >
                       <Text variant="bodySmall">
@@ -205,7 +167,7 @@ export default function HomeScreen({ navigation }) {
                     </Card.Actions>
                   </Card.Content>
                 </Card>
-              ))} */}
+              ))}
             </View>
           )}
         </View>
@@ -242,6 +204,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // marginTop: StatusBar.currentHeight || 0,
+    fontFamily: 'Oregano_400Regular',
     padding: 10,
     backgroundColor: "#ffffff",
   },
@@ -260,10 +223,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   space: {
-    // width: 157,
     backgroundColor: "#ffffff",
     alignItems: "center",
-    // margin: 5,
   },
   text: {
     // paddingLeft: 50,
@@ -271,6 +232,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
+    fontFamily: 'Oregano_400Regular',
   },
   icon: {
     // backgroundColor: '#d0312d',

@@ -18,7 +18,7 @@ export { default as BloodCardScreen } from "./BloodCardScreen";
 
 export { default as CreateEFeedScreen } from "./CreateEFeedScreen";
 
-export { default as EmergencyFeedScreen } from "./EmergencyFeedScreen";
+export { default as RequestsScreen } from "./RequestsScreen";
 
 export { default as CreateDonationScreen } from "./CreateDonationScreen";
 
@@ -37,6 +37,9 @@ export { default as FinderScreen } from "./FinderScreen";
 export { default as ConfirmScreen } from "./ConfirmScreen";
 
 export { default as SettingsScreen } from "./SettingsScreen";
+
+
+
 
 
 
