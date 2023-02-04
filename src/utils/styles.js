@@ -4,37 +4,43 @@ export default StyleSheet.create({
   primary: {
     color: "#d0312d",
   },
+  rounded: {
+    borderRadius: 50,
+    marginTop: 23,
+    marginBottom: 10,
+    fontSize: '40px',
+  },
   avatar: {
     height: 50,
     width: 50,
     alignSelf: "center",
     margin: 20,
-    borderRadius: 50
+    borderRadius: 50,
   },
   container: {
     flex: 1,
     alignItems: "center",
     backgroundColor: "#ffffff",
     // marginTop: StatusBar.currentHeight || 0,
-    fontFamily: 'Oregano'
+    fontFamily: "Oregano",
   },
   title: {},
   logo: {
     flex: 1,
     height: 150,
-    width: '100%',
+    width: "100%",
     alignSelf: "center",
     margin: 33,
   },
   affix: {
-    fontWeight: 'bold',
-    color: '#000'
+    fontWeight: "bold",
+    color: "#000",
   },
   left: {
-    textAlign: 'right',
+    textAlign: "right",
     marginRight: 30,
     fontSize: 16,
-    color: "#d0312d",
+    color: "#fc7d7b",
   },
   input: {
     // height: 48,
@@ -48,7 +54,7 @@ export default StyleSheet.create({
     paddingLeft: 16,
   },
   button: {
-    backgroundColor: "#d0312d",
+    backgroundColor: "#fc7d7b",
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
@@ -58,7 +64,7 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
   i_button: {
-    backgroundColor: "#d0312d",
+    backgroundColor: "#fc7d7b",
     marginLeft: 30,
     // marginRight: 30,
     // marginTop: 20,
@@ -72,7 +78,7 @@ export default StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     marginTop: 10,
-    color: '#000',
+    color: "#000",
     // marginBottom: 10,
     height: 48,
     borderRadius: 5,
@@ -109,10 +115,10 @@ export default StyleSheet.create({
   disclaimer: {
     marginTop: 20,
     fontSize: 16,
-    marginLeft: 30
+    marginLeft: 30,
   },
   footerLink: {
-    color: "#d0312d",
+    color: "#fc7d7b",
     fontWeight: "bold",
     fontSize: 16,
   },

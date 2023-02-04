@@ -36,4 +36,7 @@ export { default as FinderScreen } from "./FinderScreen";
 
 export { default as ConfirmScreen } from "./ConfirmScreen";
 
+export { default as SettingsScreen } from "./SettingsScreen";
+
+
 

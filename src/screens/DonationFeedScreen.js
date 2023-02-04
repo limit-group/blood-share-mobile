@@ -51,17 +51,17 @@ export default function DonationFeedScreen({
 
   const fabStyle = { [animateFrom]: 16 };
 
-  useEffect(() => {
-    setLoading(true);
-    const feeds = getFeeds();
-    if (!feeds) {
-      setLoading(false);
-      setError("failed to fetch feed!");
-      setVisibo(true);
-    }
-    setLoading(false);
-    setFeeds(feeds);
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   const feeds = getFeeds();
+  //   if (!feeds) {
+  //     setLoading(false);
+  //     setError("failed to fetch feed!");
+  //     setVisibo(true);
+  //   }
+  //   setLoading(false);
+  //   setFeeds(feeds);
+  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -72,7 +72,7 @@ export default function DonationFeedScreen({
           </View>
         ) : (
           <View>
-            {feeds.map((feed) => {
+            {feeds.map((feed) => (
               <Card style={{ paddingBottom: 2 }}>
                 <Card.Title title="edwin" subtitle="2mins" left={LeftContent} />
                 <Card.Content>
@@ -82,8 +82,8 @@ export default function DonationFeedScreen({
                   source={require("../../assets/blood.jpg")}
                   style={{ padding: 5 }}
                 />
-              </Card>;
-            })}
+              </Card>
+            ))}
           </View>
         )}
 

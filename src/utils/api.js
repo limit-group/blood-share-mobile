@@ -20,9 +20,21 @@ const getRequests = () => {
 };
 
 const getMyDonations = () => {
-  axios.get(`${api}/donations`).then((res) => {
+  try {
+    const res = axios.get(`${api}/donations`);
     return res.data;
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
+
+// const getMyDonations = () => {
+//   try {
+//     const res = axios.get(`${api}/donations`);
+//     return res.data;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
 module.exports = { getRequests, getFeeds, getMyDonations };

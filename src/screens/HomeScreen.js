@@ -24,6 +24,7 @@ import {
 } from "react-native-paper";
 import axios from "axios";
 import { getRequests } from "../utils/api";
+import Navbar from "../components/Navbar";
 
 export default function HomeScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
@@ -36,21 +37,56 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate("Confirm");
   };
 
-  useEffect(() => {
-    setLoading(true);
-    const requests = getRequests();
-    if (!requests) {
-      setLoading(false);
-      setError("could not get request!");
-      setVisible(true);
-    }
-    setLoading(false);
-    setRequests(requests);
-  }, []);
+  // useEffect(() => {
+  //   const requests = getRequests();
+  //   if (!requests) {
+  //     setLoading(false);
+  //     setError("could not get request!");
+  //     setVisible(true);
+  //   }
+  //   setRequests(requests);
+  //   setLoading(false);
+  // }, []);
+
+  const latest = requests.map((req) => {
+    <Card style={{ backgroundColor: "#ffffff" }}>
+      <Card.Title
+        title="edwin "
+        subtitle="2mins"
+        left={LeftContent}
+        // right={(props) => (
+        //   <IconButton {...props} icon="plus" onPress={() => {}} />
+        // )}
+      />
+      <Card.Content>
+        <View
+          style={{
+            justifyContent: "space-evenly",
+            flexDirection: "row",
+            // paddingTop: 20,
+          }}
+        >
+          <Text variant="bodySmall">
+            <Fontisto name="blood-drop" size={18} color="#d0312d" /> A+
+          </Text>
+          <Text variant="bodySmall">
+            <FontAwesome name="location-arrow" size={18} color="#d0312d" /> 4th
+            street Kisii
+          </Text>
+        </View>
+        <Text>fdfiej eiijir eijriej eijrie erioejir enriweior</Text>
+        <Card.Actions>
+          <Button mode="contained" onPress={toConfirm}>
+            donate <FontAwesome name="smile-o" size={18} />{" "}
+          </Button>
+        </Card.Actions>
+      </Card.Content>
+    </Card>;
+  });
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar props={{ name: "Blood Share"}} />
       <View style={styles.container}>
         <View
           style={{
@@ -73,7 +109,7 @@ export default function HomeScreen({ navigation }) {
                 icon="magnify"
                 // size={40}
                 mode="outlined"
-                onPress={() => navigation.navigate("find a donor")}
+                onPress={() => navigation.navigate("Request for Blood")}
               />
               <Paragraph>find donor</Paragraph>
             </Card.Content>
@@ -129,7 +165,8 @@ export default function HomeScreen({ navigation }) {
             </View>
           ) : (
             <View>
-              {requests.map((req) => {
+              {latest}
+              {/* {requests.map((req) => (
                 <Card style={{ backgroundColor: "#ffffff" }}>
                   <Card.Title
                     title="edwin "
@@ -167,8 +204,8 @@ export default function HomeScreen({ navigation }) {
                       </Button>
                     </Card.Actions>
                   </Card.Content>
-                </Card>;
-              })}
+                </Card>
+              ))} */}
             </View>
           )}
         </View>
@@ -204,7 +241,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    // marginTop: StatusBar.currentHeight || 0,
     padding: 10,
     backgroundColor: "#ffffff",
   },
