@@ -6,11 +6,20 @@ import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import styles from "../utils/styles";
-import { Button, HelperText, RadioButton, TextInput } from "react-native-paper";
+import {
+  Button,
+  HelperText,
+  RadioButton,
+  Snackbar,
+  TextInput,
+} from "react-native-paper";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 import { api } from "../utils/api";
 export default function CompleteProfileScreen({ navigation }) {
+  const [visible, setVisible] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const onDismissSnackBar = () => setVisible(false);
   const [loading, setLoading] = useState(false);
   const [gender, setGender] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -94,9 +103,7 @@ export default function CompleteProfileScreen({ navigation }) {
       });
   };
 
-  React.useEffect(() => {
-    
-  })
+  React.useEffect(() => {});
 
   return (
     <View
@@ -129,6 +136,7 @@ export default function CompleteProfileScreen({ navigation }) {
           label="Full Name"
           placeholder="john doe"
           mode="outlined"
+       
           left={<TextInput.Icon icon={"square-edit-outline"} />}
           onChangeText={(text) => setFullName(text)}
           value={fullName}
@@ -140,6 +148,7 @@ export default function CompleteProfileScreen({ navigation }) {
           label="Email"
           mode="outlined"
           placeholder="john doe"
+          keyboardType="email-address"
           left={<TextInput.Icon icon={"email-outline"} />}
           onChangeText={(text) => setEmail(text)}
           value={email}
@@ -209,6 +218,7 @@ export default function CompleteProfileScreen({ navigation }) {
           mode="outlined"
           placeholder="e.g 50"
           label="Body Weight(in Kgs)"
+          keyboardType="numeric"
           left={<TextInput.Icon icon={"weight-lifter"} />}
           onChangeText={(text) => setBodyWeight(text)}
           value={bodyWeight}
@@ -241,6 +251,19 @@ export default function CompleteProfileScreen({ navigation }) {
           <Text style={styles.buttonTitle}>Complete</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
+      <Snackbar
+        visible={visible}
+        duration={1000}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </View>
   );
 }

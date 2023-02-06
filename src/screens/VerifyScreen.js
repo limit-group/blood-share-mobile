@@ -55,6 +55,7 @@ export default function VerifyScreen({ navigation }) {
           style={styles.input}
           label="4-digit-code"
           mode="outlined"
+          keyboardType="numeric"
           placeholder="e.g 1234"
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setCode(text)}

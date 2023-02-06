@@ -46,7 +46,9 @@ export default function ForgotPasswordScreen({ navigation }) {
         <TextInput
           style={styles.input}
           mode="outlined"
-          label="Mobile(+254..)"
+          label="Mobile Number"
+          placeholder="07.."
+          keyboardType="numeric"
           left={<TextInput.Icon icon={"cellphone"} />}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}

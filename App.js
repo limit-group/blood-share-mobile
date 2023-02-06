@@ -15,7 +15,7 @@ import {
 //   Oregano_400Regular,
 //   Oregano_400Regular_Italic,
 // } from "@expo-google-fonts/oregano";
-// import { AppLoading, Font } from "expo";
+import { AppLoading, Font } from "expo";
 
 import * as SecureStore from "expo-secure-store";
 import {
@@ -63,16 +63,6 @@ export default function App() {
       primary: "#fc7d7b",
     },
   });
-
-  // React.useEffect(() => {
-  //   loadFonts();
-  // }, []);
-
-  // const loadFonts = async () => {
-  //   await Font.loadAsync({
-  //     Oregano: require("./assets/fonts/Oregano-Regular.ttf"),
-  //   });
-  // };
 
     return (
       <PaperProvider theme={theme}>

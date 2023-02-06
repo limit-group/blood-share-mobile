@@ -7,6 +7,7 @@ import { api } from "../utils/api";
 import styles from "../utils/styles";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Feedback from "../components/Feedback";
+import { getError } from "../utils/error";
 
 export default function LoginScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
@@ -41,6 +42,7 @@ export default function LoginScreen({ navigation }) {
       })
       .catch((err) => {
         setLoading(false);
+        setError(getError(err));
         console.log(err);
       });
   };
@@ -60,8 +62,10 @@ export default function LoginScreen({ navigation }) {
         </View>
         <TextInput
           style={styles.input}
-          label="Mobile(+254..)"
+          label="Mobile Number"
           mode="outlined"
+          placeholder="07.."
+          keyboardType="numeric"
           left={<TextInput.Icon icon={"cellphone"} />}
           // placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
