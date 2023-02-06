@@ -65,15 +65,7 @@ export default function CompleteProfileScreen({ navigation }) {
       setImage(result.assets[0].uri);
     }
   };
-
-  async function getValueFor(key) {
-    let result = await SecureStore.getItemAsync(key);
-    if (result) {
-      alert("🔐 Here's your value 🔐 \n" + result);
-    } else {
-      alert("No values stored under that key.");
-    }
-  }
+  
   async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
   }
@@ -103,7 +95,15 @@ export default function CompleteProfileScreen({ navigation }) {
       });
   };
 
-  React.useEffect(() => {});
+  async function store() {
+    await SecureStore.setItemAsync("secure_token", "sahdkfjaskdflas$%^&");
+    const token = await SecureStore.getItemAsync("secure_token");
+    console.log(token); // output: sahdkfjaskdflas$%^&
+  }
+
+  React.useEffect(() => {
+    store();
+  });
 
   return (
     <View
@@ -136,7 +136,6 @@ export default function CompleteProfileScreen({ navigation }) {
           label="Full Name"
           placeholder="john doe"
           mode="outlined"
-       
           left={<TextInput.Icon icon={"square-edit-outline"} />}
           onChangeText={(text) => setFullName(text)}
           value={fullName}
@@ -253,6 +252,7 @@ export default function CompleteProfileScreen({ navigation }) {
       </KeyboardAwareScrollView>
       <Snackbar
         visible={visible}
+        style={{ backgroundColor: "#fc7d7b" }}
         duration={1000}
         onDismiss={onDismissSnackBar}
         action={{

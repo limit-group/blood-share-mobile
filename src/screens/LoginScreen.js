@@ -16,16 +16,20 @@ export default function LoginScreen({ navigation }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
+  const onFooterLinkPress = () => {
+    navigation.navigate("Registration");
+  };
+
+  const toForgot = () => {
+    navigation.navigate("Forgot Password");
+  };
+
   async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
+    return;
   }
 
-  async function getValueFor(key) {
-    let result = await SecureStore.getItemAsync(key);
-    return result;
-  }
-
-  const onLoginPress = () => {
+  const onLoginPress =  async () => {
     if (phone.length < 10) {
       setError("Enter valid phone number.");
       setVisible(true);
@@ -36,7 +40,7 @@ export default function LoginScreen({ navigation }) {
       .post(`${api}/auth/login`, { phone, password })
       .then((res) => {
         if (res.status == 200) {
-          console.log(res);
+          console.log(res.data);
           save("token", res.data.token);
           setLoading(false);
           navigation.navigate("Complete Profile");
@@ -54,18 +58,7 @@ export default function LoginScreen({ navigation }) {
         console.log(err);
       });
   };
-  const onFooterLinkPress = () => {
-    navigation.navigate("Registration");
-  };
 
-  const toForgot = () => {
-    navigation.navigate("Forgot Password");
-  };
-
-  React.useEffect(() => {
-    const token = getValueFor("token");
-    console.log("Token", token);
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -130,6 +123,7 @@ export default function LoginScreen({ navigation }) {
       <Snackbar
         visible={visible}
         duration={1000}
+        style={{ backgroundColor: "#fc7d7b"}}
         onDismiss={onDismissSnackBar}
         action={{
           label: "ok",
