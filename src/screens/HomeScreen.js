@@ -3,12 +3,12 @@ import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 import moment from "moment";
 import {
   FlatList,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -25,7 +25,7 @@ import {
   Title,
 } from "react-native-paper";
 import axios from "axios";
-import { api, getRequests } from "../utils/api";
+import { api, getCity } from "../utils/api";
 import Navbar from "../components/Navbar";
 
 export default function HomeScreen({ navigation }) {
@@ -45,7 +45,7 @@ export default function HomeScreen({ navigation }) {
       .get(`${api}/requests`)
       .then((res) => {
         setRequests(res.data);
-        console.log(res.data);
+        // console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -56,12 +56,12 @@ export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Navbar props={{ name: "Blood Share" }} />
-      <View >
+      <ScrollView>
         <View
           style={{
             flexDirection: "row",
             padding: 10,
-            paddingBottom: 20,
+            paddingBottom: 10,
             justifyContent: "space-evenly",
           }}
         >
@@ -137,49 +137,57 @@ export default function HomeScreen({ navigation }) {
           />
           {loading ? (
             <View style={{ paddingTop: 50 }}>
-              <ActivityIndicator animating={true} size={50} />
+              <ActivityIndicator animating={true} size={30} />
             </View>
           ) : (
-            <ScrollView>
+            <View style={{ padding: 10 }}>
               {requests.map((req) => (
-                <Card style={{ backgroundColor: "#ffffff" }} key={req.id}>
-                  <Card.Title
-                    title="edwin"
-                    subtitle={moment(req.createdAt).fromNow()}
-                    left={LeftContent}
+                <View key={req.id}>
+                  <Card style={{ backgroundColor: "#ffffff" }}>
+                    <Card.Title
+                      title="edwin"
+                      subtitle={moment(req.createdAt).fromNow()}
+                      left={LeftContent}
+                    />
+                    <Card.Content>
+                      <View
+                        style={{
+                          justifyContent: "space-evenly",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Text variant="bodySmall">
+                          <Fontisto
+                            name="blood-drop"
+                            size={18}
+                            color="#d0312d"
+                          />{" "}
+                          {req.bloodGroup}
+                        </Text>
+                        <Text variant="bodySmall">
+                          <FontAwesome
+                            name="location-arrow"
+                            size={18}
+                            color="#d0312d"
+                          />{" "}
+                          {getCity(req.latitude, req.longitude)}
+                        </Text>
+                      </View>
+                      <Card.Actions style={{ justifyContent: "space-between" }}>
+                        <Button mode="contained" onPress={toConfirm}>
+                          donate <FontAwesome name="smile-o" size={18} />{" "}
+                        </Button>
+                      </Card.Actions>
+                    </Card.Content>
+                  </Card>
+                  <View
+                    style={{
+                      padding: 5,
+                    }}
                   />
-                  <Card.Content>
-                    <View
-                      style={{
-                        justifyContent: "space-evenly",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <Text variant="bodySmall">
-                        <Fontisto name="blood-drop" size={18} color="#d0312d" />{" "}
-                        {req.bloodGroup}
-                      </Text>
-                      <Text variant="bodySmall">
-                        <FontAwesome
-                          name="location-arrow"
-                          size={18}
-                          color="#d0312d"
-                        />{" "}
-                        4th street Kisii
-                      </Text>
-                    </View>
-                    <Card.Actions style={{ justifyContent: 'space-between'}}>
-                    <Button onPress={toConfirm}>
-                        Hide <FontAwesome name="smile-o" size={18} />{" "}
-                      </Button>
-                      <Button mode="contained" onPress={toConfirm}>
-                        donate <FontAwesome name="smile-o" size={18} />{" "}
-                      </Button>
-                    </Card.Actions>
-                  </Card.Content>
-                </Card>
+                </View>
               ))}
-            </ScrollView>
+            </View>
           )}
         </View>
         <Snackbar
@@ -195,7 +203,7 @@ export default function HomeScreen({ navigation }) {
         >
           {error}
         </Snackbar>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -214,8 +222,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // marginTop: StatusBar.currentHeight || 0,
-    // fontFamily: 'Oregano_400Regular',
     padding: 10,
     backgroundColor: "#ffffff",
   },
@@ -231,7 +237,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: 20,
+    paddingTop: 10,
   },
   space: {
     backgroundColor: "#ffffff",

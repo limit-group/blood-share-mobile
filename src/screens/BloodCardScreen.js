@@ -1,26 +1,40 @@
 import React from "react";
-import {
-  Image,
-  ImageBackground,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { Button, Card, Title } from "react-native-paper";
+import { Image, StyleSheet, View } from "react-native";
+import { Button, Card, Snackbar, Title } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Navbar from "../components/Navbar";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import axios from "axios";
+import { api } from "../utils/api";
+import { getValue } from "../utils/auth";
 
 export default function BloodCardScreen({ navigation }) {
-  const [value, setValue] = React.useState("");
+  const [visible, setVisible] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const onDismissSnackBar = () => setVisible(false);
+  const [profile, setProfile] = React.useState("");
 
-  // const image = {require("../../../assets/avatar.png")};
-
-  const toEditProfile = () => {
-    navigation.navigate("Profile");
-  };
+  React.useEffect(() => {
+    const token = getValue("token");
+    setLoading(true);
+    axios
+      .get(`${api}/profiles`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setProfile(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(err);
+        setVisible(true);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <>
@@ -34,15 +48,15 @@ export default function BloodCardScreen({ navigation }) {
           <Title style={styles.text}>edwin odhiambo</Title>
         </View>
         <View style={{ padding: 50, paddingTop: 0 }}>
-          <Title>Name:</Title>
-          <Title>D.O.B:</Title>
+          <Title>Name: </Title>
+          <Title>D.O.B: </Title>
           <Title>Gender: </Title>
           <Title>Weight: </Title>
           <Title>Blood Group: </Title>
           <Button
             mode="contained"
             icon="account-edit"
-            onPress={() => navigation.navigate("Settings")}
+            onPress={() => navigation.navigate("Complete Profile")}
             style={{
               borderRadius: 50,
               marginTop: 23,
@@ -66,6 +80,20 @@ export default function BloodCardScreen({ navigation }) {
             Settings{" "}
           </Button>
         </View>
+        <Snackbar
+          visible={visible}
+          duration={1000}
+          style={{ backgroundColor: "#fc7d7b" }}
+          onDismiss={onDismissSnackBar}
+          action={{
+            label: "ok",
+            onPress: () => {
+              // Do something
+            },
+          }}
+        >
+          {error}
+        </Snackbar>
       </View>
     </>
   );

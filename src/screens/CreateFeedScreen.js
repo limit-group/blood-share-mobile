@@ -5,13 +5,20 @@ import * as ImagePicker from "expo-image-picker";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "../utils/styles";
-import { ActivityIndicator, Button, Chip, TextInput, Title } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Button,
+  Chip,
+  TextInput,
+  Title,
+} from "react-native-paper";
 import axios from "axios";
 import api from "../utils/api";
 
 export default function CreateFeedScreen({ navigation }) {
   const [description, setDesc] = useState("");
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library

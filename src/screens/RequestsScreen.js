@@ -16,7 +16,7 @@ import Navbar from "../components/Navbar";
 import moment from "moment";
 // import TopTabNavigator from "../components/Topbar";
 import { api, getRequests } from "../utils/api";
-const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
+const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 export default function RequestsScreen({
   navigation,
@@ -71,93 +71,69 @@ export default function RequestsScreen({
             <ActivityIndicator animating={true} size={50} />
           </View>
         ) : (
-          <>
+          <View style={{ padding: 10 }}>
             {efeeds.length > 0 ? (
               <>
                 {efeeds.map((feed) => (
-                  <Card style={{ backgroundColor: "#ffffff" }} key={feed.id}>
-                    <Card.Title
-                      title="edwin"
-                      subtitle={moment(feed.createdAt).fromNow()}
-                      left={LeftContent}
-                    />
-                    <Card.Content>
-                      <View
-                        style={{
-                          justifyContent: "space-evenly",
-                          flexDirection: "row",
-                          // paddingTop: 20,
-                        }}
-                      >
-                        <Text variant="bodySmall">
-                          <Fontisto
-                            name="blood-drop"
-                            size={18}
-                            color="#d0312d"
-                          />{" "}
-                          A+
+                  <View key={feed.id}>
+                    <Card style={{ backgroundColor: "#ffffff" }}>
+                      <Card.Title
+                        title="edwin"
+                        titleVariant="bodySmall"
+                        subtitleStyle={{ fontWeight: "100" }}
+                        subtitle={moment(feed.createdAt).fromNow()}
+                        left={LeftContent}
+                      />
+                      <Card.Content>
+                        <View
+                          style={{
+                            justifyContent: "space-evenly",
+                            flexDirection: "row",
+                            // paddingTop: 20,
+                          }}
+                        >
+                          <Text variant="bodySmall">
+                            <Fontisto
+                              name="blood-drop"
+                              size={18}
+                              color="#d0312d"
+                            />{" "}
+                            {feed.bloodGroup}
+                          </Text>
+                          <Text variant="bodySmall">
+                            <FontAwesome
+                              name="location-arrow"
+                              size={18}
+                              color="#d0312d"
+                            />{" "}
+                            4th street Kisii
+                          </Text>
+                        </View>
+                        <Text>
+                          fdfiej eiijir eijriej eijrie erioejir enriweior
                         </Text>
-                        <Text variant="bodySmall">
-                          <FontAwesome
-                            name="location-arrow"
-                            size={18}
-                            color="#d0312d"
-                          />{" "}
-                          4th street Kisii
-                        </Text>
-                      </View>
-                      <Text>
-                        fdfiej eiijir eijriej eijrie erioejir enriweior
-                      </Text>
-                      <Card.Actions>
-                        <Button mode="contained" onPress={toConfirm}>
-                          donate <FontAwesome name="smile-o" size={18} />{" "}
-                        </Button>
-                      </Card.Actions>
-                    </Card.Content>
-                  </Card>
-                ))}
-              </>
-            ) : (
-              <>
-                <Card style={{ backgroundColor: "#ffffff" }}>
-                  <Card.Title
-                    title="edwin "
-                    subtitle="2mins"
-                    left={LeftContent}
-                  />
-                  <Card.Content>
+                        <Card.Actions>
+                          <Button mode="contained" onPress={toConfirm}>
+                            donate <FontAwesome name="smile-o" size={18} />{" "}
+                          </Button>
+                        </Card.Actions>
+                      </Card.Content>
+                    </Card>
                     <View
                       style={{
-                        justifyContent: "space-evenly",
-                        flexDirection: "row",
-                        // paddingTop: 20,
+                        padding: 5,
                       }}
-                    >
-                      <Text variant="bodySmall">
-                        <Fontisto name="blood-drop" size={18} color="#d0312d" />{" "}
-                        A+
-                      </Text>
-                      <Text variant="bodySmall">
-                        <FontAwesome
-                          name="location-arrow"
-                          size={18}
-                          color="#d0312d"
-                        />{" "}
-                        4th street Kisii
-                      </Text>
-                    </View>
-                    <Text>fdfiej eiijir eijriej eijrie erioejir enriweior</Text>
-                    <Card.Actions>
-                      <Button mode="contained" onPress={toConfirm}>
-                        donate <FontAwesome name="smile-o" size={18} />{" "}
-                      </Button>
-                    </Card.Actions>
-                  </Card.Content>
-                </Card>
+                    />
+                  </View>
+                ))}
+                <Button style={{ margin: 20 }} mode="contained">
+                  Load More..
+                </Button>
               </>
+            ) : (
+              <></>
             )}
-          </>
+          </View>
         )}
       </ScrollView>
       <AnimatedFAB

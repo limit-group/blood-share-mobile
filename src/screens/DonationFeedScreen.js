@@ -11,6 +11,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import {
   ActivityIndicator,
   Avatar,
+  Button,
   Card,
   FAB,
   Snackbar,
@@ -59,11 +60,11 @@ export default function DonationFeedScreen({
       .get(`${api}/feeds`)
       .then((res) => {
         setFeeds(res.data);
-        // console.log(res.data);
+        console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {
-        setLoading(false);
+        // setLoading(false);
         console.log(err);
       });
   }, []);
@@ -79,28 +80,37 @@ export default function DonationFeedScreen({
           <>
             <View style={{ padding: 10 }}>
               {feeds.map((feed) => (
-                <Card style={styles.card} mode="" key={feed.id}>
-                  <Card.Title
-                    title="edwin"
-                    subtitle={moment(feed.createdAt).fromNow()}
-                    left={LeftContent}
-                  />
-                  <Card.Content>
-                    <Text variant="bodySmall">{feed.information}</Text>
-                  </Card.Content>
-                  {/* <Card.Cover
-                    source={require("../../assets/blood.jpg")}
-                    // style={{ padding: 5 }}
-                  /> */}
+                <View key={feed.id}>
+                  <Card style={styles.card}>
+                    <Card.Title
+                      title="edwin"
+                      subtitle={moment(feed.createdAt).fromNow()}
+                      left={LeftContent}
+                    />
+                    <Card.Content>
+                      <Text variant="bodySmall">{feed.information}</Text>
+                    </Card.Content>
+                    {feed.media ? (
+                      <>
+                        <Card.Cover
+                          source={{ uri: feed.media }}
+                          style={{ padding: 5, backgroundColor: "#ffffff" }}
+                        />
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </Card>
                   <View
                     style={{
-                      borderBottomColor: "black",
                       padding: 5,
-                      borderBottomWidth: StyleSheet.hairlineWidth,
                     }}
                   />
-                </Card>
+                </View>
               ))}
+              <Button style={{ margin: 20 }} mode="contained">
+                Load More..
+              </Button>
             </View>
           </>
         )}
@@ -157,5 +167,6 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#ffffff",
+    paddingBottom: 10,
   },
 });
