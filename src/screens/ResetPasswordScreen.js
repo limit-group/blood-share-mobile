@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { HelperText, TextInput } from "react-native-paper";
+import { ActivityIndicator, HelperText, TextInput } from "react-native-paper";
 import { api } from "../utils/api";
 import styles from "../utils/styles";
 
@@ -65,9 +65,16 @@ export default function ResetPasswordScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TouchableOpacity style={styles.button} onPress={() => onResetPress()}>
-          <Text style={styles.buttonTitle}>Submit</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator animating={true} size={50} />
+        ) : (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onResetPress()}
+          >
+            <Text style={styles.buttonTitle}>Submit</Text>
+          </TouchableOpacity>
+        )}
       </KeyboardAwareScrollView>
     </View>
   );

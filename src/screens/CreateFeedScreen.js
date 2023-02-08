@@ -5,10 +5,9 @@ import * as ImagePicker from "expo-image-picker";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "../utils/styles";
-import { Button, Chip, TextInput, Title } from "react-native-paper";
+import { ActivityIndicator, Button, Chip, TextInput, Title } from "react-native-paper";
 import axios from "axios";
 import api from "../utils/api";
-
 
 export default function CreateFeedScreen({ navigation }) {
   const [description, setDesc] = useState("");
@@ -88,13 +87,17 @@ export default function CreateFeedScreen({ navigation }) {
         />
 
         <View style={{ padding: 30, paddingTop: 0 }}>
-          <Button
-            mode="contained"
-            onPress={() => onFeedPress()}
-            style={styles.rounded}
-          >
-            annonce drive <MaterialCommunityIcons name="share" size={16} />
-          </Button>
+          {loading ? (
+            <ActivityIndicator animating={true} size={50} />
+          ) : (
+            <Button
+              mode="contained"
+              onPress={() => onFeedPress()}
+              style={styles.rounded}
+            >
+              annonce drive <MaterialCommunityIcons name="share" size={16} />
+            </Button>
+          )}
         </View>
       </KeyboardAwareScrollView>
     </View>

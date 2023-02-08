@@ -7,6 +7,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import styles from "../utils/styles";
 import {
+  ActivityIndicator,
   Button,
   HelperText,
   RadioButton,
@@ -65,7 +66,7 @@ export default function CompleteProfileScreen({ navigation }) {
       setImage(result.assets[0].uri);
     }
   };
-  
+
   async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
   }
@@ -242,13 +243,16 @@ export default function CompleteProfileScreen({ navigation }) {
         <Button onPress={pickImage} mode="outlined" style={styles.pickButton}>
           <MaterialCommunityIcons name="camera" size={16} /> profile picture
         </Button>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => onCompletePress()}
-        >
-          <Text style={styles.buttonTitle}>Complete</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator animating={true} size={50} />
+        ) : (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onCompletePress()}
+          >
+            <Text style={styles.buttonTitle}>Complete</Text>
+          </TouchableOpacity>
+        )}
       </KeyboardAwareScrollView>
       <Snackbar
         visible={visible}

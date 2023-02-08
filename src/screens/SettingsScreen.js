@@ -1,16 +1,7 @@
 import React from "react";
-import {
-  Image,
-  ImageBackground,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import * as SecureStore from "expo-secure-store";
+import { StyleSheet, View } from "react-native";
 import { Button, Card, Switch, Title } from "react-native-paper";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Navbar from "../components/Navbar";
 
 export default function SettingsScreen({ navigation }) {
   const [value, setValue] = React.useState("");
@@ -26,6 +17,17 @@ export default function SettingsScreen({ navigation }) {
   const onDelete = () => {
     alert("Are you sure?");
   };
+
+  const logout = async () => {
+    console.log("deleted token");
+    await SecureStore.deleteItemAsync("token", {});
+    navigation.navigate("Login");
+    return;
+  };
+
+  React.useEffect(() => {
+    
+  })
 
   return (
     <>
@@ -73,6 +75,7 @@ export default function SettingsScreen({ navigation }) {
             Reset Password
           </Button>
           <Button
+            onPress={logout}
             mode="contained"
             icon="logout"
             style={{

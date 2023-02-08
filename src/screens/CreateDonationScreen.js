@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Button, TextInput, Title } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Button,
+  TextInput,
+  Title,
+} from "react-native-paper";
 import styles from "../utils/styles";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import axios from "axios";
@@ -90,13 +95,16 @@ export default function CreateDonationScreen({ navigation }) {
             date of donation:
           </Button>
         </View>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => onCompletePress()}
-        >
-          <Text style={styles.buttonTitle}>record donation</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator animating={true} size={50} />
+        ) : (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onCompletePress()}
+          >
+            <Text style={styles.buttonTitle}>Record donation</Text>
+          </TouchableOpacity>
+        )}
         <View style={styles.input}>
           <Text style={styles.footerText}>
             Your Data will be processed according to our{" "}
