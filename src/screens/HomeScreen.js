@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import * as Location from "expo-location";
 import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Fontisto from "react-native-vector-icons/Fontisto";
