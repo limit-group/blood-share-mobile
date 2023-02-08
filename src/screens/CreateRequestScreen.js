@@ -8,6 +8,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Slider from "@react-native-community/slider";
 import {
+  ActivityIndicator,
   Button,
   Checkbox,
   Chip,
@@ -26,14 +27,14 @@ import * as SecureStore from "expo-secure-store";
 import { api } from "../utils/api";
 import { getError } from "../utils/error";
 
-export default function CreateEFeedScreen({ navigation }) {
+export default function CreateRequestScreen({ navigation }) {
   //loading
   const [loading, setLoading] = useState(false);
 
   //snackbar
   const [visibo, setVisibo] = React.useState(false);
   const [error, setError] = React.useState("");
-  const onDismissSnackBar = () => setVisible(false);
+  const onDismissSnackBar = () => setVisibo(false);
 
   const [bloodGroup, setBloodGroup] = useState("");
   const [longitude, setLongitude] = useState("");
@@ -87,10 +88,10 @@ export default function CreateEFeedScreen({ navigation }) {
   async function getValueFor(key) {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
-      alert(result);
+      // alert(result);
       setLocation(result);
+      return result;
     }
-    return result;
   }
 
   // location
@@ -114,9 +115,9 @@ export default function CreateEFeedScreen({ navigation }) {
   // console.log(location.coords.latitude);
 
   const onFeedPress = () => {
-    // console.log(getValueFor("location"));
+    console.log(getValueFor("location"));
     const token = getToken();
-    // console.log(token);
+    console.log(token);
     const data = {
       when,
       requestType,
@@ -128,11 +129,11 @@ export default function CreateEFeedScreen({ navigation }) {
       patientName,
     };
 
-    if (!data) {
-      setError("All data must be filled");
-      setVisibo(true);
-      return;
-    }
+    // if (!data) {
+    //   setError("All data must be filled");
+    //   setVisibo(true);
+    //   return;
+    // }
     setLoading(true);
 
     axios
@@ -148,9 +149,9 @@ export default function CreateEFeedScreen({ navigation }) {
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
         setError(getError(err));
         setVisibo(true);
+        console.log(err);
       });
   };
 
@@ -395,9 +396,13 @@ export default function CreateEFeedScreen({ navigation }) {
             Your device location will be shared by donors so that they can
             easily trace where they need to donate.
           </HelperText>
-          <Button mode="contained" onPress={onFeedPress}>
-            Start Request <MaterialCommunityIcons name="arrow-right" />
-          </Button>
+          {loading ? (
+            <ActivityIndicator animating={true} size={50} />
+          ) : (
+            <Button mode="contained" onPress={onFeedPress}>
+              Start Request <MaterialCommunityIcons name="arrow-right" />
+            </Button>
+          )}
         </View>
       </KeyboardAwareScrollView>
       <Snackbar
@@ -406,9 +411,10 @@ export default function CreateEFeedScreen({ navigation }) {
         style={{ backgroundColor: "#fc7d7b" }}
         onDismiss={onDismissSnackBar}
         action={{
-          label: "ok",
+          label: "OK",
+          color: "white",
           onPress: () => {
-            // Do something
+            onDismissSnackBar
           },
         }}
       >

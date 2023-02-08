@@ -39,6 +39,7 @@ import {
   SettingsScreen,
   RequestsScreen,
   ResetPasswordScreen,
+  CreateRequestScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
@@ -98,7 +99,7 @@ export default function App() {
               />
               <Stack.Screen
                 name="Request for Blood"
-                component={CreateEFeedScreen}
+                component={CreateRequestScreen}
                 // options={{ headerShown: false }}
               />
               <Stack.Screen

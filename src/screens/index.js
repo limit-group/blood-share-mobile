@@ -16,7 +16,7 @@ export { default as ProfileScreen } from "./ProfileScreen";
 
 export { default as BloodCardScreen } from "./BloodCardScreen";
 
-export { default as CreateEFeedScreen } from "./CreateEFeedScreen";
+export { default as CreateRequestScreen } from "./CreateRequestScreen";
 
 export { default as RequestsScreen } from "./RequestsScreen";
 
