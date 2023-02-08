@@ -23,9 +23,9 @@ import {
   Title,
 } from "react-native-paper";
 import axios from "axios";
-import * as SecureStore from "expo-secure-store";
 import { api } from "../utils/api";
 import { getError } from "../utils/error";
+import { getValue, save } from "../utils/auth";
 
 export default function CreateRequestScreen({ navigation }) {
   //loading
@@ -37,27 +37,20 @@ export default function CreateRequestScreen({ navigation }) {
   const onDismissSnackBar = () => setVisibo(false);
 
   const [bloodGroup, setBloodGroup] = useState("");
-  const [longitude, setLongitude] = useState("");
-  const [latitude, setLatitude] = useState("");
   const [show, setShow] = useState(false);
   const [when, setWhen] = useState("");
   const [date, setDate] = useState(new Date());
   const [patientName, setPatientName] = useState("");
   const [mode, setMode] = useState("outlined");
-  const [requestType, setRequestType] = React.useState("self");
+  const [requestType, setRequestType] = React.useState("SELF");
   const [relationship, setRelationship] = useState("");
   const [needed, setNeeded] = useState("");
-
-  const getToken = async () => {
-    const token = await SecureStore.getItemAsync("token");
-    // console.log(token);
-    return token;
-  };
 
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: "white", padding: 30 };
+  const [valu, setValu] = useState("");
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -81,19 +74,6 @@ export default function CreateRequestScreen({ navigation }) {
     setWhen(new Date());
   };
 
-  async function save(key, value) {
-    await SecureStore.setItemAsync(key, value);
-  }
-
-  async function getValueFor(key) {
-    let result = await SecureStore.getItemAsync(key);
-    if (result) {
-      // alert(result);
-      setLocation(result);
-      return result;
-    }
-  }
-
   // location
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -106,18 +86,21 @@ export default function CreateRequestScreen({ navigation }) {
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
-      let loc = JSON.stringify(location);
-      save("location", loc);
-      setLocation(JSON.stringify(location));
+      save("location", JSON.stringify(location));
     })();
   }, [location]);
 
-  // console.log(location.coords.latitude);
+  // async function get() {
+  //   const loc = await getValueFor("location");
+  //   return loc;
+  // }
 
-  const onFeedPress = () => {
-    console.log(getValueFor("location"));
-    const token = getToken();
-    console.log(token);
+  const onFeedPress = async () => {
+    // console.log(await get());
+    const location = await getValue("location");
+    let latitude = JSON.parse(location)["coords"]["latitude"];
+    let longitude = JSON.parse(location)["coords"]["longitude"];
+    const token = await getValue("token");
     const data = {
       when,
       requestType,
@@ -129,11 +112,13 @@ export default function CreateRequestScreen({ navigation }) {
       patientName,
     };
 
-    // if (!data) {
-    //   setError("All data must be filled");
-    //   setVisibo(true);
-    //   return;
-    // }
+    console.log(data);
+
+    if (!data) {
+      setError("All data must be filled");
+      setVisibo(true);
+      return;
+    }
     setLoading(true);
 
     axios
@@ -144,7 +129,8 @@ export default function CreateRequestScreen({ navigation }) {
       })
       .then((res) => {
         if (res.status == 201) {
-          navigation.navigate("Complete");
+          setLoading(false);
+          navigation.navigate("BloodShare");
         }
       })
       .catch((err) => {
@@ -302,15 +288,15 @@ export default function CreateRequestScreen({ navigation }) {
                 }}
               >
                 <Text>Self</Text>
-                <RadioButton value="self" />
+                <RadioButton value="SELF" />
                 <Text>Others</Text>
-                <RadioButton value="others" />
+                <RadioButton value="OTHERS" />
               </View>
             </RadioButton.Group>
           </View>
         </View>
 
-        {value == "others" ? (
+        {value == "OTHERS" ? (
           <>
             <TextInput
               style={styles.input}
@@ -403,6 +389,7 @@ export default function CreateRequestScreen({ navigation }) {
               Start Request <MaterialCommunityIcons name="arrow-right" />
             </Button>
           )}
+          <Text>{text}</Text>
         </View>
       </KeyboardAwareScrollView>
       <Snackbar
@@ -414,7 +401,7 @@ export default function CreateRequestScreen({ navigation }) {
           label: "OK",
           color: "white",
           onPress: () => {
-            onDismissSnackBar
+            onDismissSnackBar;
           },
         }}
       >

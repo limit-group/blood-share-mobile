@@ -17,6 +17,9 @@ import {
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 import { api } from "../utils/api";
+import { getValue } from "../utils/auth";
+import { getError } from "../utils/error";
+
 export default function CompleteProfileScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -30,7 +33,7 @@ export default function CompleteProfileScreen({ navigation }) {
   const [dob, setDob] = useState(new Date());
   const [show, setShow] = useState(false);
   const [image, setImage] = useState(null);
-  const date = dob.getFullYear() + "/" + dob.getMonth() + "/" + dob.getDate();
+  const date = dob.getFullYear() + "-" + dob.getMonth() + "-" + dob.getDate();
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -67,43 +70,45 @@ export default function CompleteProfileScreen({ navigation }) {
     }
   };
 
-  async function save(key, value) {
-    await SecureStore.setItemAsync(key, value);
-  }
-
-  const onCompletePress = () => {
+  const onCompletePress = async () => {
     setLoading(true);
+    const token = await getValue("token");
+    const data = {
+      gender,
+      email,
+      bodyWeight,
+      dob,
+      email,
+      fullName,
+      image,
+    };
     axios
-      .post(`${api}/profiles`, {
-        gender,
-        email,
-        bodyWeight,
-        dob,
-        email,
-        fullName,
-        image,
+      .post(`${api}/profiles`, data, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       })
-      .then((res) => {
+      .then(async (res) => {
         if (res.status == 200) {
-          save("profile", "complete");
+          await save("profile", "complete");
           setLoading(false);
           navigation.navigate("BloodShare", { screen: "Home" });
         }
       })
       .catch((err) => {
         setLoading(false);
+        setError(getError(err));
+        setVisible(true);
         console.log(err);
       });
   };
 
-  async function store() {
-    await SecureStore.setItemAsync("secure_token", "sahdkfjaskdflas$%^&");
-    const token = await SecureStore.getItemAsync("secure_token");
-    console.log(token); // output: sahdkfjaskdflas$%^&
-  }
-
-  React.useEffect(() => {
-    store();
+  React.useEffect(async () => {
+    const status = await getProfile("profile");
+    if (status == "complete") {
+      navigation.navigate("BloodShare");
+      return;
+    }
   });
 
   return (
@@ -147,7 +152,7 @@ export default function CompleteProfileScreen({ navigation }) {
           style={styles.input}
           label="Email"
           mode="outlined"
-          placeholder="john doe"
+          placeholder="johndoe@gmail.com"
           keyboardType="email-address"
           left={<TextInput.Icon icon={"email-outline"} />}
           onChangeText={(text) => setEmail(text)}

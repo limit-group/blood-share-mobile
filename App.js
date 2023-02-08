@@ -69,6 +69,7 @@ export default function App() {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
       setLoggedIn(true);
+      return 
     } else {
       setLoggedIn(false);
     }

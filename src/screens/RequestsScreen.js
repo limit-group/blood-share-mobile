@@ -13,7 +13,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import { ActivityIndicator, AnimatedFAB } from "react-native-paper";
 import { Avatar, Button, Card, IconButton, Text } from "react-native-paper";
 import Navbar from "../components/Navbar";
-import TopTabNavigator from "../components/Topbar";
+import moment from "moment";
+// import TopTabNavigator from "../components/Topbar";
 import { api, getRequests } from "../utils/api";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
@@ -33,7 +34,7 @@ export default function RequestsScreen({
   const [efeeds, setFeed] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isExtended, setIsExtended] = React.useState(true);
- 
+
   const isIOS = Platform.OS === "ios";
 
   const onScroll = ({ nativeEvent }) => {
@@ -53,7 +54,7 @@ export default function RequestsScreen({
       .get(`${api}/requests`)
       .then((res) => {
         setFeed(res.data);
-        console.log(res.data);
+        // console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -74,10 +75,10 @@ export default function RequestsScreen({
             {efeeds.length > 0 ? (
               <>
                 {efeeds.map((feed) => (
-                  <Card style={{ backgroundColor: "#ffffff" }}>
+                  <Card style={{ backgroundColor: "#ffffff" }} key={feed.id}>
                     <Card.Title
                       title="edwin"
-                      subtitle="2mins"
+                      subtitle={moment(feed.createdAt).fromNow()}
                       left={LeftContent}
                     />
                     <Card.Content>

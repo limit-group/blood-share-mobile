@@ -3,8 +3,10 @@ import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import moment from "moment";
 import {
   FlatList,
+  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -52,9 +54,9 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   return (
-    <>
+    <SafeAreaView style={styles.container}>
       <Navbar props={{ name: "Blood Share" }} />
-      <View style={styles.container}>
+      <View >
         <View
           style={{
             flexDirection: "row",
@@ -138,11 +140,11 @@ export default function HomeScreen({ navigation }) {
               <ActivityIndicator animating={true} size={50} />
             </View>
           ) : (
-            <View>
+            <ScrollView>
               {requests.map((req) => (
-                <Card style={{ backgroundColor: "#ffffff" }}>
+                <Card style={{ backgroundColor: "#ffffff" }} key={req.id}>
                   <Card.Title
-                    title="edwin "
+                    title="edwin"
                     subtitle={moment(req.createdAt).fromNow()}
                     left={LeftContent}
                   />
@@ -155,7 +157,7 @@ export default function HomeScreen({ navigation }) {
                     >
                       <Text variant="bodySmall">
                         <Fontisto name="blood-drop" size={18} color="#d0312d" />{" "}
-                        A+
+                        {req.bloodGroup}
                       </Text>
                       <Text variant="bodySmall">
                         <FontAwesome
@@ -166,8 +168,10 @@ export default function HomeScreen({ navigation }) {
                         4th street Kisii
                       </Text>
                     </View>
-                    <Text>fdfiej eiijir eijriej eijrie erioejir enriweior</Text>
-                    <Card.Actions>
+                    <Card.Actions style={{ justifyContent: 'space-between'}}>
+                    <Button onPress={toConfirm}>
+                        Hide <FontAwesome name="smile-o" size={18} />{" "}
+                      </Button>
                       <Button mode="contained" onPress={toConfirm}>
                         donate <FontAwesome name="smile-o" size={18} />{" "}
                       </Button>
@@ -175,7 +179,7 @@ export default function HomeScreen({ navigation }) {
                   </Card.Content>
                 </Card>
               ))}
-            </View>
+            </ScrollView>
           )}
         </View>
         <Snackbar
@@ -192,7 +196,7 @@ export default function HomeScreen({ navigation }) {
           {error}
         </Snackbar>
       </View>
-    </>
+    </SafeAreaView>
   );
 }
 
