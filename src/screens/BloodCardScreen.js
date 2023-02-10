@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
-
+import { getError} from "../utils/error"
 export default function BloodCardScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -15,10 +15,11 @@ export default function BloodCardScreen({ navigation }) {
   const [profile, setProfile] = React.useState("");
 
   React.useEffect(() => {
+    
     const token = getValue("token");
     setLoading(true);
     axios
-      .get(`${api}/profiles`, {
+      .get(`${api}/auth/profiles`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -30,7 +31,7 @@ export default function BloodCardScreen({ navigation }) {
       })
       .catch((err) => {
         console.log(err);
-        setError(err);
+        setError(getError(err));
         setVisible(true);
         setLoading(false);
       });
@@ -48,7 +49,6 @@ export default function BloodCardScreen({ navigation }) {
           <Title style={styles.text}>edwin odhiambo</Title>
         </View>
         <View style={{ padding: 50, paddingTop: 0 }}>
-          <Title>Name: </Title>
           <Title>D.O.B: </Title>
           <Title>Gender: </Title>
           <Title>Weight: </Title>

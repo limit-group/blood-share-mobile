@@ -1,4 +1,4 @@
-const api = "https://907f-154-159-237-16.in.ngrok.io/api";
+const api = "https://b407-154-159-252-45.in.ngrok.io/api";
 
 let api_key = "AIzaSyBgOswFYIypdvHSj78WOH6HEkCSl2iuOh0";
 
@@ -14,7 +14,7 @@ const getCity = (lat, long) => {
   )
     .then((response) => {
       response.json();
-      //   console.log(JSON.stringify(response));
+        // console.log(JSON.stringify(response));
     })
     .then((responseJson) => {
       console.log("Yay");
