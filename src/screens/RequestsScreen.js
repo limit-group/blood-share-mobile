@@ -106,12 +106,15 @@ export default function RequestsScreen({
                               size={18}
                               color="#d0312d"
                             />{" "}
-                            4th street Kisii
+                            Directions
                           </Text>
                         </View>
-                        <Text>
-                          fdfiej eiijir eijriej eijrie erioejir enriweior
-                        </Text>
+                        {feed.requestType == "OTHERS" ? (
+                          <Text>Help save {feed.patientName}'s life </Text>
+                        ) : (
+                          ""
+                        )}
+
                         <Card.Actions>
                           <Button mode="contained" onPress={toConfirm}>
                             donate <FontAwesome name="smile-o" size={18} />{" "}

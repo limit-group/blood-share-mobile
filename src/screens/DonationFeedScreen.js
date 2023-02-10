@@ -60,14 +60,15 @@ export default function DonationFeedScreen({
       .get(`${api}/feeds`)
       .then((res) => {
         setFeeds(res.data);
-        console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {
         // setLoading(false);
         console.log(err);
+        setError("Failed to fetch feed. Retry");
+        setVisibo(true);
       });
-  }, []);
+  }, [error]);
   return (
     <SafeAreaView style={styles.container}>
       <Navbar props={{ name: "Blood Donation Drives" }} />

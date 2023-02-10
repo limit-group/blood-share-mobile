@@ -30,6 +30,7 @@ export default StyleSheet.create({
     height: 150,
     width: "100%",
     alignSelf: "center",
+    objectFit: "cover",
     margin: 33,
   },
   affix: {

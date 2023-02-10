@@ -40,6 +40,7 @@ import {
   RequestsScreen,
   ResetPasswordScreen,
   CreateRequestScreen,
+  EditProfile,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
@@ -69,7 +70,7 @@ export default function App() {
     let result = await SecureStore.getItemAsync(key);
     if (result) {
       setLoggedIn(true);
-      return 
+      return;
     } else {
       setLoggedIn(false);
     }
@@ -118,6 +119,7 @@ export default function App() {
                 component={ResetPasswordScreen}
                 // options={{ headerShown: false }}
               />
+              <Stack.Screen name="Edit Profile" component={EditProfile} />
               <Stack.Screen name="donated" component={CreateDonationScreen} />
               <Stack.Screen name="Thank You" component={ThankYouScreen} />
               <Stack.Screen name="Confirm" component={ConfirmScreen} />

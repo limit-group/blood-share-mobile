@@ -1,12 +1,18 @@
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
-import { Button, Card, Snackbar, Title } from "react-native-paper";
+import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Button,
+  Card,
+  Snackbar,
+  Title,
+} from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
-import { getError} from "../utils/error"
+import { getError } from "../utils/error";
 export default function BloodCardScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -14,9 +20,8 @@ export default function BloodCardScreen({ navigation }) {
   const onDismissSnackBar = () => setVisible(false);
   const [profile, setProfile] = React.useState("");
 
-  React.useEffect(() => {
-    
-    const token = getValue("token");
+  const findUser = async () => {
+    const token = await getValue("token");
     setLoading(true);
     axios
       .get(`${api}/auth/profiles`, {
@@ -35,6 +40,10 @@ export default function BloodCardScreen({ navigation }) {
         setVisible(true);
         setLoading(false);
       });
+  };
+
+  React.useEffect(() => {
+    findUser();
   }, []);
 
   return (
@@ -49,14 +58,23 @@ export default function BloodCardScreen({ navigation }) {
           <Title style={styles.text}>edwin odhiambo</Title>
         </View>
         <View style={{ padding: 50, paddingTop: 0 }}>
-          <Title>D.O.B: </Title>
-          <Title>Gender: </Title>
-          <Title>Weight: </Title>
-          <Title>Blood Group: </Title>
+          {loading ? (
+            <View style={{ paddingTop: 50 }}>
+              <ActivityIndicator animating={true} size={50} />
+              <Text>Fetching encrypted data.</Text>
+            </View>
+          ) : (
+            <>
+              <Title>D.O.B: {profile.dateOfBirth}</Title>
+              <Title>Gender: </Title>
+              <Title>Weight: </Title>
+              <Title>Blood Group: </Title>
+            </>
+          )}
           <Button
             mode="contained"
             icon="account-edit"
-            onPress={() => navigation.navigate("Complete Profile")}
+            onPress={() => navigation.navigate("Edit Profile")}
             style={{
               borderRadius: 50,
               marginTop: 23,

@@ -35,3 +35,6 @@ export { default as ResetPasswordScreen } from "./ResetPasswordScreen";
 export { default as ConfirmScreen } from "./ConfirmScreen";
 
 export { default as SettingsScreen } from "./SettingsScreen";
+
+
+export { default as EditProfile } from "./EditProfile";
