@@ -10,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { ActivityIndicator, AnimatedFAB } from "react-native-paper";
+import { ActivityIndicator, AnimatedFAB, Paragraph } from "react-native-paper";
 import { Avatar, Button, Card, IconButton, Text } from "react-native-paper";
 import Navbar from "../components/Navbar";
 import moment from "moment";
@@ -76,10 +76,14 @@ export default function RequestsScreen({
               <>
                 {efeeds.map((feed) => (
                   <View key={feed.id}>
-                    <Card style={{ backgroundColor: "#ffffff" }}>
+                    <Card
+                      style={{ backgroundColor: "#ffffff" }}
+                      mode="contained"
+                    >
                       <Card.Title
                         title="edwin"
                         titleVariant="bodySmall"
+                        subtitleVariant="bodySmall"
                         subtitleStyle={{ fontWeight: "100" }}
                         subtitle={moment(feed.createdAt).fromNow()}
                         left={LeftContent}
@@ -92,29 +96,27 @@ export default function RequestsScreen({
                             // paddingTop: 20,
                           }}
                         >
-                          <Text variant="bodySmall">
+                          <Paragraph>
                             <Fontisto
                               name="blood-drop"
                               size={18}
                               color="#d0312d"
                             />{" "}
                             {feed.bloodGroup}
-                          </Text>
-                          <Text variant="bodySmall">
+                          </Paragraph>
+                          <Paragraph>
                             <FontAwesome
                               name="location-arrow"
                               size={18}
-                              color="#d0312d"
                             />{" "}
                             Directions
-                          </Text>
+                          </Paragraph>
                         </View>
                         {feed.requestType == "OTHERS" ? (
                           <Text>Help save {feed.patientName}'s life </Text>
                         ) : (
                           ""
                         )}
-
                         <Card.Actions>
                           <Button mode="contained" onPress={toConfirm}>
                             donate <FontAwesome name="smile-o" size={18} />{" "}

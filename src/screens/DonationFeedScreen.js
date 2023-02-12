@@ -7,6 +7,7 @@ import {
   Platform,
   View,
 } from "react-native";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { ScrollView } from "react-native-gesture-handler";
 import {
   ActivityIndicator,
@@ -14,6 +15,7 @@ import {
   Button,
   Card,
   FAB,
+  Paragraph,
   Snackbar,
   Text,
 } from "react-native-paper";
@@ -54,11 +56,17 @@ export default function DonationFeedScreen({
 
   const fabStyle = { [animateFrom]: 16 };
 
+  const going = () => {
+    setError("Going to donate.");
+    setVisibo(true);
+  };
+
   React.useEffect(() => {
     setLoading(true);
     axios
       .get(`${api}/feeds`)
       .then((res) => {
+        // console.log(res.data)
         setFeeds(res.data);
         setLoading(false);
       })
@@ -82,25 +90,40 @@ export default function DonationFeedScreen({
             <View style={{ padding: 10 }}>
               {feeds.map((feed) => (
                 <View key={feed.id}>
-                  <Card style={styles.card}>
+                  <Card style={styles.card} mode="contained">
                     <Card.Title
-                      title="edwin"
+                      title={"Edwin"}
+                      titleVariant="bodySmall"
+                      subtitleVariant="bodySmall"
+                    
                       subtitle={moment(feed.createdAt).fromNow()}
                       left={LeftContent}
                     />
                     <Card.Content>
-                      <Text variant="bodySmall">{feed.information}</Text>
+                      <Paragraph>{feed.information}</Paragraph>
                     </Card.Content>
                     {feed.media ? (
                       <>
                         <Card.Cover
                           source={{ uri: feed.media }}
-                          style={{ padding: 5, backgroundColor: "#ffffff" }}
+                          style={{
+                            padding: 5,
+                            backgroundColor: "#ffffff",
+                            height: 150,
+                          }}
                         />
                       </>
                     ) : (
                       ""
                     )}
+                    <Card.Actions>
+                      <Button mode="text" onPress={going}>
+                        <SimpleLineIcons name="people" /> 22
+                      </Button>
+                      <Button mode="contained" onPress={going}>
+                        Going <SimpleLineIcons name="like" />
+                      </Button>
+                    </Card.Actions>
                   </Card>
                   <View
                     style={{
@@ -168,6 +191,6 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#ffffff",
-    paddingBottom: 10,
+    // paddingBottom: 10,
   },
 });

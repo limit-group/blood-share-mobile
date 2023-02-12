@@ -7,7 +7,7 @@ import {
   Snackbar,
   Title,
 } from "react-native-paper";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { api } from "../utils/api";
@@ -65,6 +65,7 @@ export default function BloodCardScreen({ navigation }) {
             </View>
           ) : (
             <>
+              <Title>Blood Points</Title>
               <Title>D.O.B: {profile.dateOfBirth}</Title>
               <Title>Gender: </Title>
               <Title>Weight: </Title>

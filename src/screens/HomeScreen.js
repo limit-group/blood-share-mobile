@@ -42,7 +42,7 @@ export default function HomeScreen({ navigation }) {
   React.useEffect(() => {
     setLoading(true);
     axios
-      .get(`${api}/requests`)
+      .get(`${api}/requests/latest`)
       .then((res) => {
         setRequests(res.data);
         // console.log(res.data);
