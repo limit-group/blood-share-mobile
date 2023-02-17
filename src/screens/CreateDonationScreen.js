@@ -5,6 +5,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import {
   ActivityIndicator,
   Button,
+  HelperText,
+  Snackbar,
   TextInput,
   Title,
 } from "react-native-paper";
@@ -12,12 +14,20 @@ import styles from "../utils/styles";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { api } from "../utils/api";
+import { getValue } from "../utils/auth";
+import { getError } from "../utils/error";
 
 export default function CreateDonationScreen({ navigation }) {
+  const [visible, setVisible] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const onDismissSnackBar = () => setVisible(false);
+  const [show, setShow] = useState(false);
   const [facility, setFacility] = useState("");
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const [donor_number, setDonation] = useState("");
   const [date, setDate] = useState(new Date());
+  const det = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
@@ -41,15 +51,46 @@ export default function CreateDonationScreen({ navigation }) {
     navigation.navigate("Login");
   };
 
-  const onCompletePress = () => {
+  const onCompletePress = async () => {
+    if (!facility) {
+      setError("Facility name is required!");
+      setVisible(true);
+      return;
+    }
+
+    if (!donor_number) {
+      setError("Donor ID is required!");
+      setVisible(true);
+      return;
+    }
+
+    if (!date) {
+      setError("Donor date is required!");
+      setVisible(true);
+      return;
+    }
+    setLoading(true);
+    const token = await getValue("token");
     axios
-      .post(`${api}/donations`, { donor_number, facility, date })
+      .post(
+        `${api}/donations`,
+        { donor_number, facility, date },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         if (res.status == 201) {
+          setLoading(false);
           navigation.navigate("Thank You");
         }
       })
       .catch((err) => {
+        setLoading(false);
+        setError(getError(err));
+        setVisible(true);
         console.log(err);
       });
   };
@@ -89,10 +130,13 @@ export default function CreateDonationScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
+        <HelperText style={styles.input}>
+          Number issued to your to recognize you as a donor.
+        </HelperText>
         <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 5 }}>
           <Button mode="contained" onPress={showDatepicker}>
-            <MaterialCommunityIcons name="calendar" size={16} />
-            date of donation:
+            <MaterialCommunityIcons name="calendar" size={16} />{" "}
+            {show ? det : "Date of Donation"}
           </Button>
         </View>
         {loading ? (
@@ -114,6 +158,20 @@ export default function CreateDonationScreen({ navigation }) {
           </Text>
         </View>
       </KeyboardAwareScrollView>
+      <Snackbar
+        visible={visible}
+        duration={1000}
+        style={{ backgroundColor: "#fc7d7b" }}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </View>
   );
 }

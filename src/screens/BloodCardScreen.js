@@ -20,30 +20,32 @@ export default function BloodCardScreen({ navigation }) {
   const onDismissSnackBar = () => setVisible(false);
   const [profile, setProfile] = React.useState("");
 
-  const findUser = async () => {
-    const token = await getValue("token");
-    setLoading(true);
-    axios
-      .get(`${api}/auth/profiles`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setProfile(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(getError(err));
-        setVisible(true);
-        setLoading(false);
-      });
-  };
-
   React.useEffect(() => {
-    findUser();
+    const findUser = async () => {
+      const token = await getValue("token");
+      setLoading(true);
+      axios
+        .get(`${api}/auth/profiles`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setProfile(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(getError(err));
+          setVisible(true);
+          setLoading(false);
+        });
+    };
+
+    findUser().catch((error) => {
+      console.log(error);
+    });
   }, []);
 
   return (

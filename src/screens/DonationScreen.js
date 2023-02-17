@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import {
   Platform,
@@ -7,8 +8,10 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { AnimatedFAB, List, Searchbar } from "react-native-paper";
-
+import { ActivityIndicator, AnimatedFAB, List, Searchbar } from "react-native-paper";
+import { api } from "../utils/api";
+import { getValue } from "../utils/auth";
+import { getError } from "../utils/error";
 export default function DonationScreen({
   navigation,
   animatedValue,
@@ -20,6 +23,8 @@ export default function DonationScreen({
   iconMode,
 }) {
   const [isExtended, setIsExtended] = React.useState(true);
+  const [donations, setDonations] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   const isIOS = Platform.OS === "ios";
 
@@ -32,23 +37,47 @@ export default function DonationScreen({
   const fabStyle = { [animateFrom]: 16 };
 
   const toDonor = () => {
-    navigation.navigate("donated")
+    navigation.navigate("donated");
   };
 
+  React.useEffect(() => {
+    setLoading(true);
+    async () => {
+      const token = await getValue("token");
+      axios
+        .get(`${api}/donations`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setDonations(res.data);
+          console.log(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    };
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView onScroll={onScroll}>
-        <List.Item
-          title="makini hospital"
-          description="Item description"
-          left={(props) => <List.Icon {...props} icon="hospital-marker" />}
-        />
-        <List.Item
-          title="makini hospital"
-          description="Item description"
-          left={(props) => <List.Icon {...props} icon="hospital-marker" />}
-        />
-      </ScrollView>
+      {loading ? (
+        <View style={{ paddingTop: 50 }}>
+          <ActivityIndicator animating={true} size={50} />
+        </View>
+      ) : (
+        <ScrollView onScroll={onScroll}>
+          {donations.map((donation) => (
+            <List.Item
+              title="makini hospital"
+              description="Item description"
+              left={(props) => <List.Icon {...props} icon="hospital-marker" />}
+            />
+          ))}
+        </ScrollView>
+      )}
       <AnimatedFAB
         icon={"arrow-right"}
         label={"donated now"}
