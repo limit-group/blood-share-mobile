@@ -41,6 +41,7 @@ import {
   ResetPasswordScreen,
   CreateRequestScreen,
   EditProfile,
+  DirectionScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
@@ -124,6 +125,7 @@ export default function App() {
               <Stack.Screen name="Thank You" component={ThankYouScreen} />
               <Stack.Screen name="Confirm" component={ConfirmScreen} />
               <Stack.Screen name="Settings" component={SettingsScreen} />
+              <Stack.Screen name="Directions" component={DirectionScreen} />
             </>
           ) : (
             <>

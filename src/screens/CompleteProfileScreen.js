@@ -103,12 +103,17 @@ export default function CompleteProfileScreen({ navigation }) {
       });
   };
 
-  React.useEffect(async () => {
-    const status = await getProfile("profile");
-    if (status == "complete") {
-      navigation.navigate("BloodShare");
-      return;
+  React.useEffect(() => {
+    async function getStatus() {
+      const status = await getProfile("profile");
+      if (status == "complete") {
+        navigation.navigate("BloodShare");
+        return;
+      }
     }
+    getStatus().catch((err) => {
+      console.log(err);
+    });
   });
 
   return (

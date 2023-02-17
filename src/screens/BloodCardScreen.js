@@ -4,10 +4,11 @@ import {
   ActivityIndicator,
   Button,
   Card,
+  HelperText,
   Snackbar,
   Title,
 } from "react-native-paper";
-
+import moment from "moment";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { api } from "../utils/api";
@@ -23,7 +24,6 @@ export default function BloodCardScreen({ navigation }) {
   React.useEffect(() => {
     const findUser = async () => {
       const token = await getValue("token");
-      setLoading(true);
       axios
         .get(`${api}/auth/profiles`, {
           headers: {
@@ -31,15 +31,13 @@ export default function BloodCardScreen({ navigation }) {
           },
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setProfile(res.data);
-          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
           setError(getError(err));
           setVisible(true);
-          setLoading(false);
         });
     };
 
@@ -53,27 +51,27 @@ export default function BloodCardScreen({ navigation }) {
       <Navbar props={{ name: "My Profile" }} />
       <View style={styles.container}>
         <View style={{ marginTop: 10, alignItems: "center" }}>
-          <Image
-            source={require("../../assets/avatar.png")}
-            style={styles.image}
-          />
-          <Title style={styles.text}>edwin odhiambo</Title>
+          {profile.avatar ? (
+            <Image source={{ uri: profile.avatar }} style={styles.image} />
+          ) : (
+            <Image
+              source={require("../../assets/avatar.png")}
+              style={styles.image}
+            />
+          )}
+
+          <Title style={styles.text}>{profile.name}</Title>
         </View>
         <View style={{ padding: 50, paddingTop: 0 }}>
-          {loading ? (
-            <View style={{ paddingTop: 50 }}>
-              <ActivityIndicator animating={true} size={50} />
-              <Text>Fetching encrypted data.</Text>
-            </View>
-          ) : (
-            <>
-              <Title>Blood Points</Title>
-              <Title>D.O.B: {profile.dateOfBirth}</Title>
-              <Title>Gender: </Title>
-              <Title>Weight: </Title>
-              <Title>Blood Group: </Title>
-            </>
-          )}
+          <Title>Life Saver Points: {profile.bloodPoints}</Title>
+          <HelperText>Donate more to earn more points</HelperText>
+          <Title>
+            D.O.B: {moment(profile.dateOfBirth).format("Do MMM  YY")}
+          </Title>
+          <Title>Gender: {profile.gender}</Title>
+          <Title>Weight: {profile.bodyWeight}</Title>
+          <Title>Blood Group: {profile.bloodType}</Title>
+
           <Button
             mode="contained"
             icon="account-edit"
@@ -133,9 +131,9 @@ const styles = StyleSheet.create({
   },
   image: {
     // flex: 1,
-    height: 140,
+    height: 120,
     // padding: 50,
-    width: 140,
+    width: 120,
     borderRadius: 50,
     // resizeMode: "cover",
   },

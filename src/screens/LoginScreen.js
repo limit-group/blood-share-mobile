@@ -29,12 +29,15 @@ export default function LoginScreen({ navigation }) {
     return;
   }
 
-  const onLoginPress =  async () => {
-    if (phone.length < 10) {
+  const onLoginPress = async () => {
+    const re =
+      /\+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\d{1,14}$/;
+    if (phone.length < 10 || !re.test(phone)) {
       setError("Enter valid phone number.");
       setVisible(true);
       return;
     }
+
     setLoading(true);
     axios
       .post(`${api}/auth/login`, { phone, password })
@@ -59,7 +62,6 @@ export default function LoginScreen({ navigation }) {
       });
   };
 
-
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
@@ -74,8 +76,8 @@ export default function LoginScreen({ navigation }) {
           style={styles.input}
           label="Mobile Number"
           mode="outlined"
-          keyboardType="numeric"
-          placeholder="07.."
+          keyboardType="phone-pad"
+          placeholder="+2547.."
           left={<TextInput.Icon icon={"cellphone"} />}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
@@ -123,7 +125,7 @@ export default function LoginScreen({ navigation }) {
       <Snackbar
         visible={visible}
         duration={1000}
-        style={{ backgroundColor: "#fc7d7b"}}
+        style={{ backgroundColor: "#fc7d7b" }}
         onDismiss={onDismissSnackBar}
         action={{
           label: "ok",

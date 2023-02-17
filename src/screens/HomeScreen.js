@@ -26,6 +26,7 @@ import {
 } from "react-native-paper";
 import axios from "axios";
 import { api, getCity } from "../utils/api";
+import { getValue } from "../utils/auth";
 import Navbar from "../components/Navbar";
 
 export default function HomeScreen({ navigation }) {
@@ -34,6 +35,8 @@ export default function HomeScreen({ navigation }) {
   const [error, setError] = React.useState("");
   const [loading, setLoading] = useState(false);
   const [requests, setRequests] = useState([]);
+  const [req_count, setReqCount] = useState(0);
+  const [don_count, setDonCount] = useState(0);
   const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
   const toConfirm = () => {
     navigation.navigate("Confirm");
@@ -41,26 +44,40 @@ export default function HomeScreen({ navigation }) {
 
   React.useEffect(() => {
     setLoading(true);
-    axios
-      .get(`${api}/requests/latest`)
-      .then((res) => {
-        setRequests(res.data);
-        // console.log(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
+    const getLatest = async () => {
+      const token = await getValue("token");
+      axios
+        .get(`${api}/requests/latest`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setRequests(res.data.broadcasts);
+          setReqCount(res.data.request_count);
+          setDonCount(res.data.donations_count);
+
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    };
+
+    getLatest().catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar props={{ name: "Blood Share" }} />
+      <Navbar props={{ name: "" }} />
       <ScrollView>
         <View
           style={{
             flexDirection: "row",
-            padding: 10,
+            padding: 0,
             paddingBottom: 10,
             justifyContent: "space-evenly",
           }}
@@ -114,16 +131,15 @@ export default function HomeScreen({ navigation }) {
           }}
         >
           <Text variant="titleLarge">
-            <Text style={{ fontSize: 26 }}>12 </Text>
+            <Text style={{ fontSize: 26 }}>{req_count} </Text>
             <Fontisto name="blood-drop" size={28} color="#d0312d" /> requests
           </Text>
           <View style={styles.verticleLine}></View>
           <Text variant="bodyMedium">
-            <Text style={{ fontSize: 26 }}>34 </Text>
+            <Text style={{ fontSize: 26 }}>{don_count} </Text>
             <Octicons name="people" size={28} /> donating.
           </Text>
         </View>
-
         <View>
           <Title style={{ paddingLeft: 10, paddingTop: 20 }}>
             Donation Requests.
@@ -146,6 +162,8 @@ export default function HomeScreen({ navigation }) {
                   <Card style={{ backgroundColor: "#ffffff" }}>
                     <Card.Title
                       title="edwin"
+                      titleVariant="bodySmall"
+                      subtitleVariant="bodySmall"
                       subtitle={moment(req.createdAt).fromNow()}
                       left={LeftContent}
                     />
@@ -154,24 +172,28 @@ export default function HomeScreen({ navigation }) {
                         style={{
                           justifyContent: "space-evenly",
                           flexDirection: "row",
+                          // paddingTop: 20,
                         }}
                       >
-                        <Text variant="bodySmall">
+                        <Paragraph>
                           <Fontisto
                             name="blood-drop"
                             size={18}
                             color="#d0312d"
                           />{" "}
                           {req.bloodGroup}
-                        </Text>
-                        <Text variant="bodySmall">
-                          <FontAwesome
-                            name="location-arrow"
-                            size={18}
-                            color="#d0312d"
-                          />{" "}
-                          {getCity(req.latitude, req.longitude)}
-                        </Text>
+                        </Paragraph>
+                        <Paragraph
+                          onPress={() =>
+                            navigation.navigate("Directions", {
+                              latitude: req.latitude,
+                              longitude: req.longitude,
+                            })
+                          }
+                        >
+                          <FontAwesome name="location-arrow" size={18} />{" "}
+                          Directions
+                        </Paragraph>
                       </View>
                       <Card.Actions style={{ justifyContent: "space-between" }}>
                         <Button mode="contained" onPress={toConfirm}>

@@ -51,11 +51,15 @@ export default function CreateRequestScreen({ navigation }) {
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: "white", padding: 30 };
   const [valu, setValu] = useState("");
+  const [mod, setMod] = useState("outlined")
+  const [mod_one, setModOne] = useState("outlined")
+
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
     setShow(true);
+    setModOne("contained")
   };
 
   const [value, setValue] = useState("");
@@ -72,6 +76,7 @@ export default function CreateRequestScreen({ navigation }) {
   };
   const pickDay = () => {
     setWhen(new Date());
+    setMod("contained")
   };
 
   // location
@@ -337,10 +342,10 @@ export default function CreateRequestScreen({ navigation }) {
             // paddingTop: 5,
           }}
         >
-          <Button mode="contained" onPress={pickDay}>
+          <Button mode={mod} onPress={pickDay}>
             immediately
           </Button>
-          <Button mode="contained" onPress={showDatepicker}>
+          <Button mode={mod_one} onPress={showDatepicker}>
             <MaterialCommunityIcons name="calendar" size={16} />
             upcoming
           </Button>
@@ -389,7 +394,6 @@ export default function CreateRequestScreen({ navigation }) {
               Start Request <MaterialCommunityIcons name="arrow-right" />
             </Button>
           )}
-          <Text>{text}</Text>
         </View>
       </KeyboardAwareScrollView>
       <Snackbar

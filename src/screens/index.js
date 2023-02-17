@@ -38,3 +38,5 @@ export { default as SettingsScreen } from "./SettingsScreen";
 
 
 export { default as EditProfile } from "./EditProfile";
+
+export { default as DirectionScreen } from "./DirectionScreen";

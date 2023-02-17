@@ -37,25 +37,6 @@ export default function EditProfile({ navigation }) {
   const [profile, setProfile] = React.useState("");
   const date = dob.getFullYear() + "-" + dob.getMonth() + "-" + dob.getDate();
 
-  const findUser = async () => {
-    const token = await getValue("token");
-    axios
-      .get(`${api}/auth/profiles`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setProfile(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(getError(err));
-        setVisible(true);
-      });
-  };
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDob(currentDate);
@@ -96,6 +77,7 @@ export default function EditProfile({ navigation }) {
     const token = await getValue("token");
     const data = {
       gender,
+      bloodType,
       email,
       bodyWeight,
       dob,
@@ -104,7 +86,7 @@ export default function EditProfile({ navigation }) {
       image,
     };
     axios
-      .post(`${api}/profiles`, data, {
+      .post(`${api}/auth/profiles/update`, data, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -113,7 +95,7 @@ export default function EditProfile({ navigation }) {
         if (res.status == 200) {
           await save("profile", "complete");
           setLoading(false);
-          navigation.navigate("BloodShare", { screen: "Home" });
+          // navigation.navigate("BloodShare", { screen: "Home" });
         }
       })
       .catch((err) => {
@@ -125,7 +107,26 @@ export default function EditProfile({ navigation }) {
   };
 
   React.useEffect(() => {
-    findUser();
+    const findUser = async () => {
+      const token = await getValue("token");
+      axios
+        .get(`${api}/auth/profiles`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setProfile(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(getError(err));
+          setVisible(true);
+        });
+    };
+
+    findUser().catch((err) => console.log(err));
   }, []);
 
   return (
@@ -145,12 +146,12 @@ export default function EditProfile({ navigation }) {
             justifyContent: "space-evenly",
           }}
         >
-          {profile.image ? (
+          {profile.avatar ? (
             <Image
-              source={{ uri: profile.image }}
+              source={{ uri: profile.avatar }}
               style={{
                 flex: 1,
-                height: 150,
+                height: 140,
                 width: "50%",
                 borderRadius: 50,
                 alignSelf: "center",
@@ -193,7 +194,7 @@ export default function EditProfile({ navigation }) {
           mode="outlined"
           left={<TextInput.Icon icon={"square-edit-outline"} />}
           onChangeText={(text) => setFullName(text)}
-          value={fullName}
+          value={profile.name}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
@@ -205,7 +206,7 @@ export default function EditProfile({ navigation }) {
           keyboardType="email-address"
           left={<TextInput.Icon icon={"email-outline"} />}
           onChangeText={(text) => setEmail(text)}
-          value={email}
+          value={profile.email}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
@@ -218,23 +219,23 @@ export default function EditProfile({ navigation }) {
           keyboardType="numeric"
           left={<TextInput.Icon icon={"weight-lifter"} />}
           onChangeText={(text) => setBodyWeight(text)}
-          value={bodyWeight}
+          value={profile.bodyWeight}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
         <RadioButton.Group
           onValueChange={(newValue) => setGender(newValue)}
-          value={gender}
+          value={profile.gender}
         >
           <View style={[styles.input, { flexDirection: "row" }]}>
             <Text>Male</Text>
-            <RadioButton value="male" />
+            <RadioButton value="MALE" />
 
             <Text>Female</Text>
-            <RadioButton value="female" />
+            <RadioButton value="FEMALE" />
 
             <Text>Non binary</Text>
-            <RadioButton value="non-binary" />
+            <RadioButton value="NON_BINARY" />
           </View>
         </RadioButton.Group>
         {loading ? (

@@ -104,11 +104,15 @@ export default function RequestsScreen({
                             />{" "}
                             {feed.bloodGroup}
                           </Paragraph>
-                          <Paragraph>
-                            <FontAwesome
-                              name="location-arrow"
-                              size={18}
-                            />{" "}
+                          <Paragraph
+                            onPress={() =>
+                              navigation.navigate("Directions", {
+                                latitude: feed.latitude,
+                                longitude: feed.longitude,
+                              })
+                            }
+                          >
+                            <FontAwesome name="location-arrow" size={18} />{" "}
                             Directions
                           </Paragraph>
                         </View>

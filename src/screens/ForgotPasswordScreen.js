@@ -2,24 +2,38 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { ActivityIndicator, TextInput } from "react-native-paper";
+import { ActivityIndicator, Snackbar, TextInput } from "react-native-paper";
 import { api } from "../utils/api";
 import styles from "../utils/styles";
+import { getError } from "../utils/error";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const onDismissSnackBar = () => setVisible(false);
 
   const onForgotPress = () => {
-    console.log("clicked");
+    if (!phone) {
+      setError("Mobile Number is required!");
+      setVisible(true);
+      return;
+    }
+    setLoading(true);
     axios
       .post(`${api}/auth/forgot`, { phone })
       .then((res) => {
         if (res.status == 200) {
           console.log(res.status);
+          setLoading(false);
           navigation.navigate("Verify");
         }
       })
       .catch((err) => {
+        setLoading(false);
+        setError(getError(err));
+        setVisible(true);
         console.log(err);
       });
   };
@@ -47,8 +61,8 @@ export default function ForgotPasswordScreen({ navigation }) {
           style={styles.input}
           mode="outlined"
           label="Mobile Number"
-          placeholder="07.."
-          keyboardType="numeric"
+          placeholder="+2547.."
+          keyboardType="phone-pad"
           left={<TextInput.Icon icon={"cellphone"} />}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
@@ -64,6 +78,20 @@ export default function ForgotPasswordScreen({ navigation }) {
           </TouchableOpacity>
         )}
       </KeyboardAwareScrollView>
+      <Snackbar
+        visible={visible}
+        duration={1000}
+        style={{ backgroundColor: "#fc7d7b" }}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </View>
   );
 }

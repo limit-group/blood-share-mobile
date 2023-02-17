@@ -8,7 +8,12 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { ActivityIndicator, AnimatedFAB, List, Searchbar } from "react-native-paper";
+import {
+  ActivityIndicator,
+  AnimatedFAB,
+  List,
+  Searchbar,
+} from "react-native-paper";
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
@@ -42,7 +47,7 @@ export default function DonationScreen({
 
   React.useEffect(() => {
     setLoading(true);
-    async () => {
+    async function getDonations() {
       const token = await getValue("token");
       axios
         .get(`${api}/donations`, {
@@ -59,7 +64,10 @@ export default function DonationScreen({
           setLoading(false);
           console.log(err);
         });
-    };
+    }
+    getDonations().catch((err) => {
+      console.log(err);
+    });
   }, []);
   return (
     <SafeAreaView style={styles.container}>

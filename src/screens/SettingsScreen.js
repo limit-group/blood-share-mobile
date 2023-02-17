@@ -1,33 +1,54 @@
 import React from "react";
 import * as SecureStore from "expo-secure-store";
-import { StyleSheet, View } from "react-native";
-import { Button, Card, Switch, Title } from "react-native-paper";
+import { StyleSheet, View, Text } from "react-native";
+import { getValue } from "../utils/auth";
+import {
+  Button,
+  Card,
+  Dialog,
+  Paragraph,
+  Portal,
+  Provider,
+  Switch,
+  Title,
+} from "react-native-paper";
 
 export default function SettingsScreen({ navigation }) {
   const [value, setValue] = React.useState("");
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const [isSwitchOn, setIsSwitchOn] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
+
+  const showDialog = () => setVisible(true);
+
+  const hideDialog = async () => {
+    setVisible(false);
+    await logout();
+  };
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-  // const image = {require("../../../assets/avatar.png")};
 
-  const toEditProfile = () => {
-    navigation.navigate("Profile");
-  };
-
-  const onDelete = () => {
-    alert("Are you sure?");
-  };
+  // const onDelete = () => {
+  //   alert("Are you sure?");
+  // };
 
   const logout = async () => {
     console.log("deleted token");
     await SecureStore.deleteItemAsync("token", {});
-    navigation.navigate("Login");
     return;
   };
 
   React.useEffect(() => {
-    
-  })
+    const checkLoggedIn = async () => {
+      const token = getValue("token");
+      if (!token) {
+        navigation.navigate("Home");
+        return;
+      }
+    };
+    checkLoggedIn().catch((err) => {
+      console.log(err);
+    });
+  });
 
   return (
     <>
@@ -37,12 +58,12 @@ export default function SettingsScreen({ navigation }) {
             <Card.Content
               style={{
                 flexDirection: "row",
-                padding: 10,
-                paddingBottom: 20,
+                // padding: 10,
+                paddingBottom: 10,
                 justifyContent: "space-evenly",
               }}
             >
-              <Title>Interested in donating. </Title>
+              <Paragraph>Interested in donating. </Paragraph>
               <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
             </Card.Content>
           </Card>
@@ -53,12 +74,12 @@ export default function SettingsScreen({ navigation }) {
               <Title style={[styles.rounded, { color: "#fc7d7b" }]}>
                 Legal
               </Title>
-              <Title style={styles.rounded}>Licenses </Title>
-              <Title style={styles.rounded}>Privacy Policy </Title>
-              <Title style={styles.rounded}>Terms of Service </Title>
-              <Button style={styles.rounded} mode="text" onPress={onDelete}>
+              <Paragraph style={styles.rounded}>Licenses </Paragraph>
+              <Paragraph style={styles.rounded}>Privacy Policy </Paragraph>
+              <Paragraph style={styles.rounded}>Terms of Service </Paragraph>
+              {/* <Button style={styles.rounded} mode="text" onPress={onDelete}>
                 Delete Account
-              </Button>
+              </Button> */}
             </Card.Content>
           </Card>
           <Button
@@ -75,7 +96,7 @@ export default function SettingsScreen({ navigation }) {
             Reset Password
           </Button>
           <Button
-            onPress={logout}
+            onPress={showDialog}
             mode="contained"
             icon="logout"
             style={{
@@ -87,6 +108,20 @@ export default function SettingsScreen({ navigation }) {
           >
             Logout
           </Button>
+          <Portal>
+            <Dialog visible={visible} onDismiss={hideDialog}>
+              <Dialog.Title>Confirm</Dialog.Title>
+              <Dialog.Content>
+                <Text variant="bodyMedium">
+                  Are you sure you want to log out?
+                </Text>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button onPress={hideDialog}>No</Button>
+                <Button onPress={hideDialog}>Yes</Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
         </View>
       </View>
     </>

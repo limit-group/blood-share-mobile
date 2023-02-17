@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Snackbar, TextInput } from "react-native-paper";
+import { ActivityIndicator, Snackbar, TextInput } from "react-native-paper";
 import { api } from "../utils/api";
 import styles from "../utils/styles";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -23,6 +23,11 @@ export default function LoginScreen({ navigation }) {
   };
 
   const onRegisterPress = () => {
+    if (!phone || !password || !confirmPassword) {
+      setError("Please fill out your details!");
+      setVisible(true);
+      return;
+    }
     if (password !== confirmPassword) {
       setError("Passwords don't match");
       setVisible(true);
@@ -64,8 +69,8 @@ export default function LoginScreen({ navigation }) {
           style={styles.input}
           label="Mobile Number"
           mode="outlined"
-          placeholder="07.."
-          keyboardType="numeric"
+          placeholder="+2547.."
+          keyboardType="phone-pad"
           left={<TextInput.Icon icon={"cellphone"} />}
           // placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
@@ -115,7 +120,7 @@ export default function LoginScreen({ navigation }) {
           onPress={() => onRegisterPress()}
         >
           <Text style={styles.buttonTitle}>
-            {loading ? <MaterialCommunityIcons name="loading" /> : "Continue"}
+            {loading ? <ActivityIndicator animating={true} size={50} /> : "Continue"}
           </Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
@@ -131,6 +136,7 @@ export default function LoginScreen({ navigation }) {
         visible={visible}
         duration={1000}
         onDismiss={onDismissSnackBar}
+        style={{ backgroundColor: "#fc7d7b"}}
         action={{
           label: "ok",
           onPress: () => {
