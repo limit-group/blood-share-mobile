@@ -20,6 +20,8 @@ export { default as CreateRequestScreen } from "./CreateRequestScreen";
 
 export { default as RequestsScreen } from "./RequestsScreen";
 
+export { default as MyRequestsScreen } from "./MyRequestsScreen";
+
 export { default as CreateDonationScreen } from "./CreateDonationScreen";
 
 export { default as ForgotPasswordScreen } from "./ForgotPasswordScreen";
@@ -35,7 +37,6 @@ export { default as ResetPasswordScreen } from "./ResetPasswordScreen";
 export { default as ConfirmScreen } from "./ConfirmScreen";
 
 export { default as SettingsScreen } from "./SettingsScreen";
-
 
 export { default as EditProfile } from "./EditProfile";
 

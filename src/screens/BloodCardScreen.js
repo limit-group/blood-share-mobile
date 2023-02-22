@@ -4,7 +4,9 @@ import {
   ActivityIndicator,
   Button,
   Card,
+  Chip,
   HelperText,
+  SegmentedButtons,
   Snackbar,
   Title,
 } from "react-native-paper";
@@ -14,12 +16,15 @@ import axios from "axios";
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
+import Fontisto from "react-native-vector-icons/Fontisto";
+
 export default function BloodCardScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const onDismissSnackBar = () => setVisible(false);
   const [profile, setProfile] = React.useState("");
+  const [value, setValue] = React.useState("");
 
   React.useEffect(() => {
     const findUser = async () => {
@@ -46,11 +51,28 @@ export default function BloodCardScreen({ navigation }) {
     });
   }, []);
 
+  const toDonations = () => {
+    navigation.navigate("My Donations");
+  };
+
+  const toRequests = () => {
+    navigation.navigate("My Donations");
+  };
+
+  const ReqIcon = <Fontisto name="blood-drop" size={28} color="#d0312d" />;
+
   return (
     <>
       <Navbar props={{ name: "My Profile" }} />
       <View style={styles.container}>
-        <View style={{ marginTop: 10, alignItems: "center" }}>
+        <View
+          style={{
+            marginLeft: 30,
+            marginRight: 30,
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+          }}
+        >
           {profile.avatar ? (
             <Image source={{ uri: profile.avatar }} style={styles.image} />
           ) : (
@@ -59,32 +81,44 @@ export default function BloodCardScreen({ navigation }) {
               style={styles.image}
             />
           )}
-
+          <Chip
+            icon="fountain-pen-tip"
+            mode="outlined"
+            style={{ height: 50, top: 50 }}
+            onPress={() => navigation.navigate("Edit Profile")}
+          >
+            edit
+          </Chip>
+        </View>
+        <View style={{ marginTop: 0, alignItems: "center" }}>
           <Title style={styles.text}>{profile.name}</Title>
         </View>
         <View style={{ padding: 50, paddingTop: 0 }}>
-          <Title>Life Saver Points: {profile.bloodPoints}</Title>
-          <HelperText>Donate more to earn more points</HelperText>
+          <SegmentedButtons
+            value={value}
+            onValueChange={setValue}
+            buttons={[
+              {
+                value: "walk",
+                label: "my donations",
+                onPress: toDonations,
+              },
+              {
+                value: "drive",
+                label: "my requests",
+                onPress: toRequests,
+                icon: ReqIcon,
+              },
+            ]}
+          />
           <Title>
-            D.O.B: {moment(profile.dateOfBirth).format("Do MMM  YY")}
+            birthday: {moment(profile.dateOfBirth).format("Do MMM YY")}
           </Title>
-          <Title>Gender: {profile.gender}</Title>
-          <Title>Weight: {profile.bodyWeight}</Title>
-          <Title>Blood Group: {profile.bloodType}</Title>
-
-          <Button
-            mode="contained"
-            icon="account-edit"
-            onPress={() => navigation.navigate("Edit Profile")}
-            style={{
-              borderRadius: 50,
-              marginTop: 23,
-              marginBottom: 10,
-              fontSize: "40px",
-            }}
-          >
-            Edit{" "}
-          </Button>
+          <Title>gender: {profile.gender}</Title>
+          <Title>body weight: {profile.bodyWeight}</Title>
+          <Title>blood group: {profile.bloodType}</Title>
+          <Title>life saver points: {profile.bloodPoints}</Title>
+          <HelperText>Donate more to earn more points</HelperText>
           <Button
             onPress={() => navigation.navigate("Settings")}
             mode="contained"

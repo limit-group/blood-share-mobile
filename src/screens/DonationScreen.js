@@ -11,6 +11,7 @@ import {
 import {
   ActivityIndicator,
   AnimatedFAB,
+  Button,
   List,
   Searchbar,
 } from "react-native-paper";
@@ -93,6 +94,9 @@ export default function DonationScreen({
               />
             </List.Section>
           ))}
+           <Button style={{ margin: 20 }} mode="contained">
+                donate to earn more life points..
+              </Button>
         </ScrollView>
       )}
       <AnimatedFAB

@@ -19,7 +19,7 @@ import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
-export default function RequestsScreen({
+export default function MyRequestsScreen({
   navigation,
   animatedValue,
   visible,
@@ -50,10 +50,11 @@ export default function RequestsScreen({
   const fabStyle = { [animateFrom]: 16 };
 
   React.useEffect(() => {
-    const requests = async (req, res) => {
+    setLoading(true);
+    const myRequests = async (req, res) => {
       const token = await getValue("token");
       axios
-        .get(`${api}/requests`, {
+        .get(`${api}/requests/me`, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -68,7 +69,7 @@ export default function RequestsScreen({
           console.log(err);
         });
     };
-    requests().catch((err) => {
+    myRequests().catch((err) => {
       console.log(err);
     });
   }, []);

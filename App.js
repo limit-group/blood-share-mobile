@@ -79,86 +79,93 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    getValueFor("token");
+    setLoading(true);
+    getValueFor("token").catch((err) => {
+      console.log(err);
+    });
+    setLoading(false);
   });
 
   return (
     <PaperProvider theme={theme}>
-      {/* <StatusBar style="light" /> */}
-      <NavigationContainer>
-        <Stack.Navigator>
-          {loggedIn ? (
-            <>
-              <Stack.Screen
-                name="BloodShare"
-                component={Home}
-                // onLayout={onLayoutRootView}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="announce donation drive"
-                component={CreateFeedScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Request for Blood"
-                component={CreateRequestScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="My Donations"
-                component={DonationScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Reset Password"
-                component={ResetPasswordScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen name="Edit Profile" component={EditProfile} />
-              <Stack.Screen name="donated" component={CreateDonationScreen} />
-              <Stack.Screen name="Thank You" component={ThankYouScreen} />
-              <Stack.Screen name="Confirm" component={ConfirmScreen} />
-              <Stack.Screen name="Settings" component={SettingsScreen} />
-              <Stack.Screen name="Directions" component={DirectionScreen} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Registration"
-                component={RegistrationScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Verify"
-                component={VerifyScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Complete Profile"
-                component={CompleteProfileScreen}
-                options={{ headerShown: false }}
-              />
+      {loading ? (
+        ""
+      ) : (
+        <NavigationContainer>
+          <Stack.Navigator>
+            {loggedIn ? (
+              <>
+                <Stack.Screen
+                  name="BloodShare"
+                  component={Home}
+                  // onLayout={onLayoutRootView}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="announce donation drive"
+                  component={CreateFeedScreen}
+                  // options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Request for Blood"
+                  component={CreateRequestScreen}
+                  // options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Profile"
+                  component={ProfileScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="My Donations"
+                  component={DonationScreen}
+                  // options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Reset Password"
+                  component={ResetPasswordScreen}
+                  // options={{ headerShown: false }}
+                />
+                <Stack.Screen name="Edit Profile" component={EditProfile} />
+                <Stack.Screen name="donated" component={CreateDonationScreen} />
+                <Stack.Screen name="Thank You" component={ThankYouScreen} />
+                <Stack.Screen name="Confirm" component={ConfirmScreen} />
+                <Stack.Screen name="Settings" component={SettingsScreen} />
+                <Stack.Screen name="Directions" component={DirectionScreen} />
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="Login"
+                  component={LoginScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Registration"
+                  component={RegistrationScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Verify"
+                  component={VerifyScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Complete Profile"
+                  component={CompleteProfileScreen}
+                  options={{ headerShown: false }}
+                />
 
-              <Stack.Screen
-                name="Forgot Password"
-                component={ForgotPasswordScreen}
-                // options={{ headerShown: false }}
-              />
-            </>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+                <Stack.Screen
+                  name="Forgot Password"
+                  component={ForgotPasswordScreen}
+                  // options={{ headerShown: false }}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      )}
     </PaperProvider>
   );
 }

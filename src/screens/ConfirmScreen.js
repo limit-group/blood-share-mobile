@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Image, Text, View } from "react-native";
 import styles from "../utils/styles";
-import { Button, HelperText } from "react-native-paper";
+import { Button, HelperText, Snackbar } from "react-native-paper";
 import { api } from "../utils/api";
 import { getError } from "../utils/error";
 import axios from "axios";
 
-export default function ConfirmScreen({ route,  navigation }) {
+export default function ConfirmScreen({ route, navigation }) {
+  const [visibo, setVisibo] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const onDismissSnackBar = () => setVisibo(false);
+  
   const onGo = async () => {
     const token = await getValue("token");
     axios
@@ -20,6 +24,11 @@ export default function ConfirmScreen({ route,  navigation }) {
         if (res.status == 200) {
           navigation.navigate("Thank You");
         }
+      })
+      .catch((err) => {
+        setError(getError("failed to confirm donation"));
+        setVisibo(true);
+        console.log(err);
       });
   };
 
@@ -49,6 +58,21 @@ export default function ConfirmScreen({ route,  navigation }) {
           </Text>
         </Button>
       </View>
+      <Snackbar
+        visible={visibo}
+        duration={1000}
+        style={{ backgroundColor: "#fc7d7b" }}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "OK",
+          color: "white",
+          onPress: () => {
+            onDismissSnackBar;
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </View>
   );
 }

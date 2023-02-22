@@ -95,13 +95,7 @@ export default function CreateRequestScreen({ navigation }) {
     })();
   }, [location]);
 
-  // async function get() {
-  //   const loc = await getValueFor("location");
-  //   return loc;
-  // }
-
   const onFeedPress = async () => {
-    // console.log(await get());
     const location = await getValue("location");
     let latitude = JSON.parse(location)["coords"]["latitude"];
     let longitude = JSON.parse(location)["coords"]["longitude"];

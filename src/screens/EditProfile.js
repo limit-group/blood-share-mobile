@@ -116,7 +116,7 @@ export default function EditProfile({ navigation }) {
           },
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setProfile(res.data);
         })
         .catch((err) => {
@@ -151,9 +151,9 @@ export default function EditProfile({ navigation }) {
               source={{ uri: profile.avatar }}
               style={{
                 flex: 1,
-                height: 140,
-                width: "50%",
-                borderRadius: 50,
+                height: 120,
+                width: "30%",
+                // borderRadius: 50,
                 alignSelf: "center",
                 objectFit: "cover",
                 marginTop: 20,
@@ -167,7 +167,7 @@ export default function EditProfile({ navigation }) {
                 flex: 1,
                 height: 150,
                 width: "50%",
-                borderRadius: 50,
+                // borderRadius: 50,
                 alignSelf: "center",
                 objectFit: "cover",
                 marginTop: 10,
@@ -206,7 +206,7 @@ export default function EditProfile({ navigation }) {
           keyboardType="email-address"
           left={<TextInput.Icon icon={"email-outline"} />}
           onChangeText={(text) => setEmail(text)}
-          value={profile.email}
+          value={email}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
@@ -219,25 +219,10 @@ export default function EditProfile({ navigation }) {
           keyboardType="numeric"
           left={<TextInput.Icon icon={"weight-lifter"} />}
           onChangeText={(text) => setBodyWeight(text)}
-          value={profile.bodyWeight}
+          value={bodyWeight}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <RadioButton.Group
-          onValueChange={(newValue) => setGender(newValue)}
-          value={profile.gender}
-        >
-          <View style={[styles.input, { flexDirection: "row" }]}>
-            <Text>Male</Text>
-            <RadioButton value="MALE" />
-
-            <Text>Female</Text>
-            <RadioButton value="FEMALE" />
-
-            <Text>Non binary</Text>
-            <RadioButton value="NON_BINARY" />
-          </View>
-        </RadioButton.Group>
         {loading ? (
           <ActivityIndicator animating={true} size={50} />
         ) : (

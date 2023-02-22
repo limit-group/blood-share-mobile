@@ -21,7 +21,8 @@ import {
 } from "react-native-paper";
 import { AnimatedFAB } from "react-native-paper";
 import Navbar from "../components/Navbar";
-import { api, getFeeds } from "../utils/api";
+import { api,} from "../utils/api";
+import { getValue } from "../utils/auth";
 import moment from "moment";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
@@ -63,28 +64,37 @@ export default function DonationFeedScreen({
 
   React.useEffect(() => {
     setLoading(true);
-    axios
-      .get(`${api}/feeds`)
-      .then((res) => {
-        // console.log(res.data)
-        setFeeds(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        // setLoading(false);
-        console.log(err);
-        setError("Failed to fetch feed. Retry");
-        setVisibo(true);
-      });
+    const getFeeds = async () => {
+      const token = await getValue("token");
+      axios
+        .get(`${api}/feeds`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          // console.log(res.data)
+          setFeeds(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          // setLoading(false);
+          console.log(err);
+          setError("Failed to fetch feed. Retry");
+          setVisibo(true);
+        });
+    };
+
+    getFeeds().catch((err) => {
+      console.log(err);
+    });
   }, [error]);
   return (
     <SafeAreaView style={styles.container}>
       <Navbar props={{ name: "Blood Donation Drives" }} />
       <ScrollView onScroll={onScroll}>
         {loading ? (
-          <View style={{ paddingTop: 50 }}>
-            
-          </View>
+          <View style={{ paddingTop: 50 }}></View>
         ) : (
           <>
             <View style={{ padding: 10 }}>
@@ -95,7 +105,6 @@ export default function DonationFeedScreen({
                       title={"Edwin"}
                       titleVariant="bodySmall"
                       subtitleVariant="bodySmall"
-                    
                       subtitle={moment(feed.createdAt).fromNow()}
                       left={LeftContent}
                     />
