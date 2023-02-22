@@ -83,7 +83,7 @@ export default function DonationFeedScreen({
       <ScrollView onScroll={onScroll}>
         {loading ? (
           <View style={{ paddingTop: 50 }}>
-            <ActivityIndicator animating={true} size={50} />
+            
           </View>
         ) : (
           <>
@@ -118,7 +118,7 @@ export default function DonationFeedScreen({
                     )}
                     <Card.Actions>
                       <Button mode="text" onPress={going}>
-                        <SimpleLineIcons name="people" /> 22
+                        <SimpleLineIcons name="people" /> {feed.going}
                       </Button>
                       <Button mode="contained" onPress={going}>
                         Going <SimpleLineIcons name="like" />

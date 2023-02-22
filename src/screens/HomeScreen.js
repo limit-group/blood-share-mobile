@@ -38,8 +38,8 @@ export default function HomeScreen({ navigation }) {
   const [req_count, setReqCount] = useState(0);
   const [don_count, setDonCount] = useState(0);
   const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
-  const toConfirm = () => {
-    navigation.navigate("Confirm");
+  const toConfirm = (id) => {
+    navigation.navigate("Confirm", { id: id });
   };
 
   React.useEffect(() => {
@@ -153,7 +153,7 @@ export default function HomeScreen({ navigation }) {
           />
           {loading ? (
             <View style={{ paddingTop: 50 }}>
-              <ActivityIndicator animating={true} size={30} />
+             
             </View>
           ) : (
             <View style={{ padding: 10 }}>
@@ -196,7 +196,10 @@ export default function HomeScreen({ navigation }) {
                         </Paragraph>
                       </View>
                       <Card.Actions style={{ justifyContent: "space-between" }}>
-                        <Button mode="contained" onPress={toConfirm}>
+                        <Button
+                          mode="contained"
+                          onPress={() => toConfirm(req.id)}
+                        >
                           donate <FontAwesome name="smile-o" size={18} />{" "}
                         </Button>
                       </Card.Actions>

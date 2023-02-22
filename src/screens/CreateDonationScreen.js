@@ -151,7 +151,7 @@ export default function CreateDonationScreen({ navigation }) {
         )}
         <View style={styles.input}>
           <Text style={styles.footerText}>
-            Your Data will be processed according to our{" "}
+            Your data will be processed according to our{" "}
             <Text onPress={onFooterLinkPress} style={styles.footerLink}>
               Privacy Policy.
             </Text>

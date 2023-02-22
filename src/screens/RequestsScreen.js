@@ -68,7 +68,7 @@ export default function RequestsScreen({
       <ScrollView onScroll={onScroll}>
         {loading ? (
           <View style={{ paddingTop: 50 }}>
-            <ActivityIndicator animating={true} size={50} />
+         
           </View>
         ) : (
           <View style={{ padding: 10 }}>

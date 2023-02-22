@@ -6,7 +6,6 @@ import { ActivityIndicator, Snackbar, TextInput } from "react-native-paper";
 import { api } from "../utils/api";
 import styles from "../utils/styles";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Feedback from "../components/Feedback";
 import { getError } from "../utils/error";
 
 export default function LoginScreen({ navigation }) {

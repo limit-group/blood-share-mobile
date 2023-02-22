@@ -17,6 +17,7 @@ import {
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
+import moment from "moment";
 export default function DonationScreen({
   navigation,
   animatedValue,
@@ -45,26 +46,26 @@ export default function DonationScreen({
     navigation.navigate("donated");
   };
 
+  const getDonations = async () => {
+    const token = await getValue("token");
+    axios
+      .get(`${api}/donations/me`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setDonations(res.data);
+        console.log(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
+
   React.useEffect(() => {
-    setLoading(true);
-    async function getDonations() {
-      const token = await getValue("token");
-      axios
-        .get(`${api}/donations`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setDonations(res.data);
-          console.log(res.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.log(err);
-        });
-    }
     getDonations().catch((err) => {
       console.log(err);
     });
@@ -78,11 +79,19 @@ export default function DonationScreen({
       ) : (
         <ScrollView onScroll={onScroll}>
           {donations.map((donation) => (
-            <List.Item
-              title="makini hospital"
-              description="Item description"
-              left={(props) => <List.Icon {...props} icon="hospital-marker" />}
-            />
+            <List.Section style={{ paddingLeft: 30, paddingRight: 30 }} key={donation.id}>
+              <List.Subheader>
+                On {moment(donation.createdAt).format("dddd, MMMM Do YYYY")}
+              </List.Subheader>
+              <List.Item
+                title={donation.facility}
+                left={() => <List.Icon icon="hospital-marker" />}
+              />
+              <List.Item
+                title={donation.donorNumber}
+                left={() => <List.Icon icon="card-account-details-outline" />}
+              />
+            </List.Section>
           ))}
         </ScrollView>
       )}
