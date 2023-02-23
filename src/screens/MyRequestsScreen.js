@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   View,
   Platform,
+  Image,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { ActivityIndicator, AnimatedFAB, Paragraph } from "react-native-paper";
@@ -51,7 +52,7 @@ export default function MyRequestsScreen({
 
   React.useEffect(() => {
     setLoading(true);
-    const myRequests = async (req, res) => {
+    const myRequests = async () => {
       const token = await getValue("token");
       axios
         .get(`${api}/requests/me`, {
@@ -75,84 +76,82 @@ export default function MyRequestsScreen({
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar props={{ name: "Blood Requests" }} />
       <ScrollView onScroll={onScroll}>
-        {loading ? (
-          <View style={{ paddingTop: 50 }}></View>
-        ) : (
+        {efeeds.length > 0 ? (
           <View style={{ padding: 10 }}>
-            {efeeds.length > 0 ? (
-              <>
-                {efeeds.map((feed) => (
-                  <View key={feed.id}>
-                    <Card
-                      style={{ backgroundColor: "#ffffff" }}
-                      mode="contained"
-                    >
-                      <Card.Title
-                        title="edwin"
-                        titleVariant="bodySmall"
-                        subtitleVariant="bodySmall"
-                        subtitleStyle={{ fontWeight: "100" }}
-                        subtitle={moment(feed.createdAt).fromNow()}
-                        left={LeftContent}
-                      />
-                      <Card.Content>
-                        <View
-                          style={{
-                            justifyContent: "space-evenly",
-                            flexDirection: "row",
-                            // paddingTop: 20,
-                          }}
-                        >
-                          <Paragraph>
-                            <Fontisto
-                              name="blood-drop"
-                              size={18}
-                              color="#d0312d"
-                            />{" "}
-                            {feed.bloodGroup}
-                          </Paragraph>
-                          <Paragraph
-                            onPress={() =>
-                              navigation.navigate("Directions", {
-                                latitude: feed.latitude,
-                                longitude: feed.longitude,
-                              })
-                            }
-                          >
-                            <FontAwesome name="location-arrow" size={18} />{" "}
-                            Directions
-                          </Paragraph>
-                        </View>
-                        {feed.requestType == "OTHERS" ? (
-                          <Text>Help save {feed.patientName}'s life </Text>
-                        ) : (
-                          ""
-                        )}
-                        <Card.Actions>
-                          <Button mode="contained" onPress={toConfirm}>
-                            donate <FontAwesome name="smile-o" size={18} />{" "}
-                          </Button>
-                        </Card.Actions>
-                      </Card.Content>
-                    </Card>
+            {efeeds.map((feed) => (
+              <View key={feed.id}>
+                <Card style={{ backgroundColor: "#ffffff" }} mode="contained">
+                  <Card.Title
+                    title="edwin"
+                    titleVariant="bodySmall"
+                    subtitleVariant="bodySmall"
+                    subtitleStyle={{ fontWeight: "100" }}
+                    subtitle={moment(feed.createdAt).fromNow()}
+                    left={LeftContent}
+                  />
+                  <Card.Content>
                     <View
                       style={{
-                        padding: 5,
+                        justifyContent: "space-evenly",
+                        flexDirection: "row",
+                        // paddingTop: 20,
                       }}
-                    />
-                  </View>
-                ))}
-                <Button style={{ margin: 20 }} mode="contained">
-                  Load More..
-                </Button>
-              </>
-            ) : (
-              <></>
-            )}
+                    >
+                      <Paragraph>
+                        <Fontisto name="blood-drop" size={18} color="#d0312d" />{" "}
+                        {feed.bloodGroup}
+                      </Paragraph>
+                      <Paragraph
+                        onPress={() =>
+                          navigation.navigate("Directions", {
+                            latitude: feed.latitude,
+                            longitude: feed.longitude,
+                          })
+                        }
+                      >
+                        <FontAwesome name="location-arrow" size={18} />{" "}
+                        Directions
+                      </Paragraph>
+                    </View>
+                    {feed.requestType == "OTHERS" ? (
+                      <Text>Help save {feed.patientName}'s life </Text>
+                    ) : (
+                      ""
+                    )}
+                    <Card.Actions>
+                      <Button mode="contained" onPress={toConfirm}>
+                        donate <FontAwesome name="smile-o" size={18} />{" "}
+                      </Button>
+                    </Card.Actions>
+                  </Card.Content>
+                </Card>
+                <View
+                  style={{
+                    padding: 5,
+                  }}
+                />
+              </View>
+            ))}
+          </View>
+        ) : (
+          <View style={{ margin: 30 }}>
+            <Image
+              style={{
+                height: 270,
+                // margin: 50,
+                width: "100%",
+                borderRadius: 50,
+              }}
+              source={require("../../assets/no_data.png")}
+            />
+            <Text>start by requesting a donation</Text>
           </View>
         )}
+
+        <Button style={{ margin: 20 }} mode="contained">
+          Load More..
+        </Button>
       </ScrollView>
       <AnimatedFAB
         icon={"arrow-right"}
@@ -172,11 +171,10 @@ export default function MyRequestsScreen({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    // marginTop: StatusBar.currentHeight || 0,
     backgroundColor: "#ffffff",
   },
   fabStyle: {
-    bottom: 16,
+    bottom: 36,
     right: 16,
     backgroundColor: "#ffffff",
     position: "absolute",

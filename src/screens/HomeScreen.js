@@ -39,7 +39,7 @@ export default function HomeScreen({ navigation }) {
   const [don_count, setDonCount] = useState(0);
   const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
   const toConfirm = (id) => {
-    navigation.navigate("Confirm", { id: id });
+    navigation.navigate("Accept To Donate", { id: id });
   };
 
   React.useEffect(() => {

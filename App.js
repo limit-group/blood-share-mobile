@@ -42,6 +42,8 @@ import {
   CreateRequestScreen,
   EditProfile,
   DirectionScreen,
+  MyRequestsScreen,
+  AcceptDonationScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
@@ -121,6 +123,16 @@ export default function App() {
                   component={DonationScreen}
                   // options={{ headerShown: false }}
                 />
+                  <Stack.Screen
+                  name="My Blood Requests"
+                  component={MyRequestsScreen}
+                  // options={{ headerShown: false }}
+                />
+                  <Stack.Screen
+                  name="Accept To Donate"
+                  component={AcceptDonationScreen}
+                  // options={{ headerShown: false }}
+                />
                 <Stack.Screen
                   name="Reset Password"
                   component={ResetPasswordScreen}
@@ -132,6 +144,7 @@ export default function App() {
                 <Stack.Screen name="Confirm" component={ConfirmScreen} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
                 <Stack.Screen name="Directions" component={DirectionScreen} />
+
               </>
             ) : (
               <>
@@ -168,9 +181,6 @@ export default function App() {
       )}
     </PaperProvider>
   );
-}
-function Screen() {
-  return <Tab.Group></Tab.Group>;
 }
 
 function Home() {

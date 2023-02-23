@@ -1,16 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  StatusBar,
-  StyleSheet,
-  SafeAreaView,
-  Platform,
-  View,
-} from "react-native";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
-import { ScrollView } from "react-native-gesture-handler";
 import {
-  ActivityIndicator,
+  StyleProp,
+  ViewStyle,
+  Animated,
+  StyleSheet,
+  Platform,
+  ScrollView,
+  SafeAreaView,
+  I18nManager,
   Avatar,
   Button,
   Card,
@@ -21,7 +20,7 @@ import {
 } from "react-native-paper";
 import { AnimatedFAB } from "react-native-paper";
 import Navbar from "../components/Navbar";
-import { api,} from "../utils/api";
+import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
 import moment from "moment";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
@@ -92,61 +91,53 @@ export default function DonationFeedScreen({
   return (
     <SafeAreaView style={styles.container}>
       <Navbar props={{ name: "Blood Donation Drives" }} />
-      <ScrollView onScroll={onScroll}>
-        {loading ? (
-          <View style={{ paddingTop: 50 }}></View>
-        ) : (
-          <>
-            <View style={{ padding: 10 }}>
-              {feeds.map((feed) => (
-                <View key={feed.id}>
-                  <Card style={styles.card} mode="contained">
-                    <Card.Title
-                      title={"Edwin"}
-                      titleVariant="bodySmall"
-                      subtitleVariant="bodySmall"
-                      subtitle={moment(feed.createdAt).fromNow()}
-                      left={LeftContent}
-                    />
-                    <Card.Content>
-                      <Paragraph>{feed.information}</Paragraph>
-                    </Card.Content>
-                    {feed.media ? (
-                      <>
-                        <Card.Cover
-                          source={{ uri: feed.media }}
-                          style={{
-                            padding: 5,
-                            backgroundColor: "#ffffff",
-                            height: 150,
-                          }}
-                        />
-                      </>
-                    ) : (
-                      ""
-                    )}
-                    <Card.Actions>
-                      <Button mode="text" onPress={going}>
-                        <SimpleLineIcons name="people" /> {feed.going}
-                      </Button>
-                      <Button mode="contained" onPress={going}>
-                        Going <SimpleLineIcons name="like" />
-                      </Button>
-                    </Card.Actions>
-                  </Card>
-                  <View
+      <ScrollView onScroll={onScroll} style={{ padding: 10 }}>
+        {feeds.map((feed) => (
+          <View key={feed.id}>
+            <Card style={styles.card} mode="contained">
+              <Card.Title
+                title={"Edwin"}
+                titleVariant="bodySmall"
+                subtitleVariant="bodySmall"
+                subtitle={moment(feed.createdAt).fromNow()}
+                left={LeftContent}
+              />
+              <Card.Content>
+                <Paragraph>{feed.information}</Paragraph>
+              </Card.Content>
+              {feed.media ? (
+                <>
+                  <Card.Cover
+                    source={{ uri: feed.media }}
                     style={{
                       padding: 5,
+                      backgroundColor: "#ffffff",
+                      height: 150,
                     }}
                   />
-                </View>
-              ))}
-              <Button style={{ margin: 20 }} mode="contained">
-                Load More..
-              </Button>
-            </View>
-          </>
-        )}
+                </>
+              ) : (
+                ""
+              )}
+              <Card.Actions>
+                <Button mode="text" onPress={going}>
+                  <SimpleLineIcons name="people" /> {feed.going}
+                </Button>
+                <Button mode="contained" onPress={going}>
+                  Going <SimpleLineIcons name="like" />
+                </Button>
+              </Card.Actions>
+            </Card>
+            <View
+              style={{
+                padding: 5,
+              }}
+            />
+          </View>
+        ))}
+        <Button style={{ margin: 20 }} mode="contained">
+          Load More..
+        </Button>
       </ScrollView>
       <AnimatedFAB
         icon={"plus"}
@@ -180,7 +171,6 @@ export default function DonationFeedScreen({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    // marginTop: StatusBar.currentHeight || 0,
     backgroundColor: "#ffffff",
   },
   fabStyle: {
@@ -200,6 +190,5 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#ffffff",
-    // paddingBottom: 10,
   },
 });

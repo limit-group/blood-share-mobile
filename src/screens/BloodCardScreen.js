@@ -16,6 +16,7 @@ import axios from "axios";
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
+import Octicons from "react-native-vector-icons/Octicons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 
 export default function BloodCardScreen({ navigation }) {
@@ -56,10 +57,14 @@ export default function BloodCardScreen({ navigation }) {
   };
 
   const toRequests = () => {
-    navigation.navigate("My Donations");
+    navigation.navigate("My Blood Requests");
   };
 
-  const ReqIcon = <Fontisto name="blood-drop" size={28} color="#d0312d" />;
+  const ReqIcon = (props) => (
+    <Fontisto name="blood-drop" size={28} color="#d0312d" {...props} />
+  );
+
+  const DonIcon = (props) => <Octicons name="people" size={28} {...props} />;
 
   return (
     <>
@@ -102,6 +107,7 @@ export default function BloodCardScreen({ navigation }) {
                 value: "walk",
                 label: "my donations",
                 onPress: toDonations,
+                icon: DonIcon,
               },
               {
                 value: "drive",
