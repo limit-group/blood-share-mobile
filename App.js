@@ -143,7 +143,6 @@ export default function App() {
                 <Stack.Screen name="Thank You" component={ThankYouScreen} />
                 <Stack.Screen name="Confirm" component={ConfirmScreen} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
-                <Stack.Screen name="Directions" component={DirectionScreen} />
 
               </>
             ) : (

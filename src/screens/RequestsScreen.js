@@ -21,10 +21,12 @@ import {
   Avatar,
   Button,
   Card,
+  Snackbar,
 } from "react-native-paper";
 import Navbar from "../components/Navbar";
 import moment from "moment";
-// import TopTabNavigator from "../components/Topbar";
+import * as Linking from "expo-linking";
+import * as Location from "expo-location";
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
@@ -37,13 +39,18 @@ export default function RequestsScreen({
   animateFrom,
   style,
   iconMode,
-  navigation
+  navigation,
 }) {
   const toRequest = () => {
     navigation.navigate("Request for Blood");
   };
   const [efeeds, setFeed] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [my_lat, setMyLat] = useState(null);
+  const [my_long, setMyLong] = useState(null);
+  const [visibo, setVisibo] = React.useState(false);
+  const onDismissSnackBar = () => setVisible(false);
+  const [error, setError] = React.useState("");
   const [isExtended, setIsExtended] = React.useState(true);
 
   const isIOS = Platform.OS === "ios";
@@ -58,6 +65,19 @@ export default function RequestsScreen({
   };
 
   const fabStyle = { [animateFrom]: 16 };
+
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setError("Permission to access location was denied");
+      setVisible(true);
+      return;
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    location = JSON.parse(JSON.stringify(location));
+    setMyLat(location.coords.latitude);
+    setMyLong(location.coords.longitude);
+  };
 
   React.useEffect(() => {
     const requests = async (req, res) => {
@@ -112,10 +132,9 @@ export default function RequestsScreen({
                       </Paragraph>
                       <Paragraph
                         onPress={() =>
-                          navigation.navigate("Directions", {
-                            latitude: feed.latitude,
-                            longitude: feed.longitude,
-                          })
+                          Linking.openURL(
+                            `https://www.google.com/maps/dir/?api=1&origin=${my_lat},${my_long}&destination=${feed.latitude},${feed.longitude}`
+                          )
                         }
                       >
                         <FontAwesome name="location-arrow" size={18} />{" "}
@@ -174,6 +193,19 @@ export default function RequestsScreen({
         iconMode={"static"}
         style={[styles.fabStyle, style, fabStyle]}
       />
+      <Snackbar
+        visible={visibo}
+        duration={1000}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </SafeAreaView>
   );
 }

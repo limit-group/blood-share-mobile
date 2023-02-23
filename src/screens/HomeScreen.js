@@ -28,6 +28,8 @@ import axios from "axios";
 import { api, getCity } from "../utils/api";
 import { getValue } from "../utils/auth";
 import Navbar from "../components/Navbar";
+import * as Linking from "expo-linking";
+import * as Location from "expo-location";
 
 export default function HomeScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
@@ -37,9 +39,26 @@ export default function HomeScreen({ navigation }) {
   const [requests, setRequests] = useState([]);
   const [req_count, setReqCount] = useState(0);
   const [don_count, setDonCount] = useState(0);
+  const [my_lat, setMyLat] = useState(null);
+  const [my_long, setMyLong] = useState(null);
+
+  // const [location, setLocation] = useState(null);
   const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
   const toConfirm = (id) => {
     navigation.navigate("Accept To Donate", { id: id });
+  };
+
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setError("Permission to access location was denied");
+      setVisible(true);
+      return;
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    location = JSON.parse(JSON.stringify(location));
+    setMyLat(location.coords.latitude);
+    setMyLong(location.coords.longitude);
   };
 
   React.useEffect(() => {
@@ -65,6 +84,10 @@ export default function HomeScreen({ navigation }) {
     };
 
     getLatest().catch((err) => {
+      console.log(err);
+    });
+
+    getLocation().catch((err) => {
       console.log(err);
     });
   }, []);
@@ -151,9 +174,7 @@ export default function HomeScreen({ navigation }) {
             }}
           />
           {loading ? (
-            <View style={{ paddingTop: 50 }}>
-             
-            </View>
+            <View style={{ paddingTop: 50 }}></View>
           ) : (
             <View style={{ padding: 10 }}>
               {requests.map((req) => (
@@ -183,11 +204,11 @@ export default function HomeScreen({ navigation }) {
                           {req.bloodGroup}
                         </Paragraph>
                         <Paragraph
-                          onPress={() =>
-                            navigation.navigate("Directions", {
-                              latitude: req.latitude,
-                              longitude: req.longitude,
-                            })
+                          onPress={
+                            () =>
+                              Linking.openURL(
+                                `https://www.google.com/maps/dir/?api=1&origin=${my_lat},${my_long}&destination=${req.latitude},${req.longitude}`
+                              )
                           }
                         >
                           <FontAwesome name="location-arrow" size={18} />{" "}
