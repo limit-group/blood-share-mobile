@@ -1,31 +1,65 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Button, Title } from "react-native-paper";
+import { api } from "../utils/api";
+import { getValue } from "../utils/auth";
 import styles from "../utils/styles";
 
-export default function AcceptDonationScreen({ navigation }) {
-  const onAccept = () => {
-    navigation.navigate("Thank You");
+export default function AcceptDonationScreen({ route, navigation }) {
+  const onAccept = async () => {
+    const token = await getValue("token");
+    axios
+      .get(`${api}/requests/accept/${route.params.id}`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          navigation.navigate("Thank You");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onDecline = () => {
-    navigation.navigate("Requests");
+    navigation.goBack();
   };
+
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require("../../assets/icon.png")} />
-      <View style={styles.footerView}>
-        <Text style={styles.footerText}>
-          Accept to go and donate.You will recieve map directions in sms
-        </Text>
-      </View>
-      <View style={styles.sideButtons}>
-        <TouchableOpacity style={styles.button} onPress={() => onAccept()}>
-          <Text style={styles.buttonTitle}>Accept</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => onDecline()}>
-          <Text style={styles.buttonTitle}>Decline</Text>
-        </TouchableOpacity>
+        <Image
+          style={{
+            height: 270,
+            width: "100%",
+            borderRadius: 50,
+          }}
+          source={require("../../assets/map.png")}
+        />
+
+      <View style={{ margin: 30 }}>
+        <Title style={{ textAlign: "center" }}>
+          Accept to go and donate.{" \n"}You will recieve map directions in sms.
+        </Title>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            paddingLeft: 30,
+            paddingRight: 30,
+            paddingTop: 50,
+          }}
+        >
+          <Button onPress={onDecline} mode="outlined">
+            Decline
+          </Button>
+          <Button onPress={onAccept} mode="contained">
+            Accept
+          </Button>
+        </View>
       </View>
     </View>
   );

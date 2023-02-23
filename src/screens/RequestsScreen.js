@@ -37,6 +37,7 @@ export default function RequestsScreen({
   animateFrom,
   style,
   iconMode,
+  navigation
 }) {
   const toRequest = () => {
     navigation.navigate("Request for Blood");
@@ -69,7 +70,6 @@ export default function RequestsScreen({
         })
         .then((res) => {
           setFeed(res.data);
-          // console.log(res.data);
           setLoading(false);
         })
         .catch((err) => {

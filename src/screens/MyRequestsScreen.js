@@ -11,7 +11,12 @@ import {
   Image,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { ActivityIndicator, AnimatedFAB, Paragraph } from "react-native-paper";
+import {
+  ActivityIndicator,
+  AnimatedFAB,
+  Paragraph,
+  Title,
+} from "react-native-paper";
 import { Avatar, Button, Card, IconButton, Text } from "react-native-paper";
 import Navbar from "../components/Navbar";
 import moment from "moment";
@@ -145,7 +150,7 @@ export default function MyRequestsScreen({
               }}
               source={require("../../assets/no_data.png")}
             />
-            <Text>start by requesting a donation</Text>
+            <Title style={{ textAlign: "center" }}>Start by requesting a blood donations</Title>
           </View>
         )}
 

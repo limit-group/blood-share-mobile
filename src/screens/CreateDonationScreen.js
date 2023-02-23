@@ -120,7 +120,7 @@ export default function CreateDonationScreen({ navigation }) {
         />
         <TextInput
           style={styles.input}
-          label="Donor ID"
+          label="Donation ID"
           left={<TextInput.Icon icon={"identifier"} />}
           mode="outlined"
           placeholder="e.g RC0001"
@@ -131,7 +131,7 @@ export default function CreateDonationScreen({ navigation }) {
           autoCapitalize="none"
         />
         <HelperText style={styles.input}>
-          Number issued to your to recognize you as a donor.
+          * Number issued to your to recognize you as a donor.
         </HelperText>
         <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 5 }}>
           <Button mode="contained" onPress={showDatepicker}>

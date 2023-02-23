@@ -56,7 +56,6 @@ export default function HomeScreen({ navigation }) {
           setRequests(res.data.broadcasts);
           setReqCount(res.data.request_count);
           setDonCount(res.data.donations_count);
-
           setLoading(false);
         })
         .catch((err) => {

@@ -44,7 +44,7 @@ export default function DonationScreen({
   const fabStyle = { [animateFrom]: 16 };
 
   const toDonor = () => {
-    navigation.navigate("donated");
+    navigation.navigate("Record Donation");
   };
 
   const getDonations = async () => {
@@ -80,7 +80,10 @@ export default function DonationScreen({
       ) : (
         <ScrollView onScroll={onScroll}>
           {donations.map((donation) => (
-            <List.Section style={{ paddingLeft: 30, paddingRight: 30 }} key={donation.id}>
+            <List.Section
+              style={{ paddingLeft: 30, paddingRight: 30 }}
+              key={donation.id}
+            >
               <List.Subheader>
                 On {moment(donation.createdAt).format("dddd, MMMM Do YYYY")}
               </List.Subheader>
@@ -94,9 +97,11 @@ export default function DonationScreen({
               />
             </List.Section>
           ))}
-           <Button style={{ margin: 20 }} mode="contained">
-                donate to earn more life points..
-              </Button>
+          <View>
+            <Button style={{ margin: 20 }} mode="contained" onPress={() => navigation.navigate("Record Donation")}>
+              Donate to earn more life points..
+            </Button>
+          </View>
         </ScrollView>
       )}
       <AnimatedFAB

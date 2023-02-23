@@ -9,6 +9,7 @@ import styles from "../utils/styles";
 export default function ResetPasswordScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onResetPress = () => {
     if (password !== confirmPassword) {

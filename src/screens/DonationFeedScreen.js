@@ -8,20 +8,24 @@ import {
   StyleSheet,
   Platform,
   ScrollView,
+  Text,
   SafeAreaView,
   I18nManager,
+  View,
+  Image,
+} from "react-native";
+import {
+  AnimatedFAB,
   Avatar,
   Button,
   Card,
-  FAB,
   Paragraph,
   Snackbar,
-  Text,
 } from "react-native-paper";
-import { AnimatedFAB } from "react-native-paper";
 import Navbar from "../components/Navbar";
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
+import { getError } from "../utils/error";
 import moment from "moment";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
@@ -56,11 +60,6 @@ export default function DonationFeedScreen({
 
   const fabStyle = { [animateFrom]: 16 };
 
-  const going = () => {
-    setError("Going to donate.");
-    setVisibo(true);
-  };
-
   React.useEffect(() => {
     setLoading(true);
     const getFeeds = async () => {
@@ -83,11 +82,32 @@ export default function DonationFeedScreen({
           setVisibo(true);
         });
     };
-
     getFeeds().catch((err) => {
       console.log(err);
     });
   }, [error]);
+
+  const going = async (id) => {
+    const token = await getValue("token");
+    axios
+      .get(`${api}/feeds/going/${id}`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          setError(res.data.message);
+          setVisibo(true);
+        }
+      })
+      .catch((err) => {
+        setError(getError(err));
+        setVisibo(true);
+        console.log(err);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Navbar props={{ name: "Blood Donation Drives" }} />
@@ -123,7 +143,7 @@ export default function DonationFeedScreen({
                 <Button mode="text" onPress={going}>
                   <SimpleLineIcons name="people" /> {feed.going}
                 </Button>
-                <Button mode="contained" onPress={going}>
+                <Button mode="contained" onPress={() => going(feed.id)}>
                   Going <SimpleLineIcons name="like" />
                 </Button>
               </Card.Actions>

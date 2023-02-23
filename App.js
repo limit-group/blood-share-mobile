@@ -139,7 +139,7 @@ export default function App() {
                   // options={{ headerShown: false }}
                 />
                 <Stack.Screen name="Edit Profile" component={EditProfile} />
-                <Stack.Screen name="donated" component={CreateDonationScreen} />
+                <Stack.Screen name="Record Donation" component={CreateDonationScreen} />
                 <Stack.Screen name="Thank You" component={ThankYouScreen} />
                 <Stack.Screen name="Confirm" component={ConfirmScreen} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
