@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Card, Paragraph, Title, Avatar, Button } from "react-native-paper";
+import * as Linking from "expo-linking";
 
 export default function SingleRequestScreen({ navigation, route }) {
-    // console.log(route.params.request);
+  const { req } = route.params;
   return (
     <>
       <View style={styles.container}>
@@ -11,26 +12,40 @@ export default function SingleRequestScreen({ navigation, route }) {
           style={{ alignContent: "center", alignItems: "center", margin: 30 }}
         >
           <Avatar.Image size={54} source={require("../../assets/avatar.png")} />
-          <Title>john doe</Title>
-          <Paragraph>
-            ie-bjbgjg iehiehrie eiehrie ehiriehrie ednreirier ehriehri
-          </Paragraph>
+          <Title>{req.patientName}</Title>
+          <Paragraph>{req.biography}</Paragraph>
           <Card
-            style={{ backgroundColor: "#f2f6fc", marginTop: 10 }}
+            style={{ backgroundColor: "#f2f6fc", marginTop: 10, width: "100%" }}
             mode="contained"
           >
             <Card.Content>
               <Paragraph style={{ fontWeight: "bold" }}>Diagnosis</Paragraph>
-              <Paragraph>dbdife ebueu eriehe</Paragraph>
+              <Paragraph>{req.diagnosis}</Paragraph>
               <Text>{" \n "}</Text>
-              <Paragraph style={{ fontWeight: "bold" }}>Location</Paragraph>
-              <Paragraph>snndsfi ieojfoiefje eeigie egoiehgie</Paragraph>
+              <Paragraph style={{ fontWeight: "bold", padding: 10 }}>
+                Location
+              </Paragraph>
+              <Button
+                mode="outlined"
+                icon={"google-maps"}
+                onPress={() =>
+                  Linking.openURL(
+                    `https://www.google.com/maps/search/?api=1&query=${req.latitude}%C${req.longitude}`
+                  )
+                }
+              >
+                See in Google Maps
+              </Button>
+              <Title></Title>
             </Card.Content>
           </Card>
         </View>
         <View style={{ margin: 30 }}>
           <Button
-            onPress={() => navigation.navigate("")}
+            style={{}}
+            onPress={() =>
+              navigation.navigate("Accept To Donate", { id: req.id })
+            }
             mode="contained"
             icon={"check"}
           >

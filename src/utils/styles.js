@@ -48,7 +48,7 @@ export default StyleSheet.create({
     // overflow: "hidden",
     backgroundColor: "white",
     marginTop: 10,
-    marginBottom: 10,
+    // marginBottom: 10,
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,

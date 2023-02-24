@@ -114,7 +114,9 @@ export default function RequestsScreen({
                 <Card
                   style={{ backgroundColor: "#f2f6fc" }}
                   mode="contained"
-                  onPress={() => navigation.navigate("Patient Info")}
+                  onPress={() =>
+                    navigation.navigate("Patient Info", { req: feed })
+                  }
                 >
                   <View style={{ alignItems: "center", marginTop: 10 }}>
                     <Avatar.Image
@@ -134,7 +136,7 @@ export default function RequestsScreen({
                         justifyContent: "space-evenly",
                         flexDirection: "row",
                         paddingBottom: 10,
-                        // paddingTop: 20,
+                        paddingTop: 20,
                       }}
                     >
                       <Paragraph>
@@ -149,14 +151,15 @@ export default function RequestsScreen({
 
                     <Card.Actions style={{ justifyContent: "space-between" }}>
                       <Button
+                        icon={"google-maps"}
+                        mode="text"
                         onPress={() =>
                           Linking.openURL(
                             `https://www.google.com/maps/dir/?api=1&origin=${my_lat},${my_long}&destination=${feed.latitude},${feed.longitude}`
                           )
                         }
                       >
-                        Directions{" "}
-                        <FontAwesome name="location-arrow" size={18} />{" "}
+                        Directions
                       </Button>
                       <Button
                         mode="contained"
@@ -192,9 +195,9 @@ export default function RequestsScreen({
           </>
         )}
 
-        {/* <Button style={{ margin: 20, bottom: 26 }} mode="contained">
+        <Button style={{ margin: 20, bottom: 26 }} mode="contained">
           Load More..
-        </Button> */}
+        </Button>
       </ScrollView>
       <AnimatedFAB
         icon={"arrow-right"}

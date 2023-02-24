@@ -14,6 +14,7 @@ import {
   Chip,
   HelperText,
   Modal,
+  Paragraph,
   Portal,
   ProgressBar,
   Provider,
@@ -45,21 +46,21 @@ export default function CreateRequestScreen({ navigation }) {
   const [requestType, setRequestType] = React.useState("SELF");
   const [relationship, setRelationship] = useState("");
   const [needed, setNeeded] = useState("");
-
+  const [biography, setBiography] = useState("");
+  const [diagnosis, setDiagnosis] = useState("");
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: "white", padding: 30 };
   const [valu, setValu] = useState("");
-  const [mod, setMod] = useState("outlined")
-  const [mod_one, setModOne] = useState("outlined")
-
+  const [mod, setMod] = useState("outlined");
+  const [mod_one, setModOne] = useState("outlined");
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
     setShow(true);
-    setModOne("contained")
+    setModOne("contained");
   };
 
   const [value, setValue] = useState("");
@@ -76,7 +77,7 @@ export default function CreateRequestScreen({ navigation }) {
   };
   const pickDay = () => {
     setWhen(new Date());
-    setMod("contained")
+    setMod("contained");
   };
 
   // location
@@ -107,6 +108,8 @@ export default function CreateRequestScreen({ navigation }) {
       needed,
       latitude,
       longitude,
+      biography,
+      diagnosis,
       relationship,
       patientName,
     };
@@ -155,9 +158,9 @@ export default function CreateRequestScreen({ navigation }) {
         keyboardShouldPersistTaps="always"
       >
         <View style={styles.input}>
-          <Title>
+          <Paragraph>
             Blood group: <Text style={styles.primary}>{bloodGroup}</Text>
-          </Title>
+          </Paragraph>
         </View>
         <Portal>
           <Modal
@@ -270,7 +273,7 @@ export default function CreateRequestScreen({ navigation }) {
         </View>
 
         <View style={styles.input}>
-          <Title>Raise Request for:</Title>
+          <Paragraph>Raise Request for:</Paragraph>
           <View style={{ margin: 10 }}>
             <RadioButton.Group
               onValueChange={(newValue, value) => {
@@ -324,8 +327,38 @@ export default function CreateRequestScreen({ navigation }) {
           ""
         )}
 
+        <TextInput
+          style={styles.input}
+          multiline={true}
+          numberOfLines={2}
+          mode="outlined"
+          label={"Diagnosis"}
+          placeholder="e.g anaemia"
+          placeholderTextColor="#aaaaaa"
+          onChangeText={(text) => setDiagnosis(text)}
+          value={diagnosis}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+        {value == "OTHERS" ? (
+          <TextInput
+            style={styles.input}
+            multiline={true}
+            numberOfLines={2}
+            mode="outlined"
+            label={"Patient bio"}
+            placeholder="e.g Mary is a student..."
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(text) => setBiography(text)}
+            value={biography}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+        ) : (
+          ""
+        )}
         <View style={styles.input}>
-          <Title>When: </Title>
+          <Paragraph>When: </Paragraph>
         </View>
         <View
           style={{
@@ -346,13 +379,13 @@ export default function CreateRequestScreen({ navigation }) {
         </View>
 
         {/* <View style={styles.input}>
-          <Title>Where?</Title>
+          <Paragraph>Where?</Paragraph>
           <Button style={styles.rounded} mode="text">
             <Entypo name="location" size={16} /> my location
           </Button>
         </View> */}
         <View style={styles.input}>
-          <Title>Number of blood units:</Title>
+          <Paragraph>Number of blood units:</Paragraph>
           <View
             style={{
               flexDirection: "row",
@@ -389,6 +422,7 @@ export default function CreateRequestScreen({ navigation }) {
             </Button>
           )}
         </View>
+        <Text>{" \n"}</Text>
       </KeyboardAwareScrollView>
       <Snackbar
         visible={visibo}

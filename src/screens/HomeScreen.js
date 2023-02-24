@@ -183,7 +183,7 @@ export default function HomeScreen({ navigation }) {
                           justifyContent: "space-evenly",
                           flexDirection: "row",
                           paddingBottom: 10,
-                          // paddingTop: 20,
+                          paddingTop: 20,
                         }}
                       >
                         <Paragraph>
@@ -202,6 +202,8 @@ export default function HomeScreen({ navigation }) {
 
                       <Card.Actions style={{ justifyContent: "space-between" }}>
                         <Button
+                          icon={"google-maps"}
+                          mode="text"
                           onPress={() =>
                             Linking.openURL(
                               `https://www.google.com/maps/dir/?api=1&origin=${my_lat},${my_long}&destination=${req.latitude},${req.longitude}`
@@ -209,7 +211,6 @@ export default function HomeScreen({ navigation }) {
                           }
                         >
                           Directions{" "}
-                          <FontAwesome name="location-arrow" size={18} />{" "}
                         </Button>
                         <Button
                           mode="contained"
