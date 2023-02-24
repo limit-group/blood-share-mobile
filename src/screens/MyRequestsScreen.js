@@ -86,20 +86,29 @@ export default function MyRequestsScreen({
           <View style={{ padding: 10 }}>
             {efeeds.map((feed) => (
               <View key={feed.id}>
-                <Card style={{ backgroundColor: "#ffffff" }} mode="contained">
-                  <Card.Title
-                    title="edwin"
-                    titleVariant="bodySmall"
-                    subtitleVariant="bodySmall"
-                    subtitleStyle={{ fontWeight: "100" }}
-                    subtitle={moment(feed.createdAt).fromNow()}
-                    left={LeftContent}
-                  />
+                <Card
+                  style={{ backgroundColor: "#f2f6fc" }}
+                  mode="contained"
+                  onPress={() => navigation.navigate("Patient Info")}
+                >
+                  <View style={{ alignItems: "center", marginTop: 10 }}>
+                    <Avatar.Image
+                      size={24}
+                      source={require("../../assets/avatar.png")}
+                    />
+                    <Paragraph
+                      style={{ textAlign: "center", fontWeight: "100" }}
+                    >
+                      {feed.patientName}
+                    </Paragraph>
+                  </View>
+
                   <Card.Content>
                     <View
                       style={{
                         justifyContent: "space-evenly",
                         flexDirection: "row",
+                        paddingBottom: 10,
                         // paddingTop: 20,
                       }}
                     >
@@ -107,25 +116,27 @@ export default function MyRequestsScreen({
                         <Fontisto name="blood-drop" size={18} color="#d0312d" />{" "}
                         {feed.bloodGroup}
                       </Paragraph>
-                      <Paragraph
-                        onPress={() =>
-                          navigation.navigate("Directions", {
-                            latitude: feed.latitude,
-                            longitude: feed.longitude,
-                          })
-                        }
-                      >
-                        <FontAwesome name="location-arrow" size={18} />{" "}
-                        Directions
+                      <Paragraph>
+                        <Fontisto name="blood" size={18} /> {feed.bloodUnits}{" "}
+                        blood units
                       </Paragraph>
                     </View>
-                    {feed.requestType == "OTHERS" ? (
-                      <Text>Help save {feed.patientName}'s life </Text>
-                    ) : (
-                      ""
-                    )}
-                    <Card.Actions>
-                      <Button mode="contained" onPress={toConfirm}>
+
+                    <Card.Actions style={{ justifyContent: "space-between" }}>
+                      <Button
+                        onPress={() =>
+                          Linking.openURL(
+                            `https://www.google.com/maps/dir/?api=1&origin=${my_lat},${my_long}&destination=${feed.latitude},${feed.longitude}`
+                          )
+                        }
+                      >
+                        Directions{" "}
+                        <FontAwesome name="location-arrow" size={18} />{" "}
+                      </Button>
+                      <Button
+                        mode="contained"
+                        onPress={() => toConfirm(feed.id)}
+                      >
                         donate <FontAwesome name="smile-o" size={18} />{" "}
                       </Button>
                     </Card.Actions>
@@ -150,7 +161,9 @@ export default function MyRequestsScreen({
               }}
               source={require("../../assets/no_data.png")}
             />
-            <Title style={{ textAlign: "center" }}>Start by requesting a blood donations</Title>
+            <Title style={{ textAlign: "center" }}>
+              Start by requesting a blood donations
+            </Title>
           </View>
         )}
 

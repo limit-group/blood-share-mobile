@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Fontisto from "react-native-vector-icons/Fontisto";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
 import moment from "moment";
 import {
   FlatList,
@@ -43,7 +41,7 @@ export default function HomeScreen({ navigation }) {
   const [my_long, setMyLong] = useState(null);
 
   // const [location, setLocation] = useState(null);
-  const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
+  // const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
   const toConfirm = (id) => {
     navigation.navigate("Accept To Donate", { id: id });
   };
@@ -61,27 +59,28 @@ export default function HomeScreen({ navigation }) {
     setMyLong(location.coords.longitude);
   };
 
+  const getLatest = async () => {
+    const token = await getValue("token");
+    axios
+      .get(`${api}/requests/latest`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setRequests(res.data.broadcasts);
+        setReqCount(res.data.request_count);
+        setDonCount(res.data.donations_count);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
+
   React.useEffect(() => {
     setLoading(true);
-    const getLatest = async () => {
-      const token = await getValue("token");
-      axios
-        .get(`${api}/requests/latest`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setRequests(res.data.broadcasts);
-          setReqCount(res.data.request_count);
-          setDonCount(res.data.donations_count);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.log(err);
-        });
-    };
 
     getLatest().catch((err) => {
       console.log(err);
@@ -94,22 +93,8 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar props={{ name: "" }} />
+      <Navbar props={{ name: "BloodShare" }} />
       <ScrollView>
-        <View
-          style={{
-            flexDirection: "row",
-            padding: 0,
-            paddingBottom: 10,
-            justifyContent: "space-evenly",
-          }}
-        >
-          <Text>
-            Hi, Edwin
-            {"\n"}Give the gift of life; donate blood.
-          </Text>
-          <Avatar.Image size={34} source={require("../../assets/avatar.png")} />
-        </View>
         <View style={styles.cards}>
           <Card style={styles.space}>
             <Card.Content>
@@ -134,7 +119,7 @@ export default function HomeScreen({ navigation }) {
             </Card.Content>
           </Card>
           <Card style={styles.space}>
-            <Card.Content>
+            <Card.Content style={{ alignContent: "center" }}>
               <IconButton
                 icon="car"
                 mode="outlined"
@@ -154,7 +139,7 @@ export default function HomeScreen({ navigation }) {
         >
           <Text variant="titleLarge">
             <Text style={{ fontSize: 26 }}>{req_count} </Text>
-            <Fontisto name="blood-drop" size={28} color="#d0312d" /> requests
+            <Fontisto name="blood-drop" size={28} color="#d0312d" /> requests.
           </Text>
           <View style={styles.verticleLine}></View>
           <Text variant="bodyMedium">
@@ -163,35 +148,41 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </View>
         <View>
-          <Title style={{ paddingLeft: 10, paddingTop: 20 }}>
-            Donation Requests.
-          </Title>
-          <View
-            style={{
-              borderBottomColor: "black",
-              padding: 5,
-              borderBottomWidth: StyleSheet.hairlineWidth,
-            }}
-          />
+          <Paragraph
+            style={{ paddingLeft: 10, paddingTop: 20, textAlign: "left" }}
+          >
+            Patient List
+          </Paragraph>
           {loading ? (
             <View style={{ paddingTop: 50 }}></View>
           ) : (
             <View style={{ padding: 10 }}>
               {requests.map((req) => (
                 <View key={req.id}>
-                  <Card style={{ backgroundColor: "#ffffff" }}>
-                    <Card.Title
-                      title="edwin"
-                      titleVariant="bodySmall"
-                      subtitleVariant="bodySmall"
-                      subtitle={moment(req.createdAt).fromNow()}
-                      left={LeftContent}
-                    />
+                  <Card
+                    style={{ backgroundColor: "#f2f6fc" }}
+                    mode="contained"
+                    onPress={() =>
+                      navigation.navigate("Patient Info", { request: req })
+                    }
+                  >
+                    <View style={{ alignItems: "center", marginTop: 10 }}>
+                      <Avatar.Image
+                        size={24}
+                        source={require("../../assets/avatar.png")}
+                      />
+                      <Paragraph
+                        style={{ textAlign: "center", fontWeight: "100" }}
+                      >
+                        {req.patientName}
+                      </Paragraph>
+                    </View>
                     <Card.Content>
                       <View
                         style={{
                           justifyContent: "space-evenly",
                           flexDirection: "row",
+                          paddingBottom: 10,
                           // paddingTop: 20,
                         }}
                       >
@@ -203,19 +194,23 @@ export default function HomeScreen({ navigation }) {
                           />{" "}
                           {req.bloodGroup}
                         </Paragraph>
-                        <Paragraph
-                          onPress={
-                            () =>
-                              Linking.openURL(
-                                `https://www.google.com/maps/dir/?api=1&origin=${my_lat},${my_long}&destination=${req.latitude},${req.longitude}`
-                              )
-                          }
-                        >
-                          <FontAwesome name="location-arrow" size={18} />{" "}
-                          Directions
+                        <Paragraph>
+                          <Fontisto name="blood" size={18} /> {req.bloodUnits}{" "}
+                          blood units
                         </Paragraph>
                       </View>
+
                       <Card.Actions style={{ justifyContent: "space-between" }}>
+                        <Button
+                          onPress={() =>
+                            Linking.openURL(
+                              `https://www.google.com/maps/dir/?api=1&origin=${my_lat},${my_long}&destination=${req.latitude},${req.longitude}`
+                            )
+                          }
+                        >
+                          Directions{" "}
+                          <FontAwesome name="location-arrow" size={18} />{" "}
+                        </Button>
                         <Button
                           mode="contained"
                           onPress={() => toConfirm(req.id)}
@@ -286,7 +281,8 @@ const styles = StyleSheet.create({
   },
   space: {
     backgroundColor: "#ffffff",
-    alignItems: "center",
+    // alignItems: "center",
+    alignContent: "center",
   },
   text: {
     // paddingLeft: 50,
@@ -294,7 +290,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "Oregano_400Regular",
   },
   icon: {
     // backgroundColor: '#d0312d',

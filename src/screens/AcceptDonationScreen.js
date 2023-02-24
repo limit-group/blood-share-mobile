@@ -31,14 +31,14 @@ export default function AcceptDonationScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-        <Image
-          style={{
-            height: 270,
-            width: "100%",
-            borderRadius: 50,
-          }}
-          source={require("../../assets/map.png")}
-        />
+      <Image
+        style={{
+          height: 270,
+          width: "100%",
+          borderRadius: 50,
+        }}
+        source={require("../../assets/map.png")}
+      />
 
       <View style={{ margin: 30 }}>
         <Title style={{ textAlign: "center" }}>
@@ -53,10 +53,14 @@ export default function AcceptDonationScreen({ route, navigation }) {
             paddingTop: 50,
           }}
         >
-          <Button onPress={onDecline} mode="outlined">
+          <Button onPress={onDecline} mode="outlined" icon={"cancel"}>
             Decline
           </Button>
-          <Button onPress={onAccept} mode="contained">
+          <Button
+            onPress={onAccept}
+            mode="contained"
+            icon={"check-circle-outline"}
+          >
             Accept
           </Button>
         </View>

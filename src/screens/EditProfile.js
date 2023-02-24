@@ -8,6 +8,7 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import styles from "../utils/styles";
 import {
   ActivityIndicator,
+  Avatar,
   Button,
   Chip,
   HelperText,
@@ -142,38 +143,16 @@ export default function EditProfile({ navigation }) {
           style={{
             marginLeft: 30,
             marginRight: 30,
+            marginTop: 10,
             flexDirection: "row",
             justifyContent: "space-evenly",
           }}
         >
           {profile.avatar ? (
-            <Image
-              source={{ uri: profile.avatar }}
-              style={{
-                flex: 1,
-                height: 120,
-                width: "30%",
-                // borderRadius: 50,
-                alignSelf: "center",
-                objectFit: "cover",
-                marginTop: 20,
-                marginBottom: 0,
-                margin: 33,
-              }}
-            />
+            <Avatar.Image size={104} source={{ uri: profile.avatar }} />
           ) : (
-            <Image
-              style={{
-                flex: 1,
-                height: 150,
-                width: "50%",
-                // borderRadius: 50,
-                alignSelf: "center",
-                objectFit: "cover",
-                marginTop: 10,
-                marginBottom: 0,
-                margin: 33,
-              }}
+            <Avatar.Image
+              size={104}
               source={require("../../assets/avatar.png")}
             />
           )}
@@ -181,7 +160,7 @@ export default function EditProfile({ navigation }) {
             icon="camera"
             onPress={pickImage}
             mode="outlined"
-            style={{ height: 50, top: 80 }}
+            style={{ height: 50, top: 50 }}
           >
             edit
           </Chip>
@@ -191,7 +170,7 @@ export default function EditProfile({ navigation }) {
           style={styles.input}
           label="Full Name"
           placeholder="john doe"
-          mode="outlined"
+          // mode="outlined"
           left={<TextInput.Icon icon={"square-edit-outline"} />}
           onChangeText={(text) => setFullName(text)}
           value={profile.name}
@@ -201,7 +180,7 @@ export default function EditProfile({ navigation }) {
         <TextInput
           style={styles.input}
           label="Email"
-          mode="outlined"
+          // mode="outlined"
           placeholder="johndoe@gmail.com"
           keyboardType="email-address"
           left={<TextInput.Icon icon={"email-outline"} />}
@@ -213,7 +192,7 @@ export default function EditProfile({ navigation }) {
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
-          mode="outlined"
+          // mode="outlined"
           placeholder="e.g 50"
           label="Body Weight(in Kgs)"
           keyboardType="numeric"

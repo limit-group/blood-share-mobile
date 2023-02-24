@@ -1,7 +1,8 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
 import {
   ActivityIndicator,
+  Avatar,
   Button,
   Card,
   Chip,
@@ -68,28 +69,28 @@ export default function BloodCardScreen({ navigation }) {
 
   return (
     <>
-      <Navbar props={{ name: "My Profile" }} />
       <View style={styles.container}>
         <View
           style={{
             marginLeft: 30,
             marginRight: 30,
+            paddingTop: 30,
             flexDirection: "row",
             justifyContent: "space-evenly",
           }}
         >
           {profile.avatar ? (
-            <Image source={{ uri: profile.avatar }} style={styles.image} />
+            <Avatar.Image size={104} source={{ uri: profile.avatar }} />
           ) : (
-            <Image
+            <Avatar.Image
+              size={104}
               source={require("../../assets/avatar.png")}
-              style={styles.image}
             />
           )}
           <Chip
             icon="fountain-pen-tip"
             mode="outlined"
-            style={{ height: 50, top: 50 }}
+            style={{ height: 40, top: 50 }}
             onPress={() => navigation.navigate("Edit Profile")}
           >
             edit
@@ -117,14 +118,17 @@ export default function BloodCardScreen({ navigation }) {
               },
             ]}
           />
-          <Title>
-            birthday: {moment(profile.dateOfBirth).format("Do MMM YY")}
-          </Title>
-          <Title>gender: {profile.gender}</Title>
-          <Title>body weight: {profile.bodyWeight}</Title>
-          <Title>blood group: {profile.bloodType}</Title>
-          <Title>life saver points: {profile.bloodPoints}</Title>
-          <HelperText>Donate more to earn more points</HelperText>
+          <View style={{ margin: 20 }}>
+            <Title>
+              birthday: {moment(profile.dateOfBirth).format("Do MMM YY")}
+            </Title>
+            <Title>gender: {profile.gender}</Title>
+            <Title>body weight: {profile.bodyWeight}</Title>
+            <Title>blood group: {profile.bloodType}</Title>
+            <Title>life saver points: {profile.bloodPoints}</Title>
+            <HelperText>Donate more to earn more points</HelperText>
+          </View>
+
           <Button
             onPress={() => navigation.navigate("Settings")}
             mode="contained"
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: "#ffffff",
-    // marginTop: StatusBar.currentHeight || 0,
+    marginTop: StatusBar.currentHeight || 0,
   },
   profile: {
     // backgroundColor:

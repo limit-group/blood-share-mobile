@@ -22,7 +22,6 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#ffffff",
     // marginTop: StatusBar.currentHeight || 0,
-    fontFamily: "Oregano",
   },
   title: {},
   logo: {

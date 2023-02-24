@@ -39,3 +39,6 @@ export { default as ConfirmScreen } from "./ConfirmScreen";
 export { default as SettingsScreen } from "./SettingsScreen";
 
 export { default as EditProfile } from "./EditProfile";
+
+
+export { default as SingleRequestScreen } from "./SingleRequestScreen";

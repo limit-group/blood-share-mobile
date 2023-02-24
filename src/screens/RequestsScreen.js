@@ -22,6 +22,7 @@ import {
   Button,
   Card,
   Snackbar,
+  Title,
 } from "react-native-paper";
 import Navbar from "../components/Navbar";
 import moment from "moment";
@@ -64,7 +65,7 @@ export default function RequestsScreen({
     navigation.navigate("Accept To Donate");
   };
 
-  const fabStyle = { [animateFrom]: 16 };
+  const fabStyle = { [animateFrom]: 26 };
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -79,25 +80,26 @@ export default function RequestsScreen({
     setMyLong(location.coords.longitude);
   };
 
+  const getRequests = async (req, res) => {
+    const token = await getValue("token");
+    axios
+      .get(`${api}/requests`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setFeed(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
+
   React.useEffect(() => {
-    const requests = async (req, res) => {
-      const token = await getValue("token");
-      axios
-        .get(`${api}/requests`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setFeed(res.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.log(err);
-        });
-    };
-    requests().catch((err) => {
+    getRequests().catch((err) => {
       console.log(err);
     });
   }, []);
@@ -109,20 +111,29 @@ export default function RequestsScreen({
           <>
             {efeeds.map((feed) => (
               <View key={feed.id}>
-                <Card style={{ backgroundColor: "#ffffff" }} mode="contained">
-                  <Card.Title
-                    title="edwin"
-                    titleVariant="bodySmall"
-                    subtitleVariant="bodySmall"
-                    subtitleStyle={{ fontWeight: "100" }}
-                    subtitle={moment(feed.createdAt).fromNow()}
-                    left={LeftContent}
-                  />
+                <Card
+                  style={{ backgroundColor: "#f2f6fc" }}
+                  mode="contained"
+                  onPress={() => navigation.navigate("Patient Info")}
+                >
+                  <View style={{ alignItems: "center", marginTop: 10 }}>
+                    <Avatar.Image
+                      size={24}
+                      source={require("../../assets/avatar.png")}
+                    />
+                    <Paragraph
+                      style={{ textAlign: "center", fontWeight: "100" }}
+                    >
+                      {feed.patientName}
+                    </Paragraph>
+                  </View>
+
                   <Card.Content>
                     <View
                       style={{
                         justifyContent: "space-evenly",
                         flexDirection: "row",
+                        paddingBottom: 10,
                         // paddingTop: 20,
                       }}
                     >
@@ -130,24 +141,27 @@ export default function RequestsScreen({
                         <Fontisto name="blood-drop" size={18} color="#d0312d" />{" "}
                         {feed.bloodGroup}
                       </Paragraph>
-                      <Paragraph
+                      <Paragraph>
+                        <Fontisto name="blood" size={18} /> {feed.bloodUnits}{" "}
+                        blood units
+                      </Paragraph>
+                    </View>
+
+                    <Card.Actions style={{ justifyContent: "space-between" }}>
+                      <Button
                         onPress={() =>
                           Linking.openURL(
                             `https://www.google.com/maps/dir/?api=1&origin=${my_lat},${my_long}&destination=${feed.latitude},${feed.longitude}`
                           )
                         }
                       >
+                        Directions{" "}
                         <FontAwesome name="location-arrow" size={18} />{" "}
-                        Directions
-                      </Paragraph>
-                    </View>
-                    {feed.requestType == "OTHERS" ? (
-                      <Text>Help save {feed.patientName}'s life </Text>
-                    ) : (
-                      ""
-                    )}
-                    <Card.Actions>
-                      <Button mode="contained" onPress={toConfirm}>
+                      </Button>
+                      <Button
+                        mode="contained"
+                        onPress={() => toConfirm(feed.id)}
+                      >
                         donate <FontAwesome name="smile-o" size={18} />{" "}
                       </Button>
                     </Card.Actions>
@@ -173,14 +187,14 @@ export default function RequestsScreen({
                 }}
                 source={require("../../assets/no_data.png")}
               />
-              <Text>Request people to donate and save lives</Text>
+              <Title>Request people to donate and save lives</Title>
             </View>
           </>
         )}
 
-        <Button style={{ margin: 20, bottom: 26 }} mode="contained">
+        {/* <Button style={{ margin: 20, bottom: 26 }} mode="contained">
           Load More..
-        </Button>
+        </Button> */}
       </ScrollView>
       <AnimatedFAB
         icon={"arrow-right"}
@@ -213,10 +227,11 @@ export default function RequestsScreen({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    padding: 10,
     backgroundColor: "#ffffff",
   },
   fabStyle: {
-    bottom: 16,
+    bottom: 26,
     right: 16,
     backgroundColor: "#ffffff",
     position: "absolute",

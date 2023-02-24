@@ -8,6 +8,7 @@ import { api } from "../utils/api";
 import { getError } from "../utils/error";
 import * as SecureStore from "expo-secure-store";
 
+
 export default function LoginScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const [error, setError] = React.useState("");

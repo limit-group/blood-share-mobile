@@ -21,6 +21,7 @@ import {
   Card,
   Paragraph,
   Snackbar,
+  Title,
 } from "react-native-paper";
 import Navbar from "../components/Navbar";
 import { api } from "../utils/api";
@@ -112,49 +113,69 @@ export default function DonationFeedScreen({
     <SafeAreaView style={styles.container}>
       <Navbar props={{ name: "Blood Donation Drives" }} />
       <ScrollView onScroll={onScroll} style={{ padding: 10 }}>
-        {feeds.map((feed) => (
-          <View key={feed.id}>
-            <Card style={styles.card} mode="contained">
-              <Card.Title
-                title={"Edwin"}
-                titleVariant="bodySmall"
-                subtitleVariant="bodySmall"
-                subtitle={moment(feed.createdAt).fromNow()}
-                left={LeftContent}
-              />
-              <Card.Content>
-                <Paragraph>{feed.information}</Paragraph>
-              </Card.Content>
-              {feed.media ? (
-                <>
-                  <Card.Cover
-                    source={{ uri: feed.media }}
-                    style={{
-                      padding: 5,
-                      backgroundColor: "#ffffff",
-                      height: 150,
-                    }}
+        {feeds.length > 0 ? (
+          <>
+            {feeds.map((feed) => (
+              <View key={feed.id}>
+                <Card style={{ backgroundColor: "#f2f6fc" }} mode="contained">
+                  <Card.Title
+                    title={"Edwin"}
+                    titleVariant="bodySmall"
+                    subtitleVariant="bodySmall"
+                    subtitle={moment(feed.createdAt).fromNow()}
+                    left={LeftContent}
                   />
-                </>
-              ) : (
-                ""
-              )}
-              <Card.Actions>
-                <Button mode="text" onPress={going}>
-                  <SimpleLineIcons name="people" /> {feed.going}
-                </Button>
-                <Button mode="contained" onPress={() => going(feed.id)}>
-                  Going <SimpleLineIcons name="like" />
-                </Button>
-              </Card.Actions>
-            </Card>
-            <View
+                  <Card.Content>
+                    <Paragraph>{feed.information}</Paragraph>
+                  </Card.Content>
+                  {feed.media ? (
+                    <>
+                      <Card.Cover
+                        source={{ uri: feed.media }}
+                        style={{
+                          padding: 5,
+
+                          height: 150,
+                        }}
+                      />
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  <Card.Actions>
+                    <Button mode="text" onPress={going}>
+                      <SimpleLineIcons name="people" /> {feed.going}
+                    </Button>
+                    <Button mode="contained" onPress={() => going(feed.id)}>
+                      Going <SimpleLineIcons name="like" />
+                    </Button>
+                  </Card.Actions>
+                </Card>
+                <View
+                  style={{
+                    padding: 5,
+                  }}
+                />
+              </View>
+            ))}
+          </>
+        ) : (
+          <View style={{ margin: 30, }}>
+            <Image
               style={{
-                padding: 5,
+                height: 270,
+                // margin: 50,
+                width: "100%",
+                borderRadius: 50,
               }}
+              source={require("../../assets/no_data.png")}
             />
+            <Title style={{ textAlign: "center" }}>
+              Start by announcing blood donation drives.
+            </Title>
           </View>
-        ))}
+        )}
+
         <Button style={{ margin: 20 }} mode="contained">
           Load More..
         </Button>
@@ -191,6 +212,7 @@ export default function DonationFeedScreen({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    padding: 10,
     backgroundColor: "#ffffff",
   },
   fabStyle: {
