@@ -111,6 +111,7 @@ export default function CreateFeedScreen({ navigation }) {
           multiline={true}
           numberOfLines={4}
           mode="outlined"
+          outlineColor="#fc7d7b"
           placeholder="about the donation drive..."
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setDesc(text)}

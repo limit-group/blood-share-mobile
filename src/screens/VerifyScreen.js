@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Button,
   HelperText,
+  Snackbar,
   TextInput,
 } from "react-native-paper";
 import { api } from "../utils/api";
@@ -14,7 +15,9 @@ import styles from "../utils/styles";
 export default function VerifyScreen({ navigation }) {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [visibo, setVisibo] = React.useState(false);
+  const onDismissSnackBar = () => setVisibo(false);
+  const [error, setError] = React.useState("");
   //resend otp
   const resendOTP = () => {};
 
@@ -31,6 +34,8 @@ export default function VerifyScreen({ navigation }) {
       })
       .catch((err) => {
         setLoading(false);
+        setError("failed to verify phone number.");
+        setVisibo(true);
         console.log(err);
       });
   };
@@ -81,6 +86,20 @@ export default function VerifyScreen({ navigation }) {
           <Button onPress={resendOTP}>Resend</Button>
         </View>
       </KeyboardAwareScrollView>
+      <Snackbar
+        visible={visibo}
+        duration={1000}
+        style={{ backgroundColor: "#fc7d7b" }}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </View>
   );
 }

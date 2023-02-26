@@ -2,28 +2,43 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { ActivityIndicator, HelperText, TextInput } from "react-native-paper";
+import {
+  ActivityIndicator,
+  HelperText,
+  Snackbar,
+  TextInput,
+} from "react-native-paper";
 import { api } from "../utils/api";
 import styles from "../utils/styles";
 
-export default function ResetPasswordScreen({ navigation }) {
+export default function ResetPasswordScreen({ navigation, route }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = React.useState(false);
+  const onDismissSnackBar = () => setVisible(false);
+  const [error, setError] = React.useState("");
+  let { phone } = route.params.phone;
 
   const onResetPress = () => {
     if (password !== confirmPassword) {
-      alert("Passwords don't match.");
+      setError("Passwords don't match.");
+      setVisible(true);
       return;
     }
+    setLoading(true);
     axios
-      .post(`${api}/auth/password`, { password })
+      .post(`${api}/auth/password`, { phone, password })
       .then((res) => {
         if (res.status == 200) {
+          setLoading(false);
           navigation.navigate("Settings");
         }
       })
       .catch((err) => {
+        setLoading(false);
+        setError("Password Reset Request failed.");
+        setVisible(true);
         console.log(err);
       });
   };
@@ -67,7 +82,9 @@ export default function ResetPasswordScreen({ navigation }) {
           autoCapitalize="none"
         />
         {loading ? (
-          <ActivityIndicator animating={true} size={50} />
+          <View style={{ margin: 10 }}>
+            <ActivityIndicator animating={true} size={50} />
+          </View>
         ) : (
           <TouchableOpacity
             style={styles.button}
@@ -77,6 +94,20 @@ export default function ResetPasswordScreen({ navigation }) {
           </TouchableOpacity>
         )}
       </KeyboardAwareScrollView>
+      <Snackbar
+        visible={visible}
+        duration={1000}
+        style={{ backgroundColor: "#fc7d7b" }}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </View>
   );
 }

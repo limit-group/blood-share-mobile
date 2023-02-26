@@ -8,7 +8,6 @@ import { api } from "../utils/api";
 import { getError } from "../utils/error";
 import * as SecureStore from "expo-secure-store";
 
-
 export default function LoginScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const [error, setError] = React.useState("");
@@ -16,6 +15,7 @@ export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [show, setShow] = useState(true);
 
   const onFooterLinkPress = () => {
     navigation.navigate("Registration");
@@ -25,6 +25,7 @@ export default function LoginScreen({ navigation }) {
     navigation.navigate("Forgot Password");
   };
 
+ 
   async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
     return;
@@ -77,22 +78,23 @@ export default function LoginScreen({ navigation }) {
           style={styles.input}
           label="Mobile Number"
           mode="outlined"
+          outlineColor="#fc7d7b"
           keyboardType="phone-pad"
           placeholder="+2547.."
           left={<TextInput.Icon icon={"cellphone"} />}
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
           value={phone}
-          // underlineColorAndroid="transparent"
-          // autoCapitalize="none"
         />
         <TextInput
           style={styles.input}
+          outlineColor="#fc7d7b"
           label="Password"
           placeholderTextColor="#aaaaaa"
-          secureTextEntry
+          secureTextEntry={show}
           mode="outlined"
           left={<TextInput.Icon icon={"shield-lock-outline"} />}
+          right={<TextInput.Icon icon={"eye"} onPress={() => setShow(!show)} />}
           onChangeText={(text) => setPassword(text)}
           value={password}
           underlineColorAndroid="transparent"
@@ -104,7 +106,9 @@ export default function LoginScreen({ navigation }) {
         </Text>
 
         {loading ? (
-          <ActivityIndicator animating={true} size={50} />
+          <View style={{ margin: 10 }}>
+            <ActivityIndicator animating={true} size={50} />
+          </View>
         ) : (
           <TouchableOpacity
             style={styles.button}

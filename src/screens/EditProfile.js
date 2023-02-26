@@ -180,19 +180,21 @@ export default function EditProfile({ navigation }) {
         <TextInput
           style={styles.input}
           label="Email"
-          // mode="outlined"
+          mode="outlined"
           placeholder="johndoe@gmail.com"
           keyboardType="email-address"
           left={<TextInput.Icon icon={"email-outline"} />}
           onChangeText={(text) => setEmail(text)}
           value={email}
+          outlineColor="#fc7d7b"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
-          // mode="outlined"
+          mode="outlined"
+          outlineColor="#fc7d7b"
           placeholder="e.g 50"
           label="Body Weight(in Kgs)"
           keyboardType="numeric"

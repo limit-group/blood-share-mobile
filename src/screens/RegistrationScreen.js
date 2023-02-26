@@ -16,6 +16,7 @@ export default function LoginScreen({ navigation }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [show, setShow] = useState(true);
 
   const onFooterLinkPress = () => {
     navigation.navigate("Login");
@@ -70,6 +71,7 @@ export default function LoginScreen({ navigation }) {
           mode="outlined"
           placeholder="+2547.."
           keyboardType="phone-pad"
+          outlineColor="#fc7d7b"
           left={<TextInput.Icon icon={"cellphone"} />}
           // placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setPhone(text)}
@@ -80,10 +82,12 @@ export default function LoginScreen({ navigation }) {
         <TextInput
           style={styles.input}
           // placeholderTextColor="#aaaaaa"
-          secureTextEntry
+          secureTextEntry={show}
+          outlineColor="#fc7d7b"
           mode="outlined"
           label="Password"
           left={<TextInput.Icon icon={"shield-lock-outline"} />}
+          right={<TextInput.Icon icon={"eye"} onPress={() => setShow(!show)} />}
           onChangeText={(text) => setPassword(text)}
           value={password}
           underlineColorAndroid="transparent"
@@ -92,9 +96,11 @@ export default function LoginScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
-          secureTextEntry
+          secureTextEntry={show}
           mode="outlined"
+          outlineColor="#fc7d7b"
           left={<TextInput.Icon icon={"shield-lock-outline"} />}
+          right={<TextInput.Icon icon={"eye"} onPress={() => setShow(!show)} />}
           label="Confirm Password"
           onChangeText={(text) => setConfirmPassword(text)}
           value={confirmPassword}
@@ -119,7 +125,11 @@ export default function LoginScreen({ navigation }) {
           onPress={() => onRegisterPress()}
         >
           <Text style={styles.buttonTitle}>
-            {loading ? <ActivityIndicator animating={true} size={50} /> : "Continue"}
+            {loading ? (
+              <ActivityIndicator animating={true} size={50} />
+            ) : (
+              "Continue"
+            )}
           </Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
@@ -135,7 +145,7 @@ export default function LoginScreen({ navigation }) {
         visible={visible}
         duration={1000}
         onDismiss={onDismissSnackBar}
-        style={{ backgroundColor: "#fc7d7b"}}
+        style={{ backgroundColor: "#fc7d7b" }}
         action={{
           label: "ok",
           onPress: () => {

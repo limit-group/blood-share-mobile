@@ -110,6 +110,7 @@ export default function CreateDonationScreen({ navigation }) {
           style={styles.input}
           label="Facility Name"
           mode="outlined"
+          outlineColor="#fc7d7b"
           left={<TextInput.Icon icon={"hospital-building"} />}
           placeholder="e.g RedCross"
           placeholderTextColor="#aaaaaa"
@@ -120,6 +121,7 @@ export default function CreateDonationScreen({ navigation }) {
         />
         <TextInput
           style={styles.input}
+          outlineColor="#fc7d7b"
           label="Donation ID"
           left={<TextInput.Icon icon={"identifier"} />}
           mode="outlined"

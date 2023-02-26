@@ -152,11 +152,13 @@ export default function CompleteProfileScreen({ navigation }) {
           value={fullName}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
+          outlineColor="#fc7d7b"
         />
         <TextInput
           style={styles.input}
           label="Email"
           mode="outlined"
+          outlineColor="#fc7d7b"
           placeholder="johndoe@gmail.com"
           keyboardType="email-address"
           left={<TextInput.Icon icon={"email-outline"} />}

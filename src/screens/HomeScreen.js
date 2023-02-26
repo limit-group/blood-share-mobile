@@ -79,8 +79,18 @@ export default function HomeScreen({ navigation }) {
       });
   };
 
+  const isAuth = async () => {
+    const token = await getValue("token");
+    if (!token) {
+      navigation.navigate("Login");
+      return;
+    }
+  };
+
   React.useEffect(() => {
-    setLoading(true);
+    isAuth().catch((err) => {
+      console.log(err);
+    });
 
     getLatest().catch((err) => {
       console.log(err);
@@ -163,7 +173,7 @@ export default function HomeScreen({ navigation }) {
                     style={{ backgroundColor: "#f2f6fc" }}
                     mode="contained"
                     onPress={() =>
-                      navigation.navigate("Patient Info", { request: req })
+                      navigation.navigate("Patient Info", { req: req })
                     }
                   >
                     <View style={{ alignItems: "center", marginTop: 10 }}>
@@ -234,6 +244,7 @@ export default function HomeScreen({ navigation }) {
         <Snackbar
           visible={visible}
           duration={1000}
+          style={{ backgroundColor: "#fc7d7b" }}
           onDismiss={onDismissSnackBar}
           action={{
             label: "ok",

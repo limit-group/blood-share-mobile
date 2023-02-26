@@ -27,7 +27,7 @@ export default function ForgotPasswordScreen({ navigation }) {
         if (res.status == 200) {
           console.log(res.status);
           setLoading(false);
-          navigation.navigate("Verify");
+          navigation.navigate("Reset Password", { phone: phone });
         }
       })
       .catch((err) => {
@@ -71,7 +71,9 @@ export default function ForgotPasswordScreen({ navigation }) {
           autoCapitalize="none"
         />
         {loading ? (
-          <ActivityIndicator animating={true} size={50} />
+          <View style={{ margin: 10 }}>
+            <ActivityIndicator animating={true} size={50} />
+          </View>
         ) : (
           <TouchableOpacity style={styles.button} onPress={onForgotPress}>
             <Text style={styles.buttonTitle}>Submit</Text>

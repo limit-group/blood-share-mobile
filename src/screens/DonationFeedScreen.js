@@ -61,28 +61,28 @@ export default function DonationFeedScreen({
 
   const fabStyle = { [animateFrom]: 16 };
 
+  const getFeeds = async () => {
+    const token = await getValue("token");
+    axios
+      .get(`${api}/feeds`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        // console.log(res.data)
+        setFeeds(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        // setLoading(false);
+        console.log(err);
+        setError("Failed to fetch feed. Retry");
+        setVisibo(true);
+      });
+  };
+
   React.useEffect(() => {
-    setLoading(true);
-    const getFeeds = async () => {
-      const token = await getValue("token");
-      axios
-        .get(`${api}/feeds`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          // console.log(res.data)
-          setFeeds(res.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          // setLoading(false);
-          console.log(err);
-          setError("Failed to fetch feed. Retry");
-          setVisibo(true);
-        });
-    };
     getFeeds().catch((err) => {
       console.log(err);
     });
@@ -111,7 +111,7 @@ export default function DonationFeedScreen({
 
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar props={{ name: "Blood Donation Drives" }} />
+      {/* <Navbar props={{ name: "Blood Donation Drives" }} /> */}
       <ScrollView onScroll={onScroll} style={{ padding: 10 }}>
         {feeds.length > 0 ? (
           <>
@@ -175,7 +175,6 @@ export default function DonationFeedScreen({
             </Title>
           </View>
         )}
-
         <Button style={{ margin: 20 }} mode="contained">
           Load More..
         </Button>
@@ -194,7 +193,7 @@ export default function DonationFeedScreen({
       <Snackbar
         visible={visibo}
         duration={1000}
-        style={{ color: "red" }}
+        style={{ backgroundColor: "#fc7d7b" }}
         onDismiss={onDismissSnackBar}
         action={{
           label: "ok",

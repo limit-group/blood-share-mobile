@@ -12,7 +12,6 @@ export { default as CompleteProfileScreen } from "./CompleteProfileScreen";
 
 export { default as CreateFeedScreen } from "./CreateFeedScreen";
 
-export { default as ProfileScreen } from "./ProfileScreen";
 
 export { default as BloodCardScreen } from "./BloodCardScreen";
 
@@ -39,6 +38,5 @@ export { default as ConfirmScreen } from "./ConfirmScreen";
 export { default as SettingsScreen } from "./SettingsScreen";
 
 export { default as EditProfile } from "./EditProfile";
-
 
 export { default as SingleRequestScreen } from "./SingleRequestScreen";

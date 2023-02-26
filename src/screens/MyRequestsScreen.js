@@ -15,6 +15,7 @@ import {
   ActivityIndicator,
   AnimatedFAB,
   Paragraph,
+  Snackbar,
   Title,
 } from "react-native-paper";
 import { Avatar, Button, Card, IconButton, Text } from "react-native-paper";
@@ -41,6 +42,9 @@ export default function MyRequestsScreen({
   const [efeeds, setFeed] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isExtended, setIsExtended] = React.useState(true);
+  const [visibo, setVisibo] = React.useState(false);
+  const onDismissSnackBar = () => setVisibo(false);
+  const [error, setError] = React.useState("");
 
   const isIOS = Platform.OS === "ios";
 
@@ -72,13 +76,15 @@ export default function MyRequestsScreen({
         })
         .catch((err) => {
           setLoading(false);
+          setError("Error, fetching my requests.");
+          setVisibo(true);
           console.log(err);
         });
     };
     myRequests().catch((err) => {
       console.log(err);
     });
-  }, []);
+  }, [error]);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView onScroll={onScroll}>
@@ -121,7 +127,6 @@ export default function MyRequestsScreen({
                         blood units
                       </Paragraph>
                     </View>
-
                     <Card.Actions style={{ justifyContent: "space-between" }}>
                       <Button
                         onPress={() =>
@@ -166,7 +171,6 @@ export default function MyRequestsScreen({
             </Title>
           </View>
         )}
-
         <Button style={{ margin: 20 }} mode="contained">
           Load More..
         </Button>
@@ -182,6 +186,20 @@ export default function MyRequestsScreen({
         iconMode={"static"}
         style={[styles.fabStyle, style, fabStyle]}
       />
+      <Snackbar
+        visible={visibo}
+        duration={1000}
+        style={{ backgroundColor: "#fc7d7b" }}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </SafeAreaView>
   );
 }

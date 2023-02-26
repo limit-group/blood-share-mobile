@@ -55,6 +55,7 @@ export default function CreateRequestScreen({ navigation }) {
   const [valu, setValu] = useState("");
   const [mod, setMod] = useState("outlined");
   const [mod_one, setModOne] = useState("outlined");
+  const location = null
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -80,15 +81,12 @@ export default function CreateRequestScreen({ navigation }) {
     setMod("contained");
   };
 
-  // location
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
   React.useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+        setError("permission to access location is denied");
+        setVisibo(true);
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
@@ -142,14 +140,6 @@ export default function CreateRequestScreen({ navigation }) {
         console.log(err);
       });
   };
-
-  let text = "Waiting..";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-    console.log(text.longitude);
-  }
 
   return (
     <View style={styles.container}>
@@ -304,6 +294,7 @@ export default function CreateRequestScreen({ navigation }) {
               style={styles.input}
               mode="outlined"
               label="Patient Name:"
+              outlineColor="#fc7d7b"
               placeholder="john doe"
               placeholderTextColor="#aaaaaa"
               onChangeText={(text) => setPatientName(text)}
@@ -313,6 +304,7 @@ export default function CreateRequestScreen({ navigation }) {
             />
             <TextInput
               style={styles.input}
+              outlineColor="#fc7d7b"
               mode="outlined"
               label="Relationship to patient:"
               placeholder="e.g father"
@@ -333,6 +325,7 @@ export default function CreateRequestScreen({ navigation }) {
           numberOfLines={2}
           mode="outlined"
           label={"Diagnosis"}
+          outlineColor="#fc7d7b"
           placeholder="e.g anaemia"
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => setDiagnosis(text)}
@@ -346,6 +339,7 @@ export default function CreateRequestScreen({ navigation }) {
             multiline={true}
             numberOfLines={2}
             mode="outlined"
+            outlineColor="#fc7d7b"
             label={"Patient bio"}
             placeholder="e.g Mary is a student..."
             placeholderTextColor="#aaaaaa"
@@ -377,13 +371,6 @@ export default function CreateRequestScreen({ navigation }) {
             upcoming
           </Button>
         </View>
-
-        {/* <View style={styles.input}>
-          <Paragraph>Where?</Paragraph>
-          <Button style={styles.rounded} mode="text">
-            <Entypo name="location" size={16} /> my location
-          </Button>
-        </View> */}
         <View style={styles.input}>
           <Paragraph>Number of blood units:</Paragraph>
           <View

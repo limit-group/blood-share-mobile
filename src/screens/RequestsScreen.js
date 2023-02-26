@@ -50,7 +50,7 @@ export default function RequestsScreen({
   const [my_lat, setMyLat] = useState(null);
   const [my_long, setMyLong] = useState(null);
   const [visibo, setVisibo] = React.useState(false);
-  const onDismissSnackBar = () => setVisible(false);
+  const onDismissSnackBar = () => setVisibo(false);
   const [error, setError] = React.useState("");
   const [isExtended, setIsExtended] = React.useState(true);
 
@@ -71,7 +71,7 @@ export default function RequestsScreen({
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
       setError("Permission to access location was denied");
-      setVisible(true);
+      setVisibo(true);
       return;
     }
     let location = await Location.getCurrentPositionAsync({});
@@ -94,6 +94,8 @@ export default function RequestsScreen({
       })
       .catch((err) => {
         setLoading(false);
+        setError("failed to get blood requests.");
+        setVisibo(true);
         console.log(err);
       });
   };
@@ -102,10 +104,14 @@ export default function RequestsScreen({
     getRequests().catch((err) => {
       console.log(err);
     });
+
+    getLocation().catch((err) => {
+      console.log(err);
+    });
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar props={{ name: "Blood Requests" }} />
+      {/* <Navbar props={{ name: "Blood Requests" }} /> */}
       <ScrollView onScroll={onScroll} style={{ padding: 10 }}>
         {efeeds.length > 0 ? (
           <>
@@ -129,7 +135,6 @@ export default function RequestsScreen({
                       {feed.patientName}
                     </Paragraph>
                   </View>
-
                   <Card.Content>
                     <View
                       style={{
@@ -148,7 +153,6 @@ export default function RequestsScreen({
                         blood units
                       </Paragraph>
                     </View>
-
                     <Card.Actions style={{ justifyContent: "space-between" }}>
                       <Button
                         icon={"google-maps"}
@@ -194,8 +198,7 @@ export default function RequestsScreen({
             </View>
           </>
         )}
-
-        <Button style={{ margin: 20, bottom: 26 }} mode="contained">
+        <Button style={{ margin: 20, }} mode="contained">
           Load More..
         </Button>
       </ScrollView>
@@ -213,6 +216,7 @@ export default function RequestsScreen({
       <Snackbar
         visible={visibo}
         duration={1000}
+        style={{ backgroundColor: "#fc7d7b" }}
         onDismiss={onDismissSnackBar}
         action={{
           label: "ok",

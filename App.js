@@ -124,12 +124,12 @@ export default function App() {
                   component={DonationScreen}
                   // options={{ headerShown: false }}
                 />
-                  <Stack.Screen
+                <Stack.Screen
                   name="My Blood Requests"
                   component={MyRequestsScreen}
                   // options={{ headerShown: false }}
                 />
-                  <Stack.Screen
+                <Stack.Screen
                   name="Accept To Donate"
                   component={AcceptDonationScreen}
                   // options={{ headerShown: false }}
@@ -140,13 +140,17 @@ export default function App() {
                   // options={{ headerShown: false }}
                 />
                 <Stack.Screen name="Edit Profile" component={EditProfile} />
-                <Stack.Screen name="Record Donation" component={CreateDonationScreen} />
+                <Stack.Screen
+                  name="Record Donation"
+                  component={CreateDonationScreen}
+                />
                 <Stack.Screen name="Thank You" component={ThankYouScreen} />
                 <Stack.Screen name="Confirm" component={ConfirmScreen} />
                 <Stack.Screen name="Settings" component={SettingsScreen} />
-                <Stack.Screen name="Patient Info" component={SingleRequestScreen} />
-
-
+                <Stack.Screen
+                  name="Patient Info"
+                  component={SingleRequestScreen}
+                />
               </>
             ) : (
               <>
@@ -174,6 +178,11 @@ export default function App() {
                 <Stack.Screen
                   name="Forgot Password"
                   component={ForgotPasswordScreen}
+                  // options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Reset Password"
+                  component={ResetPasswordScreen}
                   // options={{ headerShown: false }}
                 />
               </>
