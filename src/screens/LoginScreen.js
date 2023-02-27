@@ -25,7 +25,6 @@ export default function LoginScreen({ navigation }) {
     navigation.navigate("Forgot Password");
   };
 
- 
   async function save(key, value) {
     await SecureStore.setItemAsync(key, value);
     return;
@@ -45,7 +44,6 @@ export default function LoginScreen({ navigation }) {
       .post(`${api}/auth/login`, { phone, password })
       .then((res) => {
         if (res.status == 200) {
-          console.log(res.data);
           save("token", res.data.token);
           setLoading(false);
           navigation.navigate("Complete Profile");
@@ -63,6 +61,19 @@ export default function LoginScreen({ navigation }) {
         console.log(err);
       });
   };
+  const isAuth = async () => {
+    const token = await getValue("profile");
+    if (token == "complete") {
+      navigation.navigate("Complete Profile");
+      return;
+    }
+  };
+
+  useEffect(() => {
+    isAuth().catch((err) => {
+      console.log(err);
+    });
+  });
 
   return (
     <View style={styles.container}>

@@ -8,6 +8,7 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import styles from "../utils/styles";
 import {
   ActivityIndicator,
+  Avatar,
   Button,
   HelperText,
   RadioButton,
@@ -105,9 +106,9 @@ export default function CompleteProfileScreen({ navigation }) {
 
   React.useEffect(() => {
     async function getStatus() {
-      const status = await getProfile("profile");
+      const status = await getValue("profile");
       if (status == "complete") {
-        navigation.navigate("BloodShare");
+        navigation.navigate("BloodShare", { screen: "Home" });
         return;
       }
     }
@@ -130,17 +131,7 @@ export default function CompleteProfileScreen({ navigation }) {
           </Text>
           <HelperText>You know about us, help us know you too.</HelperText>
         </View>
-        {/* {image ? (
-          <Image
-            source={{ uri: image }}
-            style={[styles.logo, { width: 200, height: 70 }]}
-          />
-        ) : (
-          <Image
-            style={styles.logo}
-            source={require("../../assets/icon.png")}
-          />
-        )} */}
+        {image ? <Avatar.Image size={104} source={{ uri: image }} /> : ""}
 
         <TextInput
           style={styles.input}
@@ -158,7 +149,7 @@ export default function CompleteProfileScreen({ navigation }) {
           style={styles.input}
           label="Email"
           mode="outlined"
-          outlineColor="#fc7d7b"
+          // outlineColor="#fc7d7b"
           placeholder="johndoe@gmail.com"
           keyboardType="email-address"
           left={<TextInput.Icon icon={"email-outline"} />}

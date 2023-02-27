@@ -115,11 +115,6 @@ export default function App() {
                   // options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                  name="Profile"
-                  component={ProfileScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
                   name="My Donations"
                   component={DonationScreen}
                   // options={{ headerShown: false }}
