@@ -118,7 +118,7 @@ export default function RequestsScreen({
             {efeeds.map((feed) => (
               <View key={feed.id}>
                 <Card
-                  style={{ backgroundColor: "#f2f6fc" }}
+                  style={{ backgroundColor: "#feefef" }}
                   mode="contained"
                   onPress={() =>
                     navigation.navigate("Patient Info", { req: feed })

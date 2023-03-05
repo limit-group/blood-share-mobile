@@ -117,7 +117,7 @@ export default function DonationFeedScreen({
           <>
             {feeds.map((feed) => (
               <View key={feed.id}>
-                <Card style={{ backgroundColor: "#f2f6fc" }} mode="contained">
+                <Card style={{ backgroundColor: "#feefef" }} mode="contained">
                   <Card.Title
                     title={"Edwin"}
                     titleVariant="bodySmall"
@@ -134,7 +134,7 @@ export default function DonationFeedScreen({
                         source={{ uri: feed.media }}
                         style={{
                           padding: 5,
-
+                          backgroundColor: "#feefef",
                           height: 150,
                         }}
                       />

@@ -107,8 +107,9 @@ export default function CompleteProfileScreen({ navigation }) {
   React.useEffect(() => {
     async function getStatus() {
       const status = await getValue("profile");
-      if (status == "complete") {
-        navigation.navigate("BloodShare", { screen: "Home" });
+      console.log(status);
+      if (!status) {
+        navigation.navigate("BloodShare");
         return;
       }
     }
@@ -119,7 +120,7 @@ export default function CompleteProfileScreen({ navigation }) {
 
   return (
     <View
-      style={[styles.container, { marginTop: StatusBar.currentHeight || 0 }]}
+      style={[styles.container]}
     >
       <KeyboardAwareScrollView
         style={{ flex: 1, width: "100%" }}

@@ -105,7 +105,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar props={{ name: "BloodShare" }} />
+      <Navbar props={{ name: "Welcome" }} />
       <ScrollView>
         <View style={styles.cards}>
           <Card style={styles.space}>
@@ -176,7 +176,7 @@ export default function HomeScreen({ navigation }) {
               {requests.map((req) => (
                 <View key={req.id}>
                   <Card
-                    style={{ backgroundColor: "#f2f6fc" }}
+                    style={{ backgroundColor: "#fee8e8" }}
                     mode="contained"
                     onPress={() =>
                       navigation.navigate("Patient Info", { req: req })
@@ -281,7 +281,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: "#ffffff",
+    // backgroundColor: "#ffffff",
+    // background: rgb(255,255,255),
+    backgroundColor: "#ffffff"
+
+// background: linear-gradient(90deg, rgba(255,255,255,1) 1%, rgba(252,125,123,1) 100%);
   },
   map: {
     width: "100%",

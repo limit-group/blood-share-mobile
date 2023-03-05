@@ -25,11 +25,15 @@ export default function VerifyScreen({ navigation }) {
   const onVerifyPress = () => {
     setLoading(true);
     axios
-      .post(`${api}/auth/verify`, { code })
+      .post(`${api}/auth/verify`, { code }, {
+        headers: {
+          
+        }
+      })
       .then((res) => {
         setLoading(false);
         if (res.status == 200) {
-          navigation.navigate("Login");
+          navigation.navigate("Complete Profile");
         }
       })
       .catch((err) => {

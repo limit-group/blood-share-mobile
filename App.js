@@ -12,7 +12,7 @@ import {
 } from "react-native-paper";
 
 import { AppLoading, Font } from "expo";
-// import Onboarding from 'react-native-onboarding-swiper';
+import Onboarding from "react-native-onboarding-swiper";
 import * as SecureStore from "expo-secure-store";
 import {
   LoginScreen,
@@ -46,6 +46,7 @@ import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
 import { getValueFor } from "./src/utils/auth";
 import * as SplashScreen from "expo-splash-screen";
+import { Image, View } from "react-native";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -60,7 +61,6 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
 
- 
   const theme = useTheme({
     ...DefaultTheme,
     colors: {
@@ -79,18 +79,114 @@ export default function App() {
     return;
   }
 
+  const handleOnboarding = async () => {
+    await SecureStore.setItemAsync("onboarded", "true");
+
+  };
+
+  // async function getValueFor(key) {
+  //   let result = await SecureStore.getItemAsync(key);
+  //   if (result) {
+  //     setLoading(false);
+  //     return;
+  //   } else {
+  //     setLoading(true);
+  //   }
+  //   return;
+  // }
+
   React.useEffect(() => {
-    setLoading(true);
+    // getValueFor("onboarded").catch((err) => {
+    //   console.log(err);
+    // });
+
     getValueFor("token").catch((err) => {
       console.log(err);
     });
     setLoading(false);
-  });
+  },[]);
 
   return (
     <PaperProvider theme={theme}>
       {loading ? (
-        ""
+        <Onboarding
+          bottomBarColor="#fc7d7b"
+          onDone={handleOnboarding}
+          pages={[
+            {
+              backgroundColor: "#fff",
+              image: (
+                <Image
+                  source={require("./assets/nothing.png")}
+                  style={{
+                    height: 270,
+                    margin: 30,
+                    padding: 10,
+                    width: "100%",
+                    borderRadius: 50,
+                  }}
+                />
+              ),
+              title: "Welcome to BloodShare",
+              subtitle:
+                "A blood donation request app making blood donations easy",
+            },
+            {
+              backgroundColor: "#fff",
+              image: (
+                <Image
+                  source={require("./assets/accept.png")}
+                  style={{
+                    height: 270,
+                    margin: 30,
+                    padding: 10,
+                    width: "100%",
+                    borderRadius: 50,
+                  }}
+                />
+              ),
+              title: "Request for blood donations",
+              subtitle:
+                "ask people to donate for you, your family or even friends when in need.",
+            },
+            {
+              backgroundColor: "#fff",
+              image: (
+                <Image
+                  source={require("./assets/accept.png")}
+                  style={{
+                    height: 270,
+                    margin: 30,
+                    padding: 10,
+                    width: "100%",
+                    borderRadius: 50,
+                  }}
+                />
+              ),
+              title: "Find blood donation drives",
+              subtitle:
+                "Announce blood drives and find scheduled donations around you",
+            },
+            {
+              backgroundColor: "#fff",
+              image: (
+                <Image
+                  source={require("./assets/accept.png")}
+                  style={{
+                    height: 200,
+                    margin: 30,
+                    // padding: 10,
+                    width: "100%",
+                    borderRadius: 50,
+                  }}
+                />
+              ),
+              title: "Monitor places you have donated to.",
+              subtitle:
+                "Record everytime you donate and earn life saving points as a donor, boosting your blood profile.",
+            },
+          ]}
+        />
       ) : (
         <NavigationContainer>
           <Stack.Navigator>
@@ -192,7 +288,7 @@ function Home() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: "#d0312d",
+        tabBarActiveTintColor: "#fc7d7b",
       }}
       barStyle={{ backgroundColor: "white" }}
       // activeColor="white"
@@ -234,7 +330,7 @@ function Home() {
         name="Card"
         component={BloodCardScreen}
         options={{
-          title: "profile",
+          title: "Me",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="card-account-details-outline"

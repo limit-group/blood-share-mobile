@@ -14,7 +14,7 @@ export default function LoginScreen({ navigation }) {
   const [error, setError] = React.useState("");
   const onDismissSnackBar = () => setVisible(false);
   const [loading, setLoading] = useState(false);
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("+2547");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(true);
 
@@ -47,7 +47,7 @@ export default function LoginScreen({ navigation }) {
         if (res.status == 200) {
           save("token", res.data.token);
           setLoading(false);
-          navigation.navigate("Complete Profile");
+          navigation.navigate("BloodShare");
           return;
         } else {
           setError("Wrong login credentials");
@@ -62,19 +62,20 @@ export default function LoginScreen({ navigation }) {
         console.log(err);
       });
   };
-  const isAuth = async () => {
-    const token = await getValue("profile");
-    if (token == "complete") {
-      navigation.navigate("Complete Profile");
-      return;
-    }
-  };
+  // is auth check profile completion status
+  // const isAuth = async () => {
+  //   const token = await getValue("profile");
+  //   if (!token) {
+  //     navigation.navigate("Complete Profile");
+  //     return;
+  //   }
+  // };
 
-  useEffect(() => {
-    isAuth().catch((err) => {
-      console.log(err);
-    });
-  });
+  // useEffect(() => {
+  //   isAuth().catch((err) => {
+  //     console.log(err);
+  //   });
+  // },[visible]);
 
   return (
     <View style={styles.container}>
@@ -84,7 +85,7 @@ export default function LoginScreen({ navigation }) {
       >
         <Image style={styles.logo} source={require("../../assets/login.png")} />
         <View style={{ flex: 1, marginLeft: 30 }}>
-          <Text style={[{ fontWeight: "bold", fontSize: 28, fontFamily: 'Oregano_400Regular'}]}>Login.</Text>
+          <Text style={[{ fontWeight: "bold", fontSize: 28}]}>Login.</Text>
         </View>
         <TextInput
           style={styles.input}

@@ -8,11 +8,14 @@ export default function Navbar({ navigation, back, props }) {
 
   const closeMenu = () => setVisible(false);
 
+  const toSettings = () => {
+    navigation.push("Settings");
+  };
+
   return (
     <Appbar.Header style={styles.header} mode={"small"}>
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-      <Appbar.Content title={props.name} />
-
+      <Appbar.Content title={props.name} onPress={toSettings} />
       <Avatar.Image size={24} source={require("../../assets/avatar.png")} />
     </Appbar.Header>
   );
@@ -21,6 +24,6 @@ export default function Navbar({ navigation, back, props }) {
 const styles = StyleSheet.create({
   header: {
     fontSize: "10",
-    backgroundColor: "#fff", 
-  }
+    backgroundColor: "#fff",
+  },
 });

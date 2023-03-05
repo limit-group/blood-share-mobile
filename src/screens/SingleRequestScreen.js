@@ -15,7 +15,7 @@ export default function SingleRequestScreen({ navigation, route }) {
           <Title>{req.patientName}</Title>
           <Paragraph>{req.biography}</Paragraph>
           <Card
-            style={{ backgroundColor: "#f2f6fc", marginTop: 10, width: "100%" }}
+            style={{ backgroundColor: "#feefef", marginTop: 10, width: "100%" }}
             mode="contained"
           >
             <Card.Content>

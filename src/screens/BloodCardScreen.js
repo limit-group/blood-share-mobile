@@ -1,24 +1,26 @@
 import React from "react";
 import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
 import {
-  ActivityIndicator,
   Avatar,
   Button,
   Card,
   Chip,
   HelperText,
+  List,
   SegmentedButtons,
   Snackbar,
   Title,
 } from "react-native-paper";
 import moment from "moment";
-import Navbar from "../components/Navbar";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
 import Octicons from "react-native-vector-icons/Octicons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function BloodCardScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
@@ -80,17 +82,17 @@ export default function BloodCardScreen({ navigation }) {
           }}
         >
           {profile.avatar ? (
-            <Avatar.Image size={104} source={{ uri: profile.avatar }} />
+            <Avatar.Image size={84} source={{ uri: profile.avatar }} />
           ) : (
             <Avatar.Image
-              size={104}
+              size={84}
               source={require("../../assets/avatar.png")}
             />
           )}
           <Chip
             icon="fountain-pen-tip"
             mode="outlined"
-            style={{ height: 40, top: 50 }}
+            style={{ height: 40, top: 30, backgroundColor: "#ffffff" }}
             onPress={() => navigation.navigate("Edit Profile")}
           >
             edit
@@ -99,7 +101,7 @@ export default function BloodCardScreen({ navigation }) {
         <View style={{ marginTop: 0, alignItems: "center" }}>
           <Title style={styles.text}>{profile.name}</Title>
         </View>
-        <View style={{ padding: 50, paddingTop: 0 }}>
+        <View style={{ padding: 30, paddingTop: 0 }}>
           <SegmentedButtons
             value={value}
             onValueChange={setValue}
@@ -118,30 +120,61 @@ export default function BloodCardScreen({ navigation }) {
               },
             ]}
           />
-          <View style={{ margin: 20 }}>
-            <Title>
-              birthday: {moment(profile.dateOfBirth).format("Do MMM YY")}
-            </Title>
-            <Title>gender: {profile.gender}</Title>
-            <Title>body weight: {profile.bodyWeight}</Title>
-            <Title>blood group: {profile.bloodType}</Title>
-            <Title>life saver points: {profile.bloodPoints}</Title>
-            <HelperText>Donate more to earn more points</HelperText>
-          </View>
-
-          <Button
-            onPress={() => navigation.navigate("Settings")}
-            mode="contained"
-            icon="account-settings"
+          <View
             style={{
-              borderRadius: 50,
-              marginTop: 23,
-              marginBottom: 10,
-              fontSize: "40px",
+              justifyContent: "space-evenly",
+              flexDirection: "row",
+              paddingBottom: 10,
+              paddingTop: 20,
             }}
           >
-            Settings{" "}
-          </Button>
+            <Text>
+              {profile.gender == "MALE" ? (
+                <MaterialCommunityIcons name="gender-male" size={20} />
+              ) : (
+                <MaterialCommunityIcons name="gender-female" size={20} />
+              )}{" "}
+              Gender: {" \n"} <Title>{profile.gender}</Title>
+            </Text>
+            <View style={styles.verticleLine}></View>
+            <Text>
+              <Fontisto name="blood-drop" size={18} /> Blood Group:{"\n "}
+              <Title>{profile.bloodType}</Title>
+            </Text>
+          </View>
+          <View>
+            <List.Item
+              title="Date of Birth"
+              description={moment(profile.dateOfBirth).format("Do MMM YY")}
+              left={(props) => (
+                <FontAwesome name={"birthday-cake"} size={24} {...props} />
+              )}
+            />
+            <List.Item
+              title="Body Weight"
+              description={profile.bodyWeight + "Kgs"}
+              left={(props) => <Ionicons name="body" size={20} {...props} />}
+            />
+            <List.Item
+              title="Life Saver Points"
+              description={profile.bloodPoints}
+              left={(props) => (
+                <MaterialCommunityIcons
+                  name="star-four-points"
+                  size={20}
+                  {...props}
+                />
+              )}
+            />
+            <List.Item
+              title="Email"
+              description={profile.email}
+              left={(props) => (
+                <MaterialCommunityIcons name="email" size={20} {...props} />
+              )}
+            />
+            <HelperText>* Donate more to earn more points</HelperText>
+          </View>
         </View>
         <Snackbar
           visible={visible}
@@ -167,7 +200,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: "#ffffff",
-    marginTop: StatusBar.currentHeight || 0,
+    // marginTop: StatusBar.currentHeight || 0,
   },
   profile: {
     // backgroundColor:
@@ -187,5 +220,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     // backgroundColor: "#000000a0",
+  },
+  verticleLine: {
+    height: "100%",
+    width: 1,
+    backgroundColor: "#909090",
   },
 });
