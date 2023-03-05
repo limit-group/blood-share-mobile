@@ -57,7 +57,6 @@ export default function DonationScreen({
       })
       .then((res) => {
         setDonations(res.data);
-        console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {

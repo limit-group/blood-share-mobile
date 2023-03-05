@@ -6,6 +6,7 @@ import styles from "../utils/styles";
 import axios from "axios";
 import { api } from "../utils/api";
 import { getError } from "../utils/error";
+import { getValue } from "../utils/auth"
 import * as SecureStore from "expo-secure-store";
 
 export default function LoginScreen({ navigation }) {
@@ -83,7 +84,7 @@ export default function LoginScreen({ navigation }) {
       >
         <Image style={styles.logo} source={require("../../assets/login.png")} />
         <View style={{ flex: 1, marginLeft: 30 }}>
-          <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>Login.</Text>
+          <Text style={[{ fontWeight: "bold", fontSize: 28, fontFamily: 'Oregano_400Regular'}]}>Login.</Text>
         </View>
         <TextInput
           style={styles.input}

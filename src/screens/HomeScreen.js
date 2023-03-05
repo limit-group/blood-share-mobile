@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import moment from "moment";
 import {
   FlatList,
@@ -30,6 +31,7 @@ import * as Linking from "expo-linking";
 import * as Location from "expo-location";
 
 export default function HomeScreen({ navigation }) {
+
   const [visible, setVisible] = React.useState(false);
   const onDismissSnackBar = () => setVisible(false);
   const [error, setError] = React.useState("");
@@ -161,7 +163,11 @@ export default function HomeScreen({ navigation }) {
           <Paragraph
             style={{ paddingLeft: 10, paddingTop: 20, textAlign: "left" }}
           >
-            Patient List
+            Patient List{" "}
+            <MaterialCommunityIcons
+              name={"filter-variant"}
+              style={{ textAlign: "right" }}
+            />
           </Paragraph>
           {loading ? (
             <View style={{ paddingTop: 50 }}></View>

@@ -21,7 +21,7 @@ import {
 import { Avatar, Button, Card, IconButton, Text } from "react-native-paper";
 import Navbar from "../components/Navbar";
 import moment from "moment";
-// import TopTabNavigator from "../components/Topbar";
+import * as Linking from "expo-linking";
 import { api } from "../utils/api";
 import { getValue } from "../utils/auth";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
@@ -95,7 +95,9 @@ export default function MyRequestsScreen({
                 <Card
                   style={{ backgroundColor: "#f2f6fc" }}
                   mode="contained"
-                  onPress={() => navigation.navigate("Patient Info")}
+                  onPress={() =>
+                    navigation.navigate("Patient Info", { req: feed })
+                  }
                 >
                   <View style={{ alignItems: "center", marginTop: 10 }}>
                     <Avatar.Image
@@ -115,7 +117,7 @@ export default function MyRequestsScreen({
                         justifyContent: "space-evenly",
                         flexDirection: "row",
                         paddingBottom: 10,
-                        // paddingTop: 20,
+                        paddingTop: 20,
                       }}
                     >
                       <Paragraph>
@@ -129,14 +131,15 @@ export default function MyRequestsScreen({
                     </View>
                     <Card.Actions style={{ justifyContent: "space-between" }}>
                       <Button
+                        icon={"google-maps"}
+                        mode="text"
                         onPress={() =>
                           Linking.openURL(
                             `https://www.google.com/maps/dir/?api=1&origin=${my_lat},${my_long}&destination=${feed.latitude},${feed.longitude}`
                           )
                         }
                       >
-                        Directions{" "}
-                        <FontAwesome name="location-arrow" size={18} />{" "}
+                        Directions
                       </Button>
                       <Button
                         mode="contained"

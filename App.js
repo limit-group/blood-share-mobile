@@ -10,13 +10,9 @@ import {
   Provider as PaperProvider,
   MD3LightTheme as DefaultTheme,
 } from "react-native-paper";
-// import {
-//   useFonts,
-//   Oregano_400Regular,
-//   Oregano_400Regular_Italic,
-// } from "@expo-google-fonts/oregano";
-import { AppLoading, Font } from "expo";
 
+import { AppLoading, Font } from "expo";
+// import Onboarding from 'react-native-onboarding-swiper';
 import * as SecureStore from "expo-secure-store";
 import {
   LoginScreen,
@@ -50,6 +46,7 @@ import { decode, encode } from "base-64";
 import { StatusBar } from "expo-status-bar";
 import { getValueFor } from "./src/utils/auth";
 import * as SplashScreen from "expo-splash-screen";
+
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -63,6 +60,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
 
+ 
   const theme = useTheme({
     ...DefaultTheme,
     colors: {
