@@ -8,7 +8,6 @@ import {
   Dialog,
   Paragraph,
   Portal,
-  Provider,
   Switch,
   Title,
 } from "react-native-paper";
@@ -17,6 +16,7 @@ export default function SettingsScreen({ navigation }) {
   const [value, setValue] = React.useState("");
   const [isSwitchOn, setIsSwitchOn] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
+  const [changed, setChanged] = React.useState(true)
 
   const showDialog = () => setVisible(true);
 
@@ -27,13 +27,10 @@ export default function SettingsScreen({ navigation }) {
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
-  // const onDelete = () => {
-  //   alert("Are you sure?");
-  // };
-
   const logout = async () => {
     console.log("deleted token");
     await SecureStore.deleteItemAsync("token", {});
+    setChanged(false)
     return;
   };
 
@@ -48,7 +45,7 @@ export default function SettingsScreen({ navigation }) {
     checkLoggedIn().catch((err) => {
       console.log(err);
     });
-  });
+  },[changed]);
 
   return (
     <>

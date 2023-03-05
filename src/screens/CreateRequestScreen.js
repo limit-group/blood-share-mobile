@@ -36,7 +36,6 @@ export default function CreateRequestScreen({ navigation }) {
   const [visibo, setVisibo] = React.useState(false);
   const [error, setError] = React.useState("");
   const onDismissSnackBar = () => setVisibo(false);
-
   const [bloodGroup, setBloodGroup] = useState("");
   const [show, setShow] = useState(false);
   const [when, setWhen] = useState("");
@@ -51,16 +50,18 @@ export default function CreateRequestScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: "white", padding: 30 };
+  const containerStyle = { backgroundColor: "white", padding: 20 , margin: 10};
   const [valu, setValu] = useState("");
   const [mod, setMod] = useState("outlined");
   const [mod_one, setModOne] = useState("outlined");
-  const location = null
+  const det = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+  const location = null;
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDate(currentDate);
     setShow(true);
+    setWhen(currentDate);
     setModOne("contained");
   };
 
@@ -152,7 +153,7 @@ export default function CreateRequestScreen({ navigation }) {
             Blood group: <Text style={styles.primary}>{bloodGroup}</Text>
           </Paragraph>
         </View>
-        <Portal>
+        <Portal >
           <Modal
             visible={visible}
             onDismiss={hideModal}
@@ -266,9 +267,9 @@ export default function CreateRequestScreen({ navigation }) {
           <Paragraph>Raise Request for:</Paragraph>
           <View style={{ margin: 10 }}>
             <RadioButton.Group
-              onValueChange={(newValue, value) => {
+              onValueChange={(newValue) => {
+                setRequestType(newValue);
                 setValue(newValue);
-                setRequestType(value);
               }}
               value={value}
             >
@@ -280,14 +281,14 @@ export default function CreateRequestScreen({ navigation }) {
                 }}
               >
                 <Text>Self</Text>
-                <RadioButton value="SELF" />
+                <RadioButton value="SELF"/>
                 <Text>Others</Text>
                 <RadioButton value="OTHERS" />
               </View>
             </RadioButton.Group>
           </View>
         </View>
-
+        <Paragraph style={styles.input}>Donation Information:</Paragraph>
         {value == "OTHERS" ? (
           <>
             <TextInput
@@ -368,7 +369,7 @@ export default function CreateRequestScreen({ navigation }) {
           </Button>
           <Button mode={mod_one} onPress={showDatepicker}>
             <MaterialCommunityIcons name="calendar" size={16} />
-            upcoming
+           {show ? det : "upcoming" } 
           </Button>
         </View>
         <View style={styles.input}>
@@ -387,7 +388,6 @@ export default function CreateRequestScreen({ navigation }) {
               Needed: <Text style={styles.primary}>{needed}</Text>
             </Text>
           </View>
-
           <Slider
             style={{ width: 300, height: 50, color: "#fc7d7b" }}
             minimumValue={1}
@@ -396,18 +396,21 @@ export default function CreateRequestScreen({ navigation }) {
             maximumValue={4}
             minimumTrackTintColor="#fc7d7b"
             maximumTrackTintColor="#000000"
+            thumbTintColor="#fc7d7b"
           />
           <HelperText>
-            Your device location will be shared by donors so that they can
+            * Your device location will be shared by donors so that they can
             easily trace where they need to donate.
           </HelperText>
-          {loading ? (
-            <ActivityIndicator animating={true} size={50} />
-          ) : (
-            <Button mode="contained" onPress={onFeedPress}>
-              Start Request <MaterialCommunityIcons name="arrow-right" />
-            </Button>
-          )}
+          <View style={{ margin: 10 }}>
+            {loading ? (
+              <ActivityIndicator animating={true} size={50} />
+            ) : (
+              <Button mode="contained" onPress={onFeedPress}>
+                Start Request <MaterialCommunityIcons name="arrow-right" />
+              </Button>
+            )}
+          </View>
         </View>
         <Text>{" \n"}</Text>
       </KeyboardAwareScrollView>
