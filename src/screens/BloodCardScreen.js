@@ -173,7 +173,7 @@ export default function BloodCardScreen({ navigation }) {
                 <MaterialCommunityIcons name="email" size={20} {...props} />
               )}
             />
-            <HelperText>* Donate more to earn more points</HelperText>
+            <HelperText style={{ textAlign: 'center'}}>* Donate more to earn more points</HelperText>
           </View>
         </View>
         <Snackbar

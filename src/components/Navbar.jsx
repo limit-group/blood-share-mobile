@@ -9,7 +9,7 @@ export default function Navbar({ navigation, back, props }) {
   const closeMenu = () => setVisible(false);
 
   const toSettings = () => {
-    navigation.push("Settings");
+    navigation.navigate("Settings");
   };
 
   return (

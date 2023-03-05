@@ -73,8 +73,23 @@ export default function DonationScreen({
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
-        <View style={{ paddingTop: 50 }}>
-          <ActivityIndicator animating={true} size={50} />
+        <View>
+          <Image
+            style={{
+              height: 270,
+              // margin: 50,
+              width: "100%",
+              borderRadius: 50,
+            }}
+            source={require("../../assets/no_data.png")}
+          />
+          <Button
+            style={{ margin: 20 }}
+            mode="contained"
+            onPress={() => navigation.navigate("Record Donation")}
+          >
+            Donate to earn more life points..
+          </Button>
         </View>
       ) : (
         <ScrollView onScroll={onScroll}>
@@ -96,11 +111,6 @@ export default function DonationScreen({
               />
             </List.Section>
           ))}
-          <View>
-            <Button style={{ margin: 20 }} mode="contained" onPress={() => navigation.navigate("Record Donation")}>
-              Donate to earn more life points..
-            </Button>
-          </View>
         </ScrollView>
       )}
       <AnimatedFAB

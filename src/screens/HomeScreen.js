@@ -31,7 +31,6 @@ import * as Linking from "expo-linking";
 import * as Location from "expo-location";
 
 export default function HomeScreen({ navigation }) {
-
   const [visible, setVisible] = React.useState(false);
   const onDismissSnackBar = () => setVisible(false);
   const [error, setError] = React.useState("");
@@ -160,15 +159,24 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </View>
         <View>
-          <Paragraph
-            style={{ paddingLeft: 10, paddingTop: 20, textAlign: "left" }}
+          <View
+            style={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              paddingTop: 20
+            }}
           >
-            Patient List{" "}
+            <Paragraph
+              style={{ paddingLeft: 10, textAlign: "left" }}
+            >
+              Patient List
+            </Paragraph>
             <MaterialCommunityIcons
               name={"filter-variant"}
-              style={{ textAlign: "right" }}
+              style={{ textAlign: "right",  paddingRight: 10,}}
             />
-          </Paragraph>
+          </View>
+
           {loading ? (
             <View style={{ paddingTop: 50 }}></View>
           ) : (
@@ -215,7 +223,6 @@ export default function HomeScreen({ navigation }) {
                           blood units
                         </Paragraph>
                       </View>
-
                       <Card.Actions style={{ justifyContent: "space-between" }}>
                         <Button
                           icon={"google-maps"}
@@ -283,9 +290,9 @@ const styles = StyleSheet.create({
     padding: 10,
     // backgroundColor: "#ffffff",
     // background: rgb(255,255,255),
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
 
-// background: linear-gradient(90deg, rgba(255,255,255,1) 1%, rgba(252,125,123,1) 100%);
+    // background: linear-gradient(90deg, rgba(255,255,255,1) 1%, rgba(252,125,123,1) 100%);
   },
   map: {
     width: "100%",
@@ -299,7 +306,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: 10,
+    paddingTop: 5,
   },
   space: {
     backgroundColor: "#ffffff",
