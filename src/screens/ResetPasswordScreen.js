@@ -8,7 +8,7 @@ import {
   Snackbar,
   TextInput,
 } from "react-native-paper";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import styles from "../utils/styles";
 
 export default function ResetPasswordScreen({ navigation, route }) {
@@ -28,7 +28,7 @@ export default function ResetPasswordScreen({ navigation, route }) {
     }
     setLoading(true);
     axios
-      .post(`${api}/auth/password`, { phone, password })
+      .post(`${url}/api/auth/password`, { phone, password })
       .then((res) => {
         if (res.status == 200) {
           setLoading(false);

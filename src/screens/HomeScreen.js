@@ -24,7 +24,7 @@ import {
   Title,
 } from "react-native-paper";
 import axios from "axios";
-import { api, getCity } from "../utils/api";
+const url = require("../utils/api")
 import { getValue } from "../utils/auth";
 import Navbar from "../components/Navbar";
 import * as Linking from "expo-linking";
@@ -63,7 +63,7 @@ export default function HomeScreen({ navigation }) {
   const getLatest = async () => {
     const token = await getValue("token");
     axios
-      .get(`${api}/requests/latest`, {
+      .get(`${url}/api/requests/latest`, {
         headers: {
           authorization: `Bearer ${token}`,
         },

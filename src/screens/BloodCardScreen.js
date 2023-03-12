@@ -14,7 +14,7 @@ import {
 import moment from "moment";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
 import Octicons from "react-native-vector-icons/Octicons";
@@ -34,7 +34,7 @@ export default function BloodCardScreen({ navigation }) {
     const findUser = async () => {
       const token = await getValue("token");
       axios
-        .get(`${api}/auth/profiles`, {
+        .get(`${url}/api/auth/profiles`, {
           headers: {
             authorization: `Bearer ${token}`,
           },

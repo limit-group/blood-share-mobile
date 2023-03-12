@@ -15,7 +15,7 @@ import {
   Title,
 } from "react-native-paper";
 import axios from "axios";
-import { api }  from "../utils/api";
+import { url } from "../utils/api";
 import { getError } from "../utils/error";
 import { getValue, save } from "../utils/auth";
 
@@ -48,19 +48,27 @@ export default function CreateFeedScreen({ navigation }) {
       setVisible(true);
       return;
     }
+    // ImagePicker saves the taken photo to disk and returns a local URI to it
+    let localUri = image;
+    let filename = localUri.split("/").pop();
+
+    // Infer the type of the image
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+
+    const formData = new FormData();
+    formData.append("media", { uri: localUri, name: filename, type });
+    formData.append("description", description);
+    console.log(formData);
     setLoading(true);
     axios
-      .post(
-        `${api}/feeds`,
-        { description, image },
-        {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .post(`${url}/api/feeds`, formData, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          "content-type": "multipart/form-data",
+        },
+      })
       .then((res) => {
-        console.log(res);
         if (res.status == 201) {
           setLoading(false);
           navigation.navigate("Feed");

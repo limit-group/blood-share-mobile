@@ -13,7 +13,7 @@ import {
 import styles from "../utils/styles";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import axios from "axios";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
 
@@ -73,7 +73,7 @@ export default function CreateDonationScreen({ navigation }) {
     const token = await getValue("token");
     axios
       .post(
-        `${api}/donations`,
+        `${url}/api/donations`,
         { donor_number, facility, date },
         {
           headers: {

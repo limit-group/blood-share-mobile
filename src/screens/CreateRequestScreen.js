@@ -24,7 +24,7 @@ import {
   Title,
 } from "react-native-paper";
 import axios from "axios";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getError } from "../utils/error";
 import { getValue, save } from "../utils/auth";
 
@@ -123,7 +123,7 @@ export default function CreateRequestScreen({ navigation }) {
     setLoading(true);
 
     axios
-      .post(`${api}/requests`, data, {
+      .post(`${url}/api/requests`, data, {
         headers: {
           authorization: `Bearer ${token}`,
         },

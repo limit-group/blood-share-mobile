@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { ActivityIndicator, Snackbar, TextInput } from "react-native-paper";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import styles from "../utils/styles";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { getError } from "../utils/error";
@@ -35,7 +35,7 @@ export default function LoginScreen({ navigation }) {
     }
     setLoading(true);
     axios
-      .post(`${api}/auth/signup`, { phone, password })
+      .post(`${url}/api/auth/signup`, { phone, password })
       .then((res) => {
         if (res.status == 201) {
           navigation.navigate("Verify");

@@ -9,7 +9,7 @@ import {
   Snackbar,
   TextInput,
 } from "react-native-paper";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import styles from "../utils/styles";
 
 export default function VerifyScreen({ navigation }) {
@@ -25,11 +25,13 @@ export default function VerifyScreen({ navigation }) {
   const onVerifyPress = () => {
     setLoading(true);
     axios
-      .post(`${api}/auth/verify`, { code }, {
-        headers: {
-          
+      .post(
+        `${url}/api/auth/verify`,
+        { code },
+        {
+          headers: {},
         }
-      })
+      )
       .then((res) => {
         setLoading(false);
         if (res.status == 200) {

@@ -12,17 +12,15 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import {
-  ActivityIndicator,
   AnimatedFAB,
   Paragraph,
   Snackbar,
   Title,
 } from "react-native-paper";
 import { Avatar, Button, Card, IconButton, Text } from "react-native-paper";
-import Navbar from "../components/Navbar";
 import moment from "moment";
 import * as Linking from "expo-linking";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
@@ -64,7 +62,7 @@ export default function MyRequestsScreen({
     const myRequests = async () => {
       const token = await getValue("token");
       axios
-        .get(`${api}/requests/me`, {
+        .get(`${url}/api/requests/me`, {
           headers: {
             authorization: `Bearer ${token}`,
           },

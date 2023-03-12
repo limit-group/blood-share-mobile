@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Button, Title } from "react-native-paper";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 import styles from "../utils/styles";
 
@@ -10,7 +10,7 @@ export default function AcceptDonationScreen({ route, navigation }) {
   const onAccept = async () => {
     const token = await getValue("token");
     axios
-      .get(`${api}/requests/accept/${route.params.id}`, {
+      .get(`${url}/api/requests/accept/${route.params.id}`, {
         headers: {
           authorization: `Bearer ${token}`,
         },

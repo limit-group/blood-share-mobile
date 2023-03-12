@@ -3,7 +3,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { Image, Text, View } from "react-native";
 import styles from "../utils/styles";
 import { Button, HelperText, Snackbar } from "react-native-paper";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getError } from "../utils/error";
 import axios from "axios";
 
@@ -15,7 +15,7 @@ export default function ConfirmScreen({ route, navigation }) {
   const onGo = async () => {
     const token = await getValue("token");
     axios
-      .get(`${api}/requests/accept/${route.params.id}`, {
+      .get(`${url}/api/requests/accept/${route.params.id}`, {
         headers: {
           authorization: `Bearer ${token}`,
         },

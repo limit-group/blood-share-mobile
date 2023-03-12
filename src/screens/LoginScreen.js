@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { ActivityIndicator, Snackbar, TextInput } from "react-native-paper";
 import styles from "../utils/styles";
 import axios from "axios";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getError } from "../utils/error";
 import { getValue } from "../utils/auth"
 import * as SecureStore from "expo-secure-store";
@@ -42,7 +42,7 @@ export default function LoginScreen({ navigation }) {
 
     setLoading(true);
     axios
-      .post(`${api}/auth/login`, { phone, password })
+      .post(`${url}/api/auth/login`, { phone, password })
       .then((res) => {
         if (res.status == 200) {
           save("token", res.data.token);

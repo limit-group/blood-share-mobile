@@ -23,8 +23,7 @@ import {
   Snackbar,
   Title,
 } from "react-native-paper";
-import Navbar from "../components/Navbar";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
 import moment from "moment";
@@ -64,7 +63,7 @@ export default function DonationFeedScreen({
   const getFeeds = async () => {
     const token = await getValue("token");
     axios
-      .get(`${api}/feeds`, {
+      .get(`${url}/api/feeds`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -91,7 +90,7 @@ export default function DonationFeedScreen({
   const going = async (id) => {
     const token = await getValue("token");
     axios
-      .get(`${api}/feeds/going/${id}`, {
+      .get(`${url}/api/feeds/going/${id}`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -131,7 +130,7 @@ export default function DonationFeedScreen({
                   {feed.media ? (
                     <>
                       <Card.Cover
-                        source={{ uri: feed.media }}
+                        source={{ uri: `${url}/${feed.media}` }}
                         style={{
                           padding: 5,
                           backgroundColor: "#feefef",
@@ -160,7 +159,7 @@ export default function DonationFeedScreen({
             ))}
           </>
         ) : (
-          <View style={{ margin: 30, }}>
+          <View style={{ margin: 30 }}>
             <Image
               style={{
                 height: 270,

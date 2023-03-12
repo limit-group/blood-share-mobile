@@ -15,9 +15,8 @@ import {
   Snackbar,
   TextInput,
 } from "react-native-paper";
-import * as SecureStore from "expo-secure-store";
 import axios from "axios";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
 
@@ -84,7 +83,7 @@ export default function CompleteProfileScreen({ navigation }) {
       image,
     };
     axios
-      .post(`${api}/profiles`, data, {
+      .post(`${url}/api/profiles`, data, {
         headers: {
           authorization: `Bearer ${token}`,
         },

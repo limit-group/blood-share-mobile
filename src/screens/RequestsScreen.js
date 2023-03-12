@@ -28,7 +28,7 @@ import Navbar from "../components/Navbar";
 import moment from "moment";
 import * as Linking from "expo-linking";
 import * as Location from "expo-location";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
@@ -83,7 +83,7 @@ export default function RequestsScreen({
   const getRequests = async (req, res) => {
     const token = await getValue("token");
     axios
-      .get(`${api}/requests`, {
+      .get(`${url}/api/requests`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -198,7 +198,7 @@ export default function RequestsScreen({
             </View>
           </>
         )}
-        <Button style={{ margin: 20, }} mode="contained">
+        <Button style={{ margin: 20 }} mode="contained">
           Load More..
         </Button>
       </ScrollView>

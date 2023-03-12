@@ -76,6 +76,17 @@ export default function EditProfile({ navigation }) {
   const onCompletePress = async () => {
     setLoading(true);
     const token = await getValue("token");
+    // ImagePicker saves the taken photo to disk and returns a local URI to it
+    let localUri = image;
+    let filename = localUri.split("/").pop();
+
+    // Infer the type of the image
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+
+    const formData = new FormData();
+    formData.append("image", { uri: localUri, name: filename, type });
+
     const data = {
       gender,
       bloodType,
@@ -84,10 +95,10 @@ export default function EditProfile({ navigation }) {
       dob,
       email,
       fullName,
-      image,
     };
+
     axios
-      .post(`${api}/auth/profiles/update`, data, {
+      .post(`${url}/api/auth/profiles/update`, data, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -111,7 +122,7 @@ export default function EditProfile({ navigation }) {
     const findUser = async () => {
       const token = await getValue("token");
       axios
-        .get(`${api}/auth/profiles`, {
+        .get(`${url}/api/auth/profiles`, {
           headers: {
             authorization: `Bearer ${token}`,
           },

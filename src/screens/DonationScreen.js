@@ -15,7 +15,7 @@ import {
   List,
   Searchbar,
 } from "react-native-paper";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
 import moment from "moment";
@@ -50,7 +50,7 @@ export default function DonationScreen({
   const getDonations = async () => {
     const token = await getValue("token");
     axios
-      .get(`${api}/donations/me`, {
+      .get(`${url}/api/donations/me`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
