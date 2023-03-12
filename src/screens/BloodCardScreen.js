@@ -97,6 +97,14 @@ export default function BloodCardScreen({ navigation }) {
           >
             edit
           </Chip>
+          <Chip
+            icon="more"
+            mode="outlined"
+            style={{ height: 40, top: 30, backgroundColor: "#ffffff" }}
+            onPress={() => navigation.navigate("Settings")}
+          >
+            settings
+          </Chip>
         </View>
         <View style={{ marginTop: 0, alignItems: "center" }}>
           <Title style={styles.text}>{profile.name}</Title>

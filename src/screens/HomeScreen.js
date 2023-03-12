@@ -6,6 +6,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import moment from "moment";
 import {
   FlatList,
+  Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -24,7 +25,7 @@ import {
   Title,
 } from "react-native-paper";
 import axios from "axios";
-const url = require("../utils/api")
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 import Navbar from "../components/Navbar";
 import * as Linking from "expo-linking";
@@ -34,6 +35,7 @@ export default function HomeScreen({ navigation }) {
   const [visible, setVisible] = React.useState(false);
   const onDismissSnackBar = () => setVisible(false);
   const [error, setError] = React.useState("");
+  const [free, setFree] = useState(true);
   const [loading, setLoading] = useState(false);
   const [requests, setRequests] = useState([]);
   const [req_count, setReqCount] = useState(0);
@@ -62,28 +64,34 @@ export default function HomeScreen({ navigation }) {
 
   const getLatest = async () => {
     const token = await getValue("token");
-    axios
-      .get(`${url}/api/requests/latest`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setRequests(res.data.broadcasts);
-        setReqCount(res.data.request_count);
-        setDonCount(res.data.donations_count);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    if (token) {
+      axios
+        .get(`${url}/api/requests/latest`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setRequests(res.data.broadcasts);
+          setReqCount(res.data.request_count);
+          setDonCount(res.data.donations_count);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    } else {
+      setError("You are not logged In");
+      setVisible(true);
+    }
   };
 
   const isAuth = async () => {
     const token = await getValue("token");
     if (!token) {
-      navigation.navigate("Login");
+      // setFree(false);
+      // navigation.navigate("Login");
       return;
     }
   };
@@ -100,7 +108,7 @@ export default function HomeScreen({ navigation }) {
     getLocation().catch((err) => {
       console.log(err);
     });
-  }, []);
+  }, [free]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -163,24 +171,22 @@ export default function HomeScreen({ navigation }) {
             style={{
               justifyContent: "space-between",
               flexDirection: "row",
-              paddingTop: 20
+              paddingTop: 20,
             }}
           >
-            <Paragraph
-              style={{ paddingLeft: 10, textAlign: "left" }}
-            >
+            <Paragraph style={{ paddingLeft: 10, textAlign: "left" }}>
               Patient List
             </Paragraph>
             <MaterialCommunityIcons
               name={"filter-variant"}
-              style={{ textAlign: "right",  paddingRight: 10,}}
+              style={{ textAlign: "right", paddingRight: 10 }}
             />
           </View>
 
           {loading ? (
             <View style={{ paddingTop: 50 }}></View>
           ) : (
-            <View style={{ padding: 10 }}>
+            <View style={{ paddingTop: 30 }}>
               {requests.map((req) => (
                 <View key={req.id}>
                   <Card
@@ -323,5 +329,13 @@ const styles = StyleSheet.create({
   icon: {
     // backgroundColor: '#d0312d',
     color: "#d0312d",
+  },
+  logo: {
+    flex: 1,
+    height: 150,
+    width: "100%",
+    alignSelf: "center",
+    objectFit: "cover",
+    margin: 33,
   },
 });

@@ -32,6 +32,9 @@ export default function DonationScreen({
   const [isExtended, setIsExtended] = React.useState(true);
   const [donations, setDonations] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [visibo, setVisibo] = React.useState(false);
+  const onDismissSnackBar = () => setVisible(false);
+  const [error, setError] = React.useState("");
 
   const isIOS = Platform.OS === "ios";
 
@@ -49,20 +52,25 @@ export default function DonationScreen({
 
   const getDonations = async () => {
     const token = await getValue("token");
-    axios
-      .get(`${url}/api/donations/me`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setDonations(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    if (token) {
+      axios
+        .get(`${url}/api/donations/me`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setDonations(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    } else {
+      setError("You are not logged In");
+      setVisibo(true);
+    }
   };
 
   React.useEffect(() => {
@@ -124,6 +132,20 @@ export default function DonationScreen({
         iconMode={"static"}
         style={[styles.fabStyle, style, fabStyle]}
       />
+      <Snackbar
+        visible={visibo}
+        duration={1000}
+        style={{ backgroundColor: "#fc7d7b" }}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "ok",
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        {error}
+      </Snackbar>
     </SafeAreaView>
   );
 }

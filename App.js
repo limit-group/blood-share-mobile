@@ -11,8 +11,6 @@ import {
   MD3LightTheme as DefaultTheme,
 } from "react-native-paper";
 
-import { AppLoading, Font } from "expo";
-import Onboarding from "react-native-onboarding-swiper";
 import * as SecureStore from "expo-secure-store";
 import {
   LoginScreen,
@@ -20,33 +18,24 @@ import {
   RegistrationScreen,
   DonationScreen,
   DonationFeedScreen,
-  ProfileScreen,
   VerifyScreen,
   ThankYouScreen,
   BloodCardScreen,
-  EmergencyFeedScreen,
   CreateFeedScreen,
-  CreateEFeedScreen,
   CreateDonationScreen,
   CompleteProfileScreen,
   ForgotPasswordScreen,
-  FinderScreen,
   ConfirmScreen,
   SettingsScreen,
   RequestsScreen,
   ResetPasswordScreen,
   CreateRequestScreen,
   EditProfile,
-  DirectionScreen,
   MyRequestsScreen,
   AcceptDonationScreen,
   SingleRequestScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
-import { StatusBar } from "expo-status-bar";
-import { getValueFor } from "./src/utils/auth";
-import * as SplashScreen from "expo-splash-screen";
-import { Image, View } from "react-native";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -57,7 +46,7 @@ if (!global.atob) {
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
-export default function App() {
+export default function App({ route }) {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -78,207 +67,109 @@ export default function App() {
     }
     return;
   }
-
-  const handleOnboarding = async () => {
-    await SecureStore.setItemAsync("onboarded", "true");
-
-  };
-
-  // async function getValueFor(key) {
-  //   let result = await SecureStore.getItemAsync(key);
-  //   if (result) {
-  //     setLoading(false);
-  //     return;
-  //   } else {
-  //     setLoading(true);
-  //   }
-  //   return;
-  // }
-
   React.useEffect(() => {
-    // getValueFor("onboarded").catch((err) => {
-    //   console.log(err);
-    // });
+    getValueFor("onboarded").catch((err) => {
+      console.log(err);
+    });
 
     getValueFor("token").catch((err) => {
       console.log(err);
     });
     setLoading(false);
-  },[]);
+  }, []);
 
   return (
     <PaperProvider theme={theme}>
-      {loading ? (
-        <Onboarding
-          bottomBarColor="#fc7d7b"
-          onDone={handleOnboarding}
-          pages={[
-            {
-              backgroundColor: "#fff",
-              image: (
-                <Image
-                  source={require("./assets/nothing.png")}
-                  style={{
-                    height: 270,
-                    margin: 30,
-                    padding: 10,
-                    width: "100%",
-                    borderRadius: 50,
-                  }}
-                />
-              ),
-              title: "Welcome to BloodShare",
-              subtitle:
-                "A blood donation request app making blood donations easy",
-            },
-            {
-              backgroundColor: "#fff",
-              image: (
-                <Image
-                  source={require("./assets/accept.png")}
-                  style={{
-                    height: 270,
-                    margin: 30,
-                    padding: 10,
-                    width: "100%",
-                    borderRadius: 50,
-                  }}
-                />
-              ),
-              title: "Request for blood donations",
-              subtitle:
-                "ask people to donate for you, your family or even friends when in need.",
-            },
-            {
-              backgroundColor: "#fff",
-              image: (
-                <Image
-                  source={require("./assets/accept.png")}
-                  style={{
-                    height: 270,
-                    margin: 30,
-                    padding: 10,
-                    width: "100%",
-                    borderRadius: 50,
-                  }}
-                />
-              ),
-              title: "Find blood donation drives",
-              subtitle:
-                "Announce blood drives and find scheduled donations around you",
-            },
-            {
-              backgroundColor: "#fff",
-              image: (
-                <Image
-                  source={require("./assets/accept.png")}
-                  style={{
-                    height: 200,
-                    margin: 30,
-                    // padding: 10,
-                    width: "100%",
-                    borderRadius: 50,
-                  }}
-                />
-              ),
-              title: "Monitor places you have donated to.",
-              subtitle:
-                "Record everytime you donate and earn life saving points as a donor, boosting your blood profile.",
-            },
-          ]}
-        />
-      ) : (
-        <NavigationContainer>
-          <Stack.Navigator>
-            {loggedIn ? (
-              <>
-                <Stack.Screen
-                  name="BloodShare"
-                  component={Home}
-                  // onLayout={onLayoutRootView}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="announce donation drive"
-                  component={CreateFeedScreen}
-                  // options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Request for Blood"
-                  component={CreateRequestScreen}
-                  // options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="My Donations"
-                  component={DonationScreen}
-                  // options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="My Blood Requests"
-                  component={MyRequestsScreen}
-                  // options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Accept To Donate"
-                  component={AcceptDonationScreen}
-                  // options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Reset Password"
-                  component={ResetPasswordScreen}
-                  // options={{ headerShown: false }}
-                />
-                <Stack.Screen name="Edit Profile" component={EditProfile} />
-                <Stack.Screen
-                  name="Record Donation"
-                  component={CreateDonationScreen}
-                />
-                <Stack.Screen name="Thank You" component={ThankYouScreen} />
-                <Stack.Screen name="Confirm" component={ConfirmScreen} />
-                <Stack.Screen name="Settings" component={SettingsScreen} />
-                <Stack.Screen
-                  name="Patient Info"
-                  component={SingleRequestScreen}
-                />
-              </>
-            ) : (
-              <>
-                <Stack.Screen
-                  name="Login"
-                  component={LoginScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Registration"
-                  component={RegistrationScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Verify"
-                  component={VerifyScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Complete Profile"
-                  component={CompleteProfileScreen}
-                  options={{ headerShown: false }}
-                />
+      <NavigationContainer>
+        <Stack.Navigator>
+          {loggedIn || route.params.loggedIn ? (
+            <>
+              <Stack.Screen
+                name="BloodShare"
+                component={Home}
+                // onLayout={onLayoutRootView}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="announce donation drive"
+                component={CreateFeedScreen}
+                // options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Request for Blood"
+                component={CreateRequestScreen}
+                // options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="My Donations"
+                component={DonationScreen}
+                // options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="My Blood Requests"
+                component={MyRequestsScreen}
+                // options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Accept To Donate"
+                component={AcceptDonationScreen}
+                // options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Reset Password"
+                component={ResetPasswordScreen}
+                // options={{ headerShown: false }}
+              />
+              <Stack.Screen name="Edit Profile" component={EditProfile} />
+              <Stack.Screen
+                name="Record Donation"
+                component={CreateDonationScreen}
+              />
+              <Stack.Screen name="Thank You" component={ThankYouScreen} />
+              <Stack.Screen name="Confirm" component={ConfirmScreen} />
+              <Stack.Screen name="Settings" component={SettingsScreen} />
+              <Stack.Screen
+                name="Patient Info"
+                component={SingleRequestScreen}
+              />
+            </>
+          ) : (
+            <>
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Registration"
+                component={RegistrationScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Verify"
+                component={VerifyScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Complete Profile"
+                component={CompleteProfileScreen}
+                options={{ headerShown: false }}
+              />
 
-                <Stack.Screen
-                  name="Forgot Password"
-                  component={ForgotPasswordScreen}
-                  // options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Reset Password"
-                  component={ResetPasswordScreen}
-                  // options={{ headerShown: false }}
-                />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      )}
+              <Stack.Screen
+                name="Forgot Password"
+                component={ForgotPasswordScreen}
+                // options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Reset Password"
+                component={ResetPasswordScreen}
+                // options={{ headerShown: false }}
+              />
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
     </PaperProvider>
   );
 }
@@ -286,7 +177,7 @@ export default function App() {
 function Home() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      // initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: "#fc7d7b",
       }}

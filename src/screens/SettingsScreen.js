@@ -16,7 +16,7 @@ export default function SettingsScreen({ navigation }) {
   const [value, setValue] = React.useState("");
   const [isSwitchOn, setIsSwitchOn] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
-  const [changed, setChanged] = React.useState(true)
+  const [changed, setChanged] = React.useState("yes");
 
   const showDialog = () => setVisible(true);
 
@@ -28,16 +28,16 @@ export default function SettingsScreen({ navigation }) {
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   const logout = async () => {
-    console.log("deleted token");
     await SecureStore.deleteItemAsync("token", {});
-    setChanged(false)
+    console.log("deleted token");
+    setChanged("no");
     return;
   };
 
   React.useEffect(() => {
     const checkLoggedIn = async () => {
-      const token = getValue("token");
-      if (!token) {
+      const token = await getValue("token");
+      if (!token | undefined) {
         navigation.navigate("Home");
         return;
       }
@@ -45,7 +45,7 @@ export default function SettingsScreen({ navigation }) {
     checkLoggedIn().catch((err) => {
       console.log(err);
     });
-  },[changed]);
+  }, [changed]);
 
   return (
     <>

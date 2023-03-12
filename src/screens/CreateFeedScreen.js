@@ -42,12 +42,13 @@ export default function CreateFeedScreen({ navigation }) {
   };
 
   const onFeedPress = async () => {
-    const token = await getValue("token");
     if (!description) {
       setError("Please give information about the event!");
       setVisible(true);
       return;
     }
+    const token = await getValue("token");
+
     // ImagePicker saves the taken photo to disk and returns a local URI to it
     let localUri = image;
     let filename = localUri.split("/").pop();
