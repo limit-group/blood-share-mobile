@@ -185,7 +185,7 @@ export default function EditProfile({ navigation }) {
           keyboardType="email-address"
           left={<TextInput.Icon icon={"email-outline"} />}
           onChangeText={(text) => setEmail(text)}
-          value={email}
+          value={profile.email}
           outlineColor="#fc7d7b"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
@@ -200,7 +200,7 @@ export default function EditProfile({ navigation }) {
           keyboardType="numeric"
           left={<TextInput.Icon icon={"weight-lifter"} />}
           onChangeText={(text) => setBodyWeight(text)}
-          value={bodyWeight}
+          value={profile.bodyWeight}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />

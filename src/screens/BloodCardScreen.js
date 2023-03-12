@@ -64,7 +64,7 @@ export default function BloodCardScreen({ navigation }) {
   };
 
   const ReqIcon = (props) => (
-    <Fontisto name="blood-drop" size={28} color="#d0312d" {...props} />
+    <MaterialCommunityIcons name="hand-heart-outline" size={28} color="#d0312d" {...props} />
   );
 
   const DonIcon = (props) => <Octicons name="people" size={28} {...props} />;
@@ -108,13 +108,13 @@ export default function BloodCardScreen({ navigation }) {
             buttons={[
               {
                 value: "walk",
-                label: "my donations",
+                label: "My donations",
                 onPress: toDonations,
                 icon: DonIcon,
               },
               {
                 value: "drive",
-                label: "my requests",
+                label: "My requests",
                 onPress: toRequests,
                 icon: ReqIcon,
               },

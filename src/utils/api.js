@@ -1,4 +1,4 @@
-const api = "https://b043-154-159-237-85.in.ngrok.io/api";
+const api = "https://d230-154-159-237-248.in.ngrok.io/api";
 
 let api_key = "AIzaSyBgOswFYIypdvHSj78WOH6HEkCSl2iuOh0";
 
