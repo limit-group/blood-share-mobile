@@ -12,7 +12,9 @@ import {
 import { url } from "../utils/api";
 import styles from "../utils/styles";
 
-export default function VerifyScreen({ navigation }) {
+export default function VerifyScreen({ navigation, route }) {
+  const { phone } = route.params;
+  console.log(phone);
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [visibo, setVisibo] = React.useState(false);
@@ -25,17 +27,13 @@ export default function VerifyScreen({ navigation }) {
   const onVerifyPress = () => {
     setLoading(true);
     axios
-      .post(
-        `${url}/api/auth/verify`,
-        { code },
-        {
-          headers: {},
-        }
-      )
+      .post(`${url}/api/auth/verify`, { code, phone })
       .then((res) => {
         setLoading(false);
         if (res.status == 200) {
-          navigation.navigate("Complete Profile");
+          setError(res.data.message);
+          setVisibo(true);
+          navigation.navigate("Login");
         }
       })
       .catch((err) => {

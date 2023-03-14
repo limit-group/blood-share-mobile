@@ -14,6 +14,7 @@ import {
   I18nManager,
   View,
   Image,
+  RefreshControl,
 } from "react-native";
 import {
   AnimatedFAB,
@@ -23,6 +24,7 @@ import {
   Card,
   Snackbar,
   Title,
+  ActivityIndicator,
 } from "react-native-paper";
 import Navbar from "../components/Navbar";
 import moment from "moment";
@@ -53,6 +55,7 @@ export default function RequestsScreen({
   const onDismissSnackBar = () => setVisibo(false);
   const [error, setError] = React.useState("");
   const [isExtended, setIsExtended] = React.useState(true);
+  const [cha, setChange] = useState(false);
 
   const isIOS = Platform.OS === "ios";
 
@@ -66,6 +69,8 @@ export default function RequestsScreen({
   };
 
   const fabStyle = { [animateFrom]: 26 };
+
+  const [refreshing, setRefreshing] = useState(true);
 
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -89,7 +94,9 @@ export default function RequestsScreen({
         },
       })
       .then((res) => {
-        setFeed(res.data);
+        setRefreshing(false);
+        var newData = efeeds.concat(res.data);
+        setFeed(newData);
         setLoading(false);
       })
       .catch((err) => {
@@ -98,6 +105,10 @@ export default function RequestsScreen({
         setVisibo(true);
         console.log(err);
       });
+  };
+
+  const change = () => {
+    setChange(true);
   };
 
   React.useEffect(() => {
@@ -112,11 +123,18 @@ export default function RequestsScreen({
   return (
     <SafeAreaView style={styles.container}>
       {/* <Navbar props={{ name: "Blood Requests" }} /> */}
-      <ScrollView onScroll={onScroll} style={{ padding: 10 }}>
+      <ScrollView
+        onScroll={onScroll}
+        style={{ padding: 10 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={getRequests} />
+        }
+      >
+        {refreshing ? <ActivityIndicator /> : null}
         {efeeds.length > 0 ? (
-          <>
-            {efeeds.map((feed) => (
-              <View key={feed.id}>
+          <View>
+            {efeeds.map((feed, index) => (
+              <View key={index + 0}>
                 <Card
                   style={{ backgroundColor: "#feefef" }}
                   mode="contained"
@@ -181,7 +199,7 @@ export default function RequestsScreen({
                 />
               </View>
             ))}
-          </>
+          </View>
         ) : (
           <>
             <View style={{ margin: 30 }}>
@@ -198,7 +216,7 @@ export default function RequestsScreen({
             </View>
           </>
         )}
-        <Button style={{ margin: 20 }} mode="contained">
+        <Button style={{ margin: 20 }} mode="contained" onPress={change}>
           Load More..
         </Button>
       </ScrollView>

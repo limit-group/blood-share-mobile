@@ -49,16 +49,21 @@ export default function LoginScreen({ navigation }) {
     }
 
     setLoading(true);
+    const prof = await getValue("profile");
     axios
       .post(`${url}/api/auth/login`, { phone, password })
       .then((res) => {
         if (res.status == 200) {
           save("token", res.data.token);
           setLoading(false);
-          navigation.navigate("BloodShare", { loggedIn: true });
+          if (prof == null) {
+            navigation.navigate("Complete Profile");
+          } else {
+            navigation.navigate("BloodShare");
+          }
           return;
         } else {
-          setError("Wrong login credentials");
+          setError("Wrong login credentials!");
           setVisible(true);
           return;
         }
@@ -73,10 +78,15 @@ export default function LoginScreen({ navigation }) {
   // is the user is onboarded
   const isAuth = async () => {
     const token = await getValue("onboarded");
+    const log = await getValue("token");
+
     if (token != "done" || token == null) {
       setOnboarded(true);
     } else {
       setOnboarded(false);
+    }
+    if (log == null) {
+      navigation.navigate("Login");
     }
   };
 

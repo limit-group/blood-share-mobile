@@ -33,21 +33,27 @@ export default function BloodCardScreen({ navigation }) {
   React.useEffect(() => {
     const findUser = async () => {
       const token = await getValue("token");
-      axios
-        .get(`${url}/api/auth/profiles`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          // console.log(res.data);
-          setProfile(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-          setError(getError(err));
-          setVisible(true);
-        });
+      console.log(token);
+      if (token) {
+        axios
+          .get(`${url}/api/auth/profiles`, {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            setProfile(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            setError(getError(err));
+            setVisible(true);
+          });
+      } else {
+        setError("You are not logged in");
+        setVisible(true);
+      }
     };
 
     findUser().catch((error) => {
@@ -64,7 +70,12 @@ export default function BloodCardScreen({ navigation }) {
   };
 
   const ReqIcon = (props) => (
-    <MaterialCommunityIcons name="hand-heart-outline" size={28} color="#d0312d" {...props} />
+    <MaterialCommunityIcons
+      name="hand-heart-outline"
+      size={28}
+      color="#d0312d"
+      {...props}
+    />
   );
 
   const DonIcon = (props) => <Octicons name="people" size={28} {...props} />;
@@ -181,7 +192,9 @@ export default function BloodCardScreen({ navigation }) {
                 <MaterialCommunityIcons name="email" size={20} {...props} />
               )}
             />
-            <HelperText style={{ textAlign: 'center'}}>* Donate more to earn more points</HelperText>
+            <HelperText style={{ textAlign: "center" }}>
+              * Donate more to earn more points
+            </HelperText>
           </View>
         </View>
         <Snackbar

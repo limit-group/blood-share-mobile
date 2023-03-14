@@ -82,92 +82,83 @@ export default function App({ route }) {
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator>
-          {loggedIn || route.params.loggedIn ? (
-            <>
-              <Stack.Screen
-                name="BloodShare"
-                component={Home}
-                // onLayout={onLayoutRootView}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="announce donation drive"
-                component={CreateFeedScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Request for Blood"
-                component={CreateRequestScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="My Donations"
-                component={DonationScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="My Blood Requests"
-                component={MyRequestsScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Accept To Donate"
-                component={AcceptDonationScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Reset Password"
-                component={ResetPasswordScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen name="Edit Profile" component={EditProfile} />
-              <Stack.Screen
-                name="Record Donation"
-                component={CreateDonationScreen}
-              />
-              <Stack.Screen name="Thank You" component={ThankYouScreen} />
-              <Stack.Screen name="Confirm" component={ConfirmScreen} />
-              <Stack.Screen name="Settings" component={SettingsScreen} />
-              <Stack.Screen
-                name="Patient Info"
-                component={SingleRequestScreen}
-              />
-            </>
-          ) : (
-            <>
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Registration"
-                component={RegistrationScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Verify"
-                component={VerifyScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Complete Profile"
-                component={CompleteProfileScreen}
-                options={{ headerShown: false }}
-              />
+          <Stack.Screen
+            name="BloodShare"
+            component={Home}
+            // onLayout={onLayoutRootView}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="announce donation drive"
+            component={CreateFeedScreen}
+            // options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Request for Blood"
+            component={CreateRequestScreen}
+            // options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="My Donations"
+            component={DonationScreen}
+            // options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="My Blood Requests"
+            component={MyRequestsScreen}
+            // options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Accept To Donate"
+            component={AcceptDonationScreen}
+            // options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Reset Password"
+            component={ResetPasswordScreen}
+            // options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Edit Profile" component={EditProfile} />
+          <Stack.Screen
+            name="Record Donation"
+            component={CreateDonationScreen}
+          />
+          <Stack.Screen name="Thank You" component={ThankYouScreen} />
+          <Stack.Screen name="Confirm" component={ConfirmScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen name="Patient Info" component={SingleRequestScreen} />
 
-              <Stack.Screen
-                name="Forgot Password"
-                component={ForgotPasswordScreen}
-                // options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Reset Password"
-                component={ResetPasswordScreen}
-                // options={{ headerShown: false }}
-              />
-            </>
-          )}
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Registration"
+            component={RegistrationScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Verify"
+            component={VerifyScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Complete Profile"
+            component={CompleteProfileScreen}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="Forgot Password"
+            component={ForgotPasswordScreen}
+            // options={{ headerShown: false }}
+          />
+          {/* <Stack.Screen
+            name="Reset Password"
+            component={ResetPasswordScreen}
+            // options={{ headerShown: false }}
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

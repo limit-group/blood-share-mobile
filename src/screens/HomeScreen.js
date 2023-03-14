@@ -89,9 +89,15 @@ export default function HomeScreen({ navigation }) {
 
   const isAuth = async () => {
     const token = await getValue("token");
-    if (!token) {
+    if (token == null) {
       // setFree(false);
-      // navigation.navigate("Login");
+      navigation.navigate("Login");
+      return;
+    }
+
+    const prof = await getValue("profile");
+    if (prof == null) {
+      navigation.navigate("Complete Profile");
       return;
     }
   };
@@ -108,7 +114,7 @@ export default function HomeScreen({ navigation }) {
     getLocation().catch((err) => {
       console.log(err);
     });
-  }, [free]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

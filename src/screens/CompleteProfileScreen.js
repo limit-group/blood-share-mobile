@@ -71,55 +71,78 @@ export default function CompleteProfileScreen({ navigation }) {
   };
 
   const onCompletePress = async () => {
-    setLoading(true);
     const token = await getValue("token");
-    const data = {
-      gender,
-      email,
-      bodyWeight,
-      dob,
-      email,
-      fullName,
-      image,
-    };
-    axios
-      .post(`${url}/api/profiles`, data, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (res) => {
-        if (res.status == 200) {
-          await save("profile", "complete");
+    console.log(token);
+    const formData = new FormData();
+    // ImagePicker saves the taken photo to disk and returns a local URI to it
+    if (image) {
+      let localUri = image;
+      let filename = localUri.split("/").pop();
+
+      // Infer the type of the image
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
+      formData.append("image", { uri: localUri, name: filename, type });
+    }
+
+    formData.append("fullName", fullName);
+    formData.append("email", email);
+    formData.append("dob", dob);
+    formData.append("gender", gender);
+    formData.append("bodyWeight", bodyWeight);
+    formData.append("bloodType", bloodType);
+    if (formData) {
+      setLoading(true);
+      axios
+        .post(`${url}/auth/profiles`, formData, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status == 200) {
+            save("profile", "complete");
+            setLoading(false);
+            navigation.navigate("BloodShare");
+          }
+        })
+        .catch((err) => {
           setLoading(false);
-          navigation.navigate("BloodShare", { screen: "Home" });
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-        setError(getError(err));
-        setVisible(true);
-        console.log(err);
-      });
+          setError(getError(err));
+          setVisible(true);
+          console.log(err);
+        });
+    } else {
+      setLoading(false);
+      setError("Failed to complete profile");
+      setVisible(true);
+    }
+    console.log(formData);
   };
 
   React.useEffect(() => {
     async function getStatus() {
-      const status = await getValue("profile");
+      const status = await getValue("token");
       console.log(status);
-      if (!status) {
-        navigation.navigate("BloodShare");
+      if (status == null) {
+        navigation.navigate("Login");
         return;
+      }
+
+      const prof = await getValue("profile");
+      if (prof == "complete") {
+        navigation.navigate("BloodShare");
       }
     }
     getStatus().catch((err) => {
       console.log(err);
     });
-  });
+  }, []);
 
   return (
     <View
-      style={[styles.container]}
+      style={[styles.container, { marginTop: StatusBar.currentHeight || 0 }]}
     >
       <KeyboardAwareScrollView
         style={{ flex: 1, width: "100%" }}

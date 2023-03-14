@@ -28,24 +28,28 @@ export default function SettingsScreen({ navigation }) {
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   const logout = async () => {
-    await SecureStore.deleteItemAsync("token", {});
-    console.log("deleted token");
-    setChanged("no");
+    await SecureStore.deleteItemAsync("token")
+      .then(navigation.navigate("Login"))
+      .catch((err) => {
+        console.log("Failed");
+        console.log(err);
+      });
     return;
   };
 
+  const checkLoggedIn = async () => {
+    const token = await getValue("token");
+    if (token == null || undefined) {
+      navigation.navigate("Login");
+      return;
+    }
+  };
+
   React.useEffect(() => {
-    const checkLoggedIn = async () => {
-      const token = await getValue("token");
-      if (!token | undefined) {
-        navigation.navigate("Home");
-        return;
-      }
-    };
     checkLoggedIn().catch((err) => {
       console.log(err);
     });
-  }, [changed]);
+  }, []);
 
   return (
     <>

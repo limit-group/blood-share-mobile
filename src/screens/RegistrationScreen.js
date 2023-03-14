@@ -13,7 +13,7 @@ export default function LoginScreen({ navigation }) {
   const [error, setError] = React.useState("");
   const onDismissSnackBar = () => setVisible(false);
   const [loading, setLoading] = useState(false);
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("+2547");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [show, setShow] = useState(true);
@@ -34,12 +34,14 @@ export default function LoginScreen({ navigation }) {
       return;
     }
     setLoading(true);
+    const role = "USER";
     axios
-      .post(`${url}/api/auth/signup`, { phone, password })
+      .post(`${url}/api/auth/signup`, { phone, password, role })
       .then((res) => {
+        console.log(res);
         if (res.status == 201) {
-          navigation.navigate("Verify");
-        } else if (res.status == 400) {
+          navigation.navigate("Verify", { phone: phone});
+        } else {
           setError(res.data.message);
           setVisible(true);
           return;
@@ -120,18 +122,16 @@ export default function LoginScreen({ navigation }) {
             </Text>
           </Text>
         </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => onRegisterPress()}
-        >
-          <Text style={styles.buttonTitle}>
-            {loading ? (
-              <ActivityIndicator animating={true} size={50} />
-            ) : (
-              "Continue"
-            )}
-          </Text>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator animating={true} size={50} />
+        ) : (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onRegisterPress()}
+          >
+            <Text style={styles.buttonTitle}>Continue</Text>
+          </TouchableOpacity>
+        )}
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
             Saving lives already?{" "}
