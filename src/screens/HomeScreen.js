@@ -204,15 +204,23 @@ export default function HomeScreen({ navigation }) {
                       navigation.navigate("Patient Info", { req: req })
                     }
                   >
-                    <View style={{ alignItems: "center", marginTop: 10 }}>
-                      <Avatar.Image
-                        size={24}
-                        source={require("../../assets/avatar.png")}
-                      />
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-evenly",
+                        marginTop: 10,
+                      }}
+                    >
+                      <View>
+                        <Avatar.Text size={34} label={req.accept} />
+                        <Paragraph style={{ fontWeight: "100", fontSize: 12 }}>
+                          <Octicons name="people" size={18} /> accepted
+                        </Paragraph>
+                      </View>
                       <Paragraph
                         style={{ textAlign: "center", fontWeight: "100" }}
                       >
-                        {req.patientName}
+                        Request for: <Paragraph style={{ fontWeight: "bold"}}>{req.patientName}</Paragraph>
                       </Paragraph>
                     </View>
                     <Card.Content>

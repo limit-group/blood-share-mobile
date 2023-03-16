@@ -123,7 +123,6 @@ export default function RequestsScreen({
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Navbar props={{ name: "Blood Requests" }} /> */}
       <ScrollView
         onScroll={onScroll}
         style={{ padding: 10 }}
@@ -158,7 +157,10 @@ export default function RequestsScreen({
                     <Paragraph
                       style={{ textAlign: "center", fontWeight: "100" }}
                     >
-                      Request for: {feed.patientName}
+                      Request for:{" "}
+                      <Paragraph style={{ fontWeight: "bold" }}>
+                        {feed.patientName}
+                      </Paragraph>
                     </Paragraph>
                   </View>
                   <Card.Content>

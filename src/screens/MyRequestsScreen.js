@@ -92,15 +92,26 @@ export default function MyRequestsScreen({
                     navigation.navigate("Patient Info", { req: feed })
                   }
                 >
-                  <View style={{ alignItems: "center", marginTop: 10 }}>
-                    <Avatar.Image
-                      size={24}
-                      source={require("../../assets/avatar.png")}
-                    />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-evenly",
+                      marginTop: 10,
+                    }}
+                  >
+                    <View>
+                      <Avatar.Text size={34} label={feed.accept} />
+                      <Paragraph style={{ fontWeight: "100", fontSize: 12 }}>
+                        <Octicons name="people" size={18} /> accepted
+                      </Paragraph>
+                    </View>
                     <Paragraph
                       style={{ textAlign: "center", fontWeight: "100" }}
                     >
-                      {feed.patientName}
+                      Request for:{" "}
+                      <Paragraph style={{ fontWeight: "bold" }}>
+                        {req.patientName}
+                      </Paragraph>
                     </Paragraph>
                   </View>
 
@@ -163,7 +174,7 @@ export default function MyRequestsScreen({
               source={require("../../assets/no_data.png")}
             />
             <Title style={{ textAlign: "center" }}>
-              Start by requesting a blood donations
+              Start by requesting a blood donation.
             </Title>
           </View>
         )}
