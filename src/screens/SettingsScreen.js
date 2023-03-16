@@ -29,7 +29,7 @@ export default function SettingsScreen({ navigation }) {
 
   const logout = async () => {
     await SecureStore.deleteItemAsync("onboarded");
-    // await SecureStore.deleteItemAsync("profile");
+    await SecureStore.deleteItemAsync("profile");
     await SecureStore.deleteItemAsync("token")
       .then(navigation.navigate("Login"))
       .catch((err) => {

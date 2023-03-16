@@ -10,6 +10,7 @@ import {
   TextInput,
 } from "react-native-paper";
 import { url } from "../utils/api";
+import { getError } from "../utils/error";
 import styles from "../utils/styles";
 
 export default function VerifyScreen({ navigation, route }) {
@@ -38,7 +39,7 @@ export default function VerifyScreen({ navigation, route }) {
       })
       .catch((err) => {
         setLoading(false);
-        setError("failed to verify phone number.");
+        setError(getError(err));
         setVisibo(true);
         console.log(err);
       });

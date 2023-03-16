@@ -205,7 +205,7 @@ export default function BloodCardScreen({ navigation }) {
                     <MaterialCommunityIcons name="email" size={20} {...props} />
                   )}
                 />
-                <HelperText style={{ textAlign: "center" }}>
+                <HelperText style={{ textAlign: "center", color: "#fc7d7b", fontWeight: "bold"}}>
                   * Donate more to earn more points
                 </HelperText>
               </View>

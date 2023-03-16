@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { Button, Snackbar, Title } from "react-native-paper";
+import { ActivityIndicator, Button, Snackbar, Title } from "react-native-paper";
 import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
@@ -10,12 +10,14 @@ import styles from "../utils/styles";
 export default function AcceptDonationScreen({ route, navigation }) {
   const [visibo, setVisibo] = React.useState(false);
   const [error, setError] = React.useState("");
+  const [loading, setLoading] = useState(false);
   const onDismissSnackBar = () => setVisibo(false);
-  
+
   const onAccept = async () => {
     const token = await getValue("token");
     const { id } = route.params;
     if (id) {
+      setLoading(true);
       axios
         .get(`${url}/api/requests/accept/${id}`, {
           headers: {
@@ -23,15 +25,19 @@ export default function AcceptDonationScreen({ route, navigation }) {
           },
         })
         .then((res) => {
-          if (res.status == 200) {
+          setLoading(false);
+          if (res.status == 201) {
             navigation.navigate("Thank You");
           } else if (res.status == 200) {
-            setError(getError(res.data.message));
+            setError(res.data.message);
             setVisibo(true);
           }
         })
         .catch((err) => {
+          setLoading(false);
           console.log(err);
+          setError(getError(err));
+          setVisibo(true);
         });
     } else {
     }
@@ -65,16 +71,24 @@ export default function AcceptDonationScreen({ route, navigation }) {
             paddingTop: 50,
           }}
         >
-          <Button onPress={onDecline} mode="outlined" icon={"cancel"}>
-            Decline
-          </Button>
-          <Button
-            onPress={onAccept}
-            mode="contained"
-            icon={"check-circle-outline"}
-          >
-            Accept
-          </Button>
+          {loading ? (
+            <View style={{ margin: 10 }}>
+              <ActivityIndicator animating={true} size={50} />
+            </View>
+          ) : (
+            <>
+              <Button onPress={onDecline} mode="outlined" icon={"cancel"}>
+                Decline
+              </Button>
+              <Button
+                onPress={onAccept}
+                mode="contained"
+                icon={"check-circle-outline"}
+              >
+                Accept
+              </Button>
+            </>
+          )}
         </View>
       </View>
       <Snackbar

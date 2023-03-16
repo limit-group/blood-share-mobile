@@ -31,7 +31,7 @@ import { getValue } from "../utils/auth";
 import Navbar from "../components/Navbar";
 import * as Linking from "expo-linking";
 import * as Location from "expo-location";
-import * as NavigationBar from 'expo-navigation-bar';
+import * as NavigationBar from "expo-navigation-bar";
 
 export default function HomeScreen({ navigation }) {
   NavigationBar.setBackgroundColorAsync("#fc7d7b");
@@ -95,12 +95,6 @@ export default function HomeScreen({ navigation }) {
     if (token == null) {
       // setFree(false);
       navigation.navigate("Login");
-      return;
-    }
-
-    const prof = await getValue("profile");
-    if (prof == null) {
-      navigation.navigate("Complete Profile");
       return;
     }
   };
@@ -289,7 +283,6 @@ export default function HomeScreen({ navigation }) {
           {error}
         </Snackbar>
       </ScrollView>
-      
     </SafeAreaView>
   );
 }

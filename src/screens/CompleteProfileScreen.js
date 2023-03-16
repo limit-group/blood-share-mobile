@@ -78,9 +78,7 @@ export default function CompleteProfileScreen({ navigation }) {
   }
 
   const onCompletePress = async () => {
-    await save("profile", "complete");
     const token = await getValue("token");
-    console.log(token);
     const formData = new FormData();
     // ImagePicker saves the taken photo to disk and returns a local URI to it
     if (image) {
@@ -99,33 +97,33 @@ export default function CompleteProfileScreen({ navigation }) {
     formData.append("gender", gender);
     formData.append("bodyWeight", bodyWeight);
     formData.append("bloodType", bloodType);
-    // if (formData) {
-    //   setLoading(true);
-    //   axios
-    //     .post(`${url}/api/auth/profiles`, formData, {
-    //       headers: {
-    //         authorization: `Bearer ${token}`,
-    //       },
-    //     })
-    //     .then((res) => {
-    //       console.log(res);
-    //       if (res.status == 201) {
-    //         save("profile", "complete");
-    //         setLoading(false);
-    //         navigation.navigate("BloodShare");
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       setLoading(false);
-    //       setError(getError(err));
-    //       setVisible(true);
-    //       console.log(err);
-    //     });
-    // } else {
-    //   setLoading(false);
-    //   setError("Failed to complete profile");
-    //   setVisible(true);
-    // }
+    if (formData) {
+      setLoading(true);
+      axios
+        .post(`${url}/api/auth/profiles`, formData, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then(async (res) => {
+          console.log(res);
+          if (res.status == 201) {
+            await save("profile", "complete");
+            setLoading(false);
+            navigation.navigate("BloodShare");
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+          setError(getError(err));
+          setVisible(true);
+          console.log(err);
+        });
+    } else {
+      setLoading(false);
+      setError("Failed to complete profile");
+      setVisible(true);
+    }
     console.log(formData);
   };
 
@@ -149,15 +147,15 @@ export default function CompleteProfileScreen({ navigation }) {
   }, []);
 
   return (
-    <View
-      style={[styles.container, { marginTop: StatusBar.currentHeight || 0 }]}
-    >
+    <View style={[styles.container]}>
       <KeyboardAwareScrollView
         style={{ flex: 1, width: "100%", paddingBottom: 20 }}
         keyboardShouldPersistTaps="always"
       >
-        <View style={{ flex: 1, marginLeft: 30 }}>
-          <Text style={[{ fontWeight: "bold", fontSize: 28 }]}>
+        <View style={{ flex: 1, marginLeft: 30, paddingTop: 20 }}>
+          <Text
+            style={[{ fontWeight: "bold", fontSize: 28, textAlign: "center" }]}
+          >
             Complete Profile.
           </Text>
           <HelperText>You know about us, help us know you too.</HelperText>
@@ -191,58 +189,10 @@ export default function CompleteProfileScreen({ navigation }) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <Picker
-          selectedValue={bloodType}
-          mode="dropdown"
-          // mode="dialog"
-          style={[styles.input, { borderColor: "#000", borderWidth: 3 }]}
-          onValueChange={(itemValue, itemIndex) => setBloodType(itemValue)}
-        >
-          <Picker.Item
-            label="type O-"
-            value="O_NEGATIVE"
-            style={{ fontWeight: "bold" }}
-          />
-          <Picker.Item
-            label="type O+"
-            value="O_POSITIVE"
-            style={{ fontWeight: "bold" }}
-          />
-          <Picker.Item
-            label="type A+"
-            value="A_POSITIVE"
-            style={{ fontWeight: "bold" }}
-          />
-          <Picker.Item
-            label="type AB+"
-            value="AB_POSITIVE"
-            style={{ fontWeight: "bold" }}
-          />
-          <Picker.Item
-            label="type AB-"
-            value="AB_NEGATIVE"
-            style={{ fontWeight: "bold" }}
-          />
-          <Picker.Item
-            label="type B+"
-            value="B_POSITIVE"
-            style={{ fontWeight: "bold" }}
-          />
-          <Picker.Item
-            label="type B-"
-            value="B_NEGATIVE"
-            style={{ fontWeight: "bold" }}
-          />
-          <Picker.Item
-            label="Blood Group"
-            value=""
-            // style={{ color: "#aaaaaa" }}
-          />
-        </Picker>
         <Button
           onPress={showDatepicker}
           mode="outlined"
-          textColor="#000"
+          // textColor="#000"
           style={styles.pickButton}
         >
           <MaterialCommunityIcons name="calendar" />
@@ -273,12 +223,68 @@ export default function CompleteProfileScreen({ navigation }) {
             <RadioButton value="FEMALE" />
 
             <Text>Non binary</Text>
-            <RadioButton value="non-binary" />
+            <RadioButton value="NON_BINARY" />
           </View>
         </RadioButton.Group>
         <Button onPress={pickImage} mode="outlined" style={styles.pickButton}>
           <MaterialCommunityIcons name="camera" size={16} /> profile picture
         </Button>
+        <Picker
+          selectedValue={bloodType}
+          mode="dropdown"
+          // mode="dialog"
+          style={[
+            styles.input,
+            {
+              borderColor: "#000",
+              borderWidth: 3,
+              backgroundColor: "#fc7d7b",
+              color: "#ffffff",
+            },
+          ]}
+          onValueChange={(itemValue, itemIndex) => setBloodType(itemValue)}
+        >
+          <Picker.Item
+            label="Group O -"
+            value="O_NEGATIVE"
+            style={{ fontWeight: "bold" }}
+          />
+          <Picker.Item
+            label="Group O +"
+            value="O_POSITIVE"
+            style={{ fontWeight: "bold" }}
+          />
+          <Picker.Item
+            label="Group A +"
+            value="A_POSITIVE"
+            style={{ fontWeight: "bold" }}
+          />
+          <Picker.Item
+            label="Group AB +"
+            value="AB_POSITIVE"
+            style={{ fontWeight: "bold" }}
+          />
+          <Picker.Item
+            label="Group AB -"
+            value="AB_NEGATIVE"
+            style={{ fontWeight: "bold" }}
+          />
+          <Picker.Item
+            label="Group B +"
+            value="B_POSITIVE"
+            style={{ fontWeight: "bold" }}
+          />
+          <Picker.Item
+            label="Group B-"
+            value="B_NEGATIVE"
+            style={{ fontWeight: "bold" }}
+          />
+          <Picker.Item
+            label="Blood Group"
+            value=""
+            // style={{ color: "#aaaaaa" }}
+          />
+        </Picker>
         <View style={{ paddingBottom: 10 }}>
           {loading ? (
             <ActivityIndicator animating={true} size={50} />
