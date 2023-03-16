@@ -15,6 +15,8 @@ import {
   Snackbar,
   TextInput,
 } from "react-native-paper";
+
+import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
@@ -70,7 +72,13 @@ export default function CompleteProfileScreen({ navigation }) {
     }
   };
 
+  async function save(key, value) {
+    await SecureStore.setItemAsync(key, value);
+    return;
+  }
+
   const onCompletePress = async () => {
+    await save("profile", "complete");
     const token = await getValue("token");
     console.log(token);
     const formData = new FormData();
@@ -91,33 +99,33 @@ export default function CompleteProfileScreen({ navigation }) {
     formData.append("gender", gender);
     formData.append("bodyWeight", bodyWeight);
     formData.append("bloodType", bloodType);
-    if (formData) {
-      setLoading(true);
-      axios
-        .post(`${url}/auth/profiles`, formData, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          if (res.status == 200) {
-            save("profile", "complete");
-            setLoading(false);
-            navigation.navigate("BloodShare");
-          }
-        })
-        .catch((err) => {
-          setLoading(false);
-          setError(getError(err));
-          setVisible(true);
-          console.log(err);
-        });
-    } else {
-      setLoading(false);
-      setError("Failed to complete profile");
-      setVisible(true);
-    }
+    // if (formData) {
+    //   setLoading(true);
+    //   axios
+    //     .post(`${url}/api/auth/profiles`, formData, {
+    //       headers: {
+    //         authorization: `Bearer ${token}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       console.log(res);
+    //       if (res.status == 201) {
+    //         save("profile", "complete");
+    //         setLoading(false);
+    //         navigation.navigate("BloodShare");
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       setLoading(false);
+    //       setError(getError(err));
+    //       setVisible(true);
+    //       console.log(err);
+    //     });
+    // } else {
+    //   setLoading(false);
+    //   setError("Failed to complete profile");
+    //   setVisible(true);
+    // }
     console.log(formData);
   };
 
@@ -145,7 +153,7 @@ export default function CompleteProfileScreen({ navigation }) {
       style={[styles.container, { marginTop: StatusBar.currentHeight || 0 }]}
     >
       <KeyboardAwareScrollView
-        style={{ flex: 1, width: "100%" }}
+        style={{ flex: 1, width: "100%", paddingBottom: 20 }}
         keyboardShouldPersistTaps="always"
       >
         <View style={{ flex: 1, marginLeft: 30 }}>
@@ -154,7 +162,9 @@ export default function CompleteProfileScreen({ navigation }) {
           </Text>
           <HelperText>You know about us, help us know you too.</HelperText>
         </View>
-        {image ? <Avatar.Image size={104} source={{ uri: image }} /> : ""}
+        <View style={{ marginLeft: 30, alignItems: "center" }}>
+          {image ? <Avatar.Image size={104} source={{ uri: image }} /> : ""}
+        </View>
 
         <TextInput
           style={styles.input}
@@ -252,15 +262,15 @@ export default function CompleteProfileScreen({ navigation }) {
           autoCapitalize="none"
         />
         <RadioButton.Group
-          onValueChange={(newValue) => setGender(newValue)}
+          onValueChange={(value) => setGender(value)}
           value={gender}
         >
           <View style={[styles.input, { flexDirection: "row" }]}>
             <Text>Male</Text>
-            <RadioButton value="male" />
+            <RadioButton value="MALE" />
 
             <Text>Female</Text>
-            <RadioButton value="female" />
+            <RadioButton value="FEMALE" />
 
             <Text>Non binary</Text>
             <RadioButton value="non-binary" />
@@ -269,16 +279,18 @@ export default function CompleteProfileScreen({ navigation }) {
         <Button onPress={pickImage} mode="outlined" style={styles.pickButton}>
           <MaterialCommunityIcons name="camera" size={16} /> profile picture
         </Button>
-        {loading ? (
-          <ActivityIndicator animating={true} size={50} />
-        ) : (
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => onCompletePress()}
-          >
-            <Text style={styles.buttonTitle}>Complete</Text>
-          </TouchableOpacity>
-        )}
+        <View style={{ paddingBottom: 10 }}>
+          {loading ? (
+            <ActivityIndicator animating={true} size={50} />
+          ) : (
+            <TouchableOpacity
+              style={[styles.button]}
+              onPress={() => onCompletePress()}
+            >
+              <Text style={styles.buttonTitle}>Complete</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </KeyboardAwareScrollView>
       <Snackbar
         visible={visible}

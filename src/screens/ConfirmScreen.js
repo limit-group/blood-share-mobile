@@ -11,25 +11,31 @@ export default function ConfirmScreen({ route, navigation }) {
   const [visibo, setVisibo] = React.useState(false);
   const [error, setError] = React.useState("");
   const onDismissSnackBar = () => setVisibo(false);
-  
+
   const onGo = async () => {
     const token = await getValue("token");
-    axios
-      .get(`${url}/api/requests/accept/${route.params.id}`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (res.status == 200) {
-          navigation.navigate("Thank You");
-        }
-      })
-      .catch((err) => {
-        setError(getError("failed to confirm donation"));
-        setVisibo(true);
-        console.log(err);
-      });
+    const { id } = route.params;
+    if (id) {
+      axios
+        .get(`${url}/api/requests/accept/${id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            navigation.navigate("Thank You");
+          }
+        })
+        .catch((err) => {
+          setError(getError("failed to confirm donation"));
+          setVisibo(true);
+          console.log(err);
+        });
+    } else {
+      setError("failed to confirm donation");
+      setVisibo(true);
+    }
   };
 
   return (

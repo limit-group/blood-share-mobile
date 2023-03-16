@@ -201,7 +201,7 @@ function Home() {
           title: "requests",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
-              name="compass-outline"
+              name="hand-heart-outline"
               color={color}
               size={26}
             />

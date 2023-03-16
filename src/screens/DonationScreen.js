@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import {
+  Image,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -15,6 +16,7 @@ import {
   List,
   Searchbar,
   Snackbar,
+  Title,
 } from "react-native-paper";
 import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
@@ -62,6 +64,7 @@ export default function DonationScreen({
         })
         .then((res) => {
           setDonations(res.data);
+          console.log(res.data);
           setLoading(false);
         })
         .catch((err) => {
@@ -81,47 +84,54 @@ export default function DonationScreen({
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      {loading ? (
-        <View>
-          <Image
-            style={{
-              height: 270,
-              // margin: 50,
-              width: "100%",
-              borderRadius: 50,
-            }}
-            source={require("../../assets/no_data.png")}
-          />
-          <Button
-            style={{ margin: 20 }}
-            mode="contained"
-            onPress={() => navigation.navigate("Record Donation")}
-          >
-            Donate to earn more life points..
-          </Button>
-        </View>
-      ) : (
-        <ScrollView onScroll={onScroll}>
-          {donations.map((donation) => (
-            <List.Section
-              style={{ paddingLeft: 30, paddingRight: 30 }}
-              key={donation.id}
-            >
-              <List.Subheader>
-                On {moment(donation.createdAt).format("dddd, MMMM Do YYYY")}
-              </List.Subheader>
-              <List.Item
-                title={donation.facility}
-                left={() => <List.Icon icon="hospital-marker" />}
+      <ScrollView onScroll={onScroll}>
+        {donations.length > 0 ? (
+          <>
+            {donations.map((donation) => (
+              <List.Section
+                style={{ paddingLeft: 30, paddingRight: 30 }}
+                key={donation.id}
+              >
+                <List.Subheader>
+                  On {moment(donation.createdAt).format("dddd, MMMM Do YYYY")}
+                </List.Subheader>
+                <List.Item
+                  title={donation.facility}
+                  left={() => <List.Icon icon="hospital-marker" />}
+                />
+                <List.Item
+                  title={donation.donorNumber}
+                  left={() => <List.Icon icon="card-account-details-outline" />}
+                />
+              </List.Section>
+            ))}
+          </>
+        ) : (
+            <View style={{ paddingTop: 30}}>
+              <Image
+                style={{
+                  height: 270,
+                  // margin: 50,
+                  width: "100%",
+                  borderRadius: 50,
+                }}
+                source={require("../../assets/no_data.png")}
               />
-              <List.Item
-                title={donation.donorNumber}
-                left={() => <List.Icon icon="card-account-details-outline" />}
-              />
-            </List.Section>
-          ))}
-        </ScrollView>
-      )}
+              <Button
+                style={{ margin: 20 }}
+                mode="contained"
+                onPress={() => navigation.navigate("Record Donation")}
+              >
+                Donate to earn more life points..
+              </Button>
+            </View>
+       
+        )}
+        <Title style={{ textAlign: "center", color: "#fc7d7b" }}>
+          Continue saving more lives. &#128079;
+        </Title>
+      </ScrollView>
+
       <AnimatedFAB
         icon={"arrow-right"}
         label={"donated now"}

@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Card, Paragraph, Title, Avatar, Button } from "react-native-paper";
 import * as Linking from "expo-linking";
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 export default function SingleRequestScreen({ navigation, route }) {
   const { req } = route.params;
@@ -11,8 +12,9 @@ export default function SingleRequestScreen({ navigation, route }) {
         <View
           style={{ alignContent: "center", alignItems: "center", margin: 30 }}
         >
-          <Avatar.Image size={54} source={require("../../assets/avatar.png")} />
-          <Title>{req.patientName}</Title>
+          <Avatar.Text size={54} label={req.accept} />
+          <Text>accepted.</Text>
+          <Title>Request For - {req.patientName}</Title>
           <Paragraph>{req.biography}</Paragraph>
           <Card
             style={{ backgroundColor: "#feefef", marginTop: 10, width: "100%" }}
@@ -21,7 +23,7 @@ export default function SingleRequestScreen({ navigation, route }) {
             <Card.Content>
               <Paragraph style={{ fontWeight: "bold" }}>Diagnosis</Paragraph>
               <Paragraph>{req.diagnosis}</Paragraph>
-              <Text>{" \n "}</Text>
+              <Text></Text>
               <Paragraph style={{ fontWeight: "bold", padding: 10 }}>
                 Location
               </Paragraph>

@@ -30,32 +30,36 @@ export default function BloodCardScreen({ navigation }) {
   const [profile, setProfile] = React.useState("");
   const [value, setValue] = React.useState("");
 
-  React.useEffect(() => {
-    const findUser = async () => {
-      const token = await getValue("token");
-      console.log(token);
-      if (token) {
-        axios
-          .get(`${url}/api/auth/profiles`, {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          })
-          .then((res) => {
-            console.log(res.data);
+  const findUser = async () => {
+    const token = await getValue("token");
+    console.log(token);
+    if (token) {
+      axios
+        .get(`${url}/api/auth/profiles`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (res.status == 200) {
             setProfile(res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-            setError(getError(err));
-            setVisible(true);
-          });
-      } else {
-        setError("You are not logged in");
-        setVisible(true);
-      }
-    };
+          } else if (res.status == 404) {
+            navigation.navigate("Complete Profile");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(getError(err));
+          setVisible(true);
+        });
+    } else {
+      setError("You are not logged in");
+      setVisible(true);
+    }
+  };
 
+  React.useEffect(() => {
     findUser().catch((error) => {
       console.log(error);
     });
@@ -93,11 +97,14 @@ export default function BloodCardScreen({ navigation }) {
           }}
         >
           {profile.avatar ? (
-            <Avatar.Image size={84} source={{ uri: profile.avatar }} />
+            <Avatar.Image
+              size={84}
+              source={{ uri: `${url}/avatars/${profile.avatar}` }}
+            />
           ) : (
             <Avatar.Image
               size={84}
-              source={require("../../assets/avatar.png")}
+              source={{ uri: `${url}/avatars/avatar.png` }}
             />
           )}
           <Chip
@@ -122,6 +129,7 @@ export default function BloodCardScreen({ navigation }) {
         </View>
         <View style={{ padding: 30, paddingTop: 0 }}>
           <SegmentedButtons
+            // style={{ backgroundColor: "#fc7d7b" }}
             value={value}
             onValueChange={setValue}
             buttons={[
@@ -130,6 +138,7 @@ export default function BloodCardScreen({ navigation }) {
                 label: "My donations",
                 onPress: toDonations,
                 icon: DonIcon,
+                checkedColor: "#fc7d7b",
               },
               {
                 value: "drive",
@@ -139,63 +148,89 @@ export default function BloodCardScreen({ navigation }) {
               },
             ]}
           />
-          <View
-            style={{
-              justifyContent: "space-evenly",
-              flexDirection: "row",
-              paddingBottom: 10,
-              paddingTop: 20,
-            }}
-          >
-            <Text>
-              {profile.gender == "MALE" ? (
-                <MaterialCommunityIcons name="gender-male" size={20} />
-              ) : (
-                <MaterialCommunityIcons name="gender-female" size={20} />
-              )}{" "}
-              Gender: {" \n"} <Title>{profile.gender}</Title>
-            </Text>
-            <View style={styles.verticleLine}></View>
-            <Text>
-              <Fontisto name="blood-drop" size={18} /> Blood Group:{"\n "}
-              <Title>{profile.bloodType}</Title>
-            </Text>
-          </View>
-          <View>
-            <List.Item
-              title="Date of Birth"
-              description={moment(profile.dateOfBirth).format("Do MMM YY")}
-              left={(props) => (
-                <FontAwesome name={"birthday-cake"} size={24} {...props} />
-              )}
-            />
-            <List.Item
-              title="Body Weight"
-              description={profile.bodyWeight + "Kgs"}
-              left={(props) => <Ionicons name="body" size={20} {...props} />}
-            />
-            <List.Item
-              title="Life Saver Points"
-              description={profile.bloodPoints}
-              left={(props) => (
-                <MaterialCommunityIcons
-                  name="star-four-points"
-                  size={20}
-                  {...props}
+          {profile ? (
+            <>
+              <View
+                style={{
+                  justifyContent: "space-evenly",
+                  flexDirection: "row",
+                  paddingBottom: 10,
+                  paddingTop: 20,
+                }}
+              >
+                <Text>
+                  {profile.gender == "MALE" ? (
+                    <MaterialCommunityIcons name="gender-male" size={20} />
+                  ) : (
+                    <MaterialCommunityIcons name="gender-female" size={20} />
+                  )}{" "}
+                  Gender: {" \n"} <Title>{profile.gender}</Title>
+                </Text>
+                <View style={styles.verticleLine}></View>
+                <Text>
+                  <Fontisto name="blood-drop" size={18} /> Blood Group:{"\n "}
+                  <Title>{profile.bloodType}</Title>
+                </Text>
+              </View>
+              <View>
+                <List.Item
+                  title="Date of Birth"
+                  description={moment(profile.dateOfBirth).format("Do MMM YY")}
+                  left={(props) => (
+                    <FontAwesome name={"birthday-cake"} size={24} {...props} />
+                  )}
                 />
-              )}
-            />
-            <List.Item
-              title="Email"
-              description={profile.email}
-              left={(props) => (
-                <MaterialCommunityIcons name="email" size={20} {...props} />
-              )}
-            />
-            <HelperText style={{ textAlign: "center" }}>
-              * Donate more to earn more points
-            </HelperText>
-          </View>
+                <List.Item
+                  title="Body Weight"
+                  description={profile.bodyWeight + "Kgs"}
+                  left={(props) => (
+                    <Ionicons name="body" size={20} {...props} />
+                  )}
+                />
+                <List.Item
+                  title="Life Saver Points"
+                  description={profile.bloodPoints}
+                  left={(props) => (
+                    <MaterialCommunityIcons
+                      name="star-four-points"
+                      size={20}
+                      {...props}
+                    />
+                  )}
+                />
+                <List.Item
+                  title="Email"
+                  description={profile.email}
+                  left={(props) => (
+                    <MaterialCommunityIcons name="email" size={20} {...props} />
+                  )}
+                />
+                <HelperText style={{ textAlign: "center" }}>
+                  * Donate more to earn more points
+                </HelperText>
+              </View>
+            </>
+          ) : (
+            <View>
+              <Image
+                style={{
+                  height: 270,
+                  // margin: 50,
+                  width: "100%",
+                  borderRadius: 50,
+                }}
+                source={require("../../assets/no_data.png")}
+              />
+              <Button
+                style={{ margin: 20 }}
+                mode="contained"
+                onPress={() => navigation.navigate("Complete Profile")}
+              >
+                Complete your profile{" "}
+                <MaterialCommunityIcons name="arrow-right" />
+              </Button>
+            </View>
+          )}
         </View>
         <Snackbar
           visible={visible}

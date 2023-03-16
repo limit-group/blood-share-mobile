@@ -28,6 +28,8 @@ export default function SettingsScreen({ navigation }) {
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   const logout = async () => {
+    await SecureStore.deleteItemAsync("onboarded");
+    // await SecureStore.deleteItemAsync("profile");
     await SecureStore.deleteItemAsync("token")
       .then(navigation.navigate("Login"))
       .catch((err) => {
@@ -54,7 +56,7 @@ export default function SettingsScreen({ navigation }) {
   return (
     <>
       <View style={styles.container}>
-        <View style={{ padding: 30, paddingTop: 10, paddingBottom: 10 }}>
+        <View style={{ padding: 30, paddingTop: 40, paddingBottom: 10 }}>
           <Card style={styles.card}>
             <Card.Content
               style={{
@@ -72,8 +74,8 @@ export default function SettingsScreen({ navigation }) {
         <View style={{ padding: 30, paddingTop: 0 }}>
           <Card style={styles.card}>
             <Card.Content>
-              <Title style={[styles.rounded, { color: "#fc7d7b" }]}>
-                Legal
+              <Title style={[styles.rounded, { color: "#fc7d7b", textAlign: "center" }]}>
+                Legal Information
               </Title>
               <Paragraph style={styles.rounded}>Licenses </Paragraph>
               <Paragraph style={styles.rounded}>Privacy Policy </Paragraph>
@@ -83,7 +85,7 @@ export default function SettingsScreen({ navigation }) {
               </Button> */}
             </Card.Content>
           </Card>
-          <Button
+          {/* <Button
             mode="outlined"
             icon="lock-reset"
             style={{
@@ -95,7 +97,7 @@ export default function SettingsScreen({ navigation }) {
             onPress={() => navigation.navigate("Reset Password")}
           >
             Reset Password
-          </Button>
+          </Button> */}
           <Button
             onPress={showDialog}
             mode="contained"

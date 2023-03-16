@@ -26,7 +26,7 @@ import {
   Title,
   ActivityIndicator,
 } from "react-native-paper";
-import Navbar from "../components/Navbar";
+import Octicons from "react-native-vector-icons/Octicons";
 import moment from "moment";
 import * as Linking from "expo-linking";
 import * as Location from "expo-location";
@@ -64,8 +64,8 @@ export default function RequestsScreen({
       Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
     setIsExtended(currentScrollPosition <= 0);
   };
-  const toConfirm = () => {
-    navigation.navigate("Accept To Donate");
+  const toConfirm = (id) => {
+    navigation.navigate("Accept To Donate", { id: id });
   };
 
   const fabStyle = { [animateFrom]: 26 };
@@ -95,8 +95,9 @@ export default function RequestsScreen({
       })
       .then((res) => {
         setRefreshing(false);
-        var newData = efeeds.concat(res.data);
-        setFeed(newData);
+        // var newData = efeeds.concat(res.data);
+        console.log(res.data);
+        setFeed(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -130,11 +131,10 @@ export default function RequestsScreen({
           <RefreshControl refreshing={refreshing} onRefresh={getRequests} />
         }
       >
-        {refreshing ? <ActivityIndicator /> : null}
         {efeeds.length > 0 ? (
           <View>
-            {efeeds.map((feed, index) => (
-              <View key={index + 0}>
+            {efeeds.map((feed) => (
+              <View key={feed.id}>
                 <Card
                   style={{ backgroundColor: "#feefef" }}
                   mode="contained"
@@ -142,15 +142,23 @@ export default function RequestsScreen({
                     navigation.navigate("Patient Info", { req: feed })
                   }
                 >
-                  <View style={{ alignItems: "center", marginTop: 10 }}>
-                    <Avatar.Image
-                      size={24}
-                      source={require("../../assets/avatar.png")}
-                    />
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-evenly",
+                      marginTop: 10,
+                    }}
+                  >
+                    <View>
+                      <Avatar.Text size={34} label={feed.accept} />
+                      <Paragraph style={{ fontWeight: "100", fontSize: 12 }}>
+                        <Octicons name="people" size={18} /> accepted
+                      </Paragraph>
+                    </View>
                     <Paragraph
                       style={{ textAlign: "center", fontWeight: "100" }}
                     >
-                      {feed.patientName}
+                      Request for: {feed.patientName}
                     </Paragraph>
                   </View>
                   <Card.Content>
@@ -216,7 +224,14 @@ export default function RequestsScreen({
             </View>
           </>
         )}
-        <Button style={{ margin: 20 }} mode="contained" onPress={change}>
+        <Button
+          style={{ margin: 20 }}
+          mode="contained"
+          onPress={change}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={getRequests} />
+          }
+        >
           Load More..
         </Button>
       </ScrollView>

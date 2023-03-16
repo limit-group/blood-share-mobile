@@ -9,6 +9,7 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -30,8 +31,10 @@ import { getValue } from "../utils/auth";
 import Navbar from "../components/Navbar";
 import * as Linking from "expo-linking";
 import * as Location from "expo-location";
+import * as NavigationBar from 'expo-navigation-bar';
 
 export default function HomeScreen({ navigation }) {
+  NavigationBar.setBackgroundColorAsync("#fc7d7b");
   const [visible, setVisible] = React.useState(false);
   const onDismissSnackBar = () => setVisible(false);
   const [error, setError] = React.useState("");
@@ -118,6 +121,11 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle="light-content"
+        animated={true}
+        backgroundColor="#fc7d7b"
+      />
       <Navbar props={{ name: "Welcome" }} />
       <ScrollView>
         <View style={styles.cards}>
@@ -281,6 +289,7 @@ export default function HomeScreen({ navigation }) {
           {error}
         </Snackbar>
       </ScrollView>
+      
     </SafeAreaView>
   );
 }

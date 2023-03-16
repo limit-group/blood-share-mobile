@@ -13,8 +13,10 @@ import {
   I18nManager,
   View,
   Image,
+  RefreshControl,
 } from "react-native";
 import {
+  ActivityIndicator,
   AnimatedFAB,
   Avatar,
   Button,
@@ -60,6 +62,8 @@ export default function DonationFeedScreen({
 
   const fabStyle = { [animateFrom]: 16 };
 
+  const [refreshing, setRefreshing] = useState(true);
+
   const getFeeds = async () => {
     const token = await getValue("token");
     axios
@@ -69,12 +73,14 @@ export default function DonationFeedScreen({
         },
       })
       .then((res) => {
-        // console.log(res.data)
+        setRefreshing(false);
+        console.log(res.data);
         setFeeds(res.data);
         setLoading(false);
       })
       .catch((err) => {
         // setLoading(false);
+
         console.log(err);
         setError("Failed to fetch feed. Retry");
         setVisibo(true);
@@ -110,8 +116,13 @@ export default function DonationFeedScreen({
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Navbar props={{ name: "Blood Donation Drives" }} /> */}
-      <ScrollView onScroll={onScroll} style={{ padding: 10 }}>
+      <ScrollView
+        onScroll={onScroll}
+        style={{ padding: 10 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={getFeeds} />
+        }
+      >
         {feeds.length > 0 ? (
           <>
             {feeds.map((feed) => (
@@ -130,7 +141,7 @@ export default function DonationFeedScreen({
                   {feed.media ? (
                     <>
                       <Card.Cover
-                        source={{ uri: `${url}/${feed.media}` }}
+                        source={{ uri: `${url}/images/${feed.media}` }}
                         style={{
                           padding: 5,
                           backgroundColor: "#feefef",

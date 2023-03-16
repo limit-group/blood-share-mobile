@@ -11,12 +11,7 @@ import {
   Image,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import {
-  AnimatedFAB,
-  Paragraph,
-  Snackbar,
-  Title,
-} from "react-native-paper";
+import { AnimatedFAB, Paragraph, Snackbar, Title } from "react-native-paper";
 import { Avatar, Button, Card, IconButton, Text } from "react-native-paper";
 import moment from "moment";
 import * as Linking from "expo-linking";
@@ -91,7 +86,7 @@ export default function MyRequestsScreen({
             {efeeds.map((feed) => (
               <View key={feed.id}>
                 <Card
-                  style={{ backgroundColor: "#f2f6fc" }}
+                  style={{ backgroundColor: "#feefef" }}
                   mode="contained"
                   onPress={() =>
                     navigation.navigate("Patient Info", { req: feed })

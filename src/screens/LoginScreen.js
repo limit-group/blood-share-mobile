@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { ActivityIndicator, Snackbar, TextInput } from "react-native-paper";
 import styles from "../utils/styles";
@@ -98,6 +98,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <>
+    <StatusBar  barStyle="light-content" animated={true} backgroundColor="#fc7d7b"/>
       {onboarded ? (
         <Onboarding
           bottomBarColor="#fc7d7b"

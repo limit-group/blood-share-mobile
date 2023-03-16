@@ -18,7 +18,7 @@ import {
 } from "react-native-paper";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
-import { api } from "../utils/api";
+import { url } from "../utils/api";
 import { getValue } from "../utils/auth";
 import { getError } from "../utils/error";
 
@@ -74,19 +74,25 @@ export default function EditProfile({ navigation }) {
   };
 
   const onCompletePress = async () => {
-    setLoading(true);
     const token = await getValue("token");
-    // ImagePicker saves the taken photo to disk and returns a local URI to it
-    let localUri = image;
-    let filename = localUri.split("/").pop();
-
-    // Infer the type of the image
-    let match = /\.(\w+)$/.exec(filename);
-    let type = match ? `image/${match[1]}` : `image`;
-
     const formData = new FormData();
-    formData.append("image", { uri: localUri, name: filename, type });
+    if (image) {
+      // ImagePicker saves the taken photo to disk and returns a local URI to it
+      let localUri = image;
+      let filename = localUri.split("/").pop();
 
+      // Infer the type of the image
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
+    }
+
+    formData.append("image", { uri: localUri, name: filename, type });
+    formData.append("fullName", fullName);
+    formData.append("email", email);
+    formData.append("dob", dob);
+    formData.append("gender", gender);
+    formData.append("bodyWeight", bodyWeight);
+    formData.append("bloodType", bloodType);
     const data = {
       gender,
       bloodType,
@@ -97,25 +103,28 @@ export default function EditProfile({ navigation }) {
       fullName,
     };
 
-    axios
-      .post(`${url}/api/auth/profiles/update`, data, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then(async (res) => {
-        if (res.status == 200) {
-          await save("profile", "complete");
+    if (formData) {
+      setLoading(true);
+      axios
+        .post(`${url}/api/auth/profiles/update`, data, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then(async (res) => {
+          if (res.status == 200) {
+            await save("profile", "complete");
+            setLoading(false);
+            // navigation.navigate("BloodShare", { screen: "Home" });
+          }
+        })
+        .catch((err) => {
           setLoading(false);
-          // navigation.navigate("BloodShare", { screen: "Home" });
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-        setError(getError(err));
-        setVisible(true);
-        console.log(err);
-      });
+          setError(getError(err));
+          setVisible(true);
+          console.log(err);
+        });
+    }
   };
 
   React.useEffect(() => {
