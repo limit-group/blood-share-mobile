@@ -1,5 +1,6 @@
 import axios from "axios";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Octicons from "react-native-vector-icons/Octicons";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import React, { useEffect, useState } from "react";
 import {
@@ -89,7 +90,7 @@ export default function MyRequestsScreen({
                   style={{ backgroundColor: "#feefef" }}
                   mode="contained"
                   onPress={() =>
-                    navigation.navigate("Patient Info", { req: feed })
+                    navigation.navigate("Patient Info", { feed: feed })
                   }
                 >
                   <View
@@ -110,7 +111,7 @@ export default function MyRequestsScreen({
                     >
                       Request for:{" "}
                       <Paragraph style={{ fontWeight: "bold" }}>
-                        {req.patientName}
+                        {feed.patientName}
                       </Paragraph>
                     </Paragraph>
                   </View>

@@ -220,7 +220,10 @@ export default function HomeScreen({ navigation }) {
                       <Paragraph
                         style={{ textAlign: "center", fontWeight: "100" }}
                       >
-                        Request for: <Paragraph style={{ fontWeight: "bold"}}>{req.patientName}</Paragraph>
+                        Request for:{" "}
+                        <Paragraph style={{ fontWeight: "bold" }}>
+                          {req.patientName}
+                        </Paragraph>
                       </Paragraph>
                     </View>
                     <Card.Content>

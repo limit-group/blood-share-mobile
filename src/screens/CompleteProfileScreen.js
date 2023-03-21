@@ -137,7 +137,7 @@ export default function CompleteProfileScreen({ navigation }) {
       }
 
       const prof = await getValue("profile");
-      if (prof == "complete") {
+      if (prof != "complete") {
         navigation.navigate("BloodShare");
       }
     }

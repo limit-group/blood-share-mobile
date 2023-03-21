@@ -10,11 +10,9 @@ import {
   View,
 } from "react-native";
 import {
-  ActivityIndicator,
   AnimatedFAB,
   Button,
   List,
-  Searchbar,
   Snackbar,
   Title,
 } from "react-native-paper";
@@ -64,7 +62,7 @@ export default function DonationScreen({
         })
         .then((res) => {
           setDonations(res.data);
-          console.log(res.data);
+          // console.log(res.data);
           setLoading(false);
         })
         .catch((err) => {
